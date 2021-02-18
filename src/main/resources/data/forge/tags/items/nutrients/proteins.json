@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:egg",
+    "minecraft:brown_mushroom",
+    "minecraft:red_mushroom",
+    "minecraft:spider_eye",
+    "minecraft:cocoa_beans",
+    "#minecraft:fishes"
+  ]
+}

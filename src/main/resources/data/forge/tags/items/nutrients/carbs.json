@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:potato",
+    "minecraft:poisonous_potato",
+    "minecraft:wheat"
+  ]
+}
