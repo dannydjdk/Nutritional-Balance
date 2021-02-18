@@ -1,5 +1,5 @@
 ## About
-This is a Minecraft mod that enhances the food system to encourage you to eat a balanced diet.
+Nutritional Balance is a Minecraft mod that enhances the food system to encourage you to eat a balanced diet.
 Eating a variety of nutrients with the right balance will make you stronger and faster.
 Ignoring your nutritional balance, however, can slow you down and weaken you.
 
@@ -26,18 +26,18 @@ To see how you are doing, press the 'n' key (configurable). This will bring up t
 
 The blue shaded areas show your current level of each nutrient.
 The horizontal green lines show the boundaries of the "target" area.
+The horizontal red lines at the bottom show the "malnourishment" boundaries, and
+the red lines at the top show the "engorgement" boundaries.
 
 Get <ins>all</ins> of your nutrients in the target areas to achieve a balanced diet and get a few buffs.
-The horizontal red lines at the bottom show the "malnourishment" boundaries, and
-the red lines at the top show the "engorgement" boundaries. Avoid letting your nutrient levels
-cross these boundaries or you will get some minor debuffs.
+Avoid letting your nutrient levels
+cross the red boundaries or you will get some minor debuffs.
 
 Notice that some nutrients have different targets. Sugar is a "non-essential" nutrient,
 which means it does not count against your target as long as it stays below top target boundary,
 and it never causes malnourishment.
 Veggies are always good. As long the level is above the lower target boundary, it will count toward your target.
 You can eat as many veggies as you want, and it will not cause engorgement.
-
 
 Nutritional Balance doesn't make it super difficult to keep your nutrients balanced
 as long as you don't ignore them completely.
@@ -64,13 +64,22 @@ For instance, if you want to add a Dairy nutrient, create a dairy.json file in y
 data/forge/tags/items/nutrients/dairy.json. Your foods will then have the tag forge:nutrients/dairy.
 You will then need to add localization text for "nutritionalbalance.nutrient.dairy".
 
+#### A note about Data Packs
+
+To learn more about data packs, see the [Data Packs](https://minecraft.gamepedia.com/Data_Pack) page on the official Minecraft Wiki.
+
+Normally, data packs can only be applied to individual worlds. But, there are several mods, such as
+[Open Loader](https://www.curseforge.com/minecraft/mc-mods/open-loader) and
+[Global Data & Resource Packs](https://www.curseforge.com/minecraft/mc-mods/drp-global-datapack)
+which allow data packs to be applied to entire Minecraft instances.
+
 ### Adjusting Levels
 
-All levels can be adjusted in the server config file located inside the serverConfig folder inside your world folder.
+All levels can be adjusted in the server config file.
 You can change the target, upper and lower limits, initial value, increment rate, decay rate,
 and which nutrients are "non-essential" and which are "always good".
 
-### A note about config files
+#### A note about config files
 
 In 1.16.4, server side configs are stored inside the world file in a folder called serverConfig.
 You will not find this config file until you create a world.
@@ -83,3 +92,9 @@ Please submit bugs and feature requests using the Issues link above. Be sure to 
 forge version and any relevant crash reports.
 This mod is in early beta, and therefore, may has some bugs and minor design issues.
 If you do find any problems or have ideas for improvements, I would be most grateful for your input.
+
+## Credits, Acknowledgements and Thanks
+
+Inspiration for this mod comes from Wes Cook's [Nutrition mod](https://github.com/WesCook/Nutrition "Nutrition mod") which was inspired by TerraFirmaCraft and Spice of Life.
+Thanks also goes to the Forge team and to the many mod authors who came before me.
+Without their community contributions, this would not have been possible.
