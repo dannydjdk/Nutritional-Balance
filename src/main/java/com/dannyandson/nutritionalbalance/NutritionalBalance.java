@@ -26,7 +26,7 @@ import org.apache.logging.log4j.Logger;
 public class NutritionalBalance
 {
     //TODO:
-    // config json files and/or separate data pack namespace for cross-mod nutrients
+    // Configurable feedback to player when crossing threshold and/or advancements
     // HUD?
     // config for affects
     // config for colors?
@@ -76,6 +76,7 @@ public class NutritionalBalance
         // register tooltips and keybinding on client only
         MinecraftForge.EVENT_BUS.register(new EventTooltip());
         ModKeyBindings.register();
+        MinecraftForge.EVENT_BUS.register(new EventNutrientButton());
 
     }
 

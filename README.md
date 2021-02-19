@@ -20,7 +20,9 @@ When you eat food, you will gain the nutritional units provided by the food divi
 the nutrients it provides. You will want to eat foods that provide a variety of nutrients and
 avoid eating too much of a single nutrient.
 
-To see how you are doing, press the 'n' key (configurable). This will bring up the Nutrients GUI.
+To see how you are doing, press the 'n' key (configurable) or click
+the nutrient button (![Nutrition GUI](screenshots/button.png "Nutrition GUI")) in your inventory.
+This will bring up the Nutrients GUI.
 
 ![Nutrition GUI](screenshots/gui.png "Nutrition GUI")
 
@@ -58,6 +60,8 @@ and tags (i.e. "#forge:tag") to the predefined nutrients.
 
 Keep in mind that only raw ingredients need be tagged. Nutritional Balance will traverse through crafting
 ingredients to discover a food's nutrients.
+
+Use command `/nutritionalbalance get_unassigned_foods` for a list of food items that do not have nutrients assigned.
 
 To add new nutrients, simply add a tag to any food with the name of your new nutrient.
 For instance, if you want to add a Dairy nutrient, create a dairy.json file in your datapack at 
