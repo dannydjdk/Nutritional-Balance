@@ -76,47 +76,65 @@ public class WorldNutrients
         Collection<ResourceLocation> tags = ItemTags.getCollection().getOwningTags(item);
         for (ResourceLocation tag: tags)
         {
+            Nutrient nutrient = null;
                 if (tag.getNamespace().equals("forge") && tag.getPath().startsWith("nutrients/"))
                 {
-                    Nutrient nutrient = WorldNutrients.getByName(tag.getPath().substring(10));
-                    if (nutrient!=null && !nutrientList.contains(nutrient))
-                        nutrientList.add(nutrient);
+                    nutrient = WorldNutrients.getByName(tag.getPath().substring(10));
                 }
                 //Check against tags in config file
                 else if (Config.LIST_Fruits.get().contains("#"+tag.getNamespace()+":"+tag.getPath()) && !nutrientList.contains(WorldNutrients.getByName("fruits")))
                 {
-                    nutrientList.add(WorldNutrients.getByName("fruits"));
+                    nutrient = WorldNutrients.getByName("fruits");
                 }
                 else if (Config.LIST_PROTEINS.get().contains("#"+tag.getNamespace()+":"+tag.getPath()) && !nutrientList.contains(WorldNutrients.getByName("proteins")))
                 {
-                    nutrientList.add(WorldNutrients.getByName("proteins"));
+                    nutrient = WorldNutrients.getByName("proteins");
                 }
                 else if (Config.LIST_CARBS.get().contains("#"+tag.getNamespace()+":"+tag.getPath()) && !nutrientList.contains(WorldNutrients.getByName("carbs")))
                 {
-                    nutrientList.add(WorldNutrients.getByName("carbs"));
+                    nutrient = WorldNutrients.getByName("carbs");
                 }
                 else if (Config.LIST_VEGETABLES.get().contains("#"+tag.getNamespace()+":"+tag.getPath()) && !nutrientList.contains(WorldNutrients.getByName("vegetables")))
                 {
-                    nutrientList.add(WorldNutrients.getByName("vegetables"));
+                    nutrient = WorldNutrients.getByName("vegetables");
                 }
                 else if (Config.LIST_SUGARS.get().contains("#"+tag.getNamespace()+":"+tag.getPath()) && !nutrientList.contains(WorldNutrients.getByName("sugars")))
                 {
-                    nutrientList.add(WorldNutrients.getByName("sugars"));
+                    nutrient = WorldNutrients.getByName("sugars");
                 }
+
+            if (nutrient!=null && !nutrientList.contains(nutrient))
+                nutrientList.add(nutrient);
+
         }
 
         //Check nutrient lists from configs
         String itemRegistryName = item.getRegistryName().getNamespace() + ":" + item.getRegistryName().getPath();
-        if (Config.LIST_Fruits.get().contains(itemRegistryName) && !nutrientList.contains(WorldNutrients.getByName("fruits")))
-            nutrientList.add(WorldNutrients.getByName("fruits"));
-        if (Config.LIST_PROTEINS.get().contains(itemRegistryName) && !nutrientList.contains(WorldNutrients.getByName("proteins")))
-            nutrientList.add(WorldNutrients.getByName("proteins"));
-        if (Config.LIST_CARBS.get().contains(itemRegistryName) && !nutrientList.contains(WorldNutrients.getByName("carbs")))
-            nutrientList.add(WorldNutrients.getByName("carbs"));
-        if (Config.LIST_VEGETABLES.get().contains(itemRegistryName) && !nutrientList.contains(WorldNutrients.getByName("vegetables")))
-            nutrientList.add(WorldNutrients.getByName("vegetables"));
-        if (Config.LIST_SUGARS.get().contains(itemRegistryName) && !nutrientList.contains(WorldNutrients.getByName("sugars")))
-            nutrientList.add(WorldNutrients.getByName("vegetables"));
+        if (Config.LIST_Fruits.get().contains(itemRegistryName) && !nutrientList.contains(WorldNutrients.getByName("fruits"))) {
+            Nutrient nutrient = WorldNutrients.getByName("fruits");
+            if(nutrient!=null)
+                nutrientList.add(nutrient);
+        }
+        if (Config.LIST_PROTEINS.get().contains(itemRegistryName) && !nutrientList.contains(WorldNutrients.getByName("proteins"))){
+            Nutrient nutrient = WorldNutrients.getByName("proteins");
+            if(nutrient!=null)
+                nutrientList.add(nutrient);
+        }
+        if (Config.LIST_CARBS.get().contains(itemRegistryName) && !nutrientList.contains(WorldNutrients.getByName("carbs"))){
+            Nutrient nutrient = WorldNutrients.getByName("carbs");
+            if(nutrient!=null)
+                nutrientList.add(nutrient);
+        }
+        if (Config.LIST_VEGETABLES.get().contains(itemRegistryName) && !nutrientList.contains(WorldNutrients.getByName("vegetables"))){
+            Nutrient nutrient = WorldNutrients.getByName("vegetables");
+            if(nutrient!=null)
+                nutrientList.add(nutrient);
+        }
+        if (Config.LIST_SUGARS.get().contains(itemRegistryName) && !nutrientList.contains(WorldNutrients.getByName("sugars"))){
+            Nutrient nutrient = WorldNutrients.getByName("sugars");
+            if(nutrient!=null)
+                nutrientList.add(nutrient);
+        }
 
 
         //If no nutrient tags were set for this item,

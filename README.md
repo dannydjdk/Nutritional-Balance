@@ -44,6 +44,9 @@ You can eat as many veggies as you want, and it will not cause engorgement.
 Nutritional Balance doesn't make it super difficult to keep your nutrients balanced
 as long as you don't ignore them completely.
 
+<p><iframe allowfullscreen="allowfullscreen" src="https://www.youtube.com/embed/upsaEGbihJw?wmode=transparent" height="358" width="638"></iframe></p>
+
+
 ## Customization and Integration
 
 By default, this mod supports vanilla foods, Simple Farming and Pam's Food Core with the 5 nutrients shown

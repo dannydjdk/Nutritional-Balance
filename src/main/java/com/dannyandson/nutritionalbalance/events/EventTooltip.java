@@ -41,22 +41,30 @@ public class EventTooltip {
             // Create readable list of nutrients
             StringJoiner stringJoiner = new StringJoiner(", ");
 
-            List<Nutrient> nutrients = WorldNutrients.getNutrients(item,world);
-            for (Nutrient nutrient : nutrients) {
-                stringJoiner.add(nutrient.getLocalizedName());
-            }
+            try {
 
-            if (stringJoiner.length()>0) {
-
-                String NUvalue = "";
-                if (item.getFood() != null) {
-                    NUvalue = " (" + ((float) Math.round((WorldNutrients.getEffectiveFoodQuality(item.getFood())) * 10)) / 10 + "NU)";
+                List<Nutrient> nutrients = WorldNutrients.getNutrients(item, world);
+                for (Nutrient nutrient : nutrients) {
+                    stringJoiner.add(nutrient.getLocalizedName());
                 }
 
-                event.getToolTip().add(ITextComponent.getTextComponentOrEmpty(
-                        "Nutrients: " + stringJoiner.toString() + NUvalue
-                ));
+                if (stringJoiner.length() > 0) {
 
+                    String NUvalue = "";
+                    if (item.getFood() != null) {
+                        NUvalue = " (" + ((float) Math.round((WorldNutrients.getEffectiveFoodQuality(item.getFood())) * 10)) / 10 + "NU)";
+                    }
+
+                    event.getToolTip().add(ITextComponent.getTextComponentOrEmpty(
+                            "Nutrients: " + stringJoiner.toString() + NUvalue
+                    ));
+
+                }
+
+            }catch (Exception e)
+            {
+                //catch and log any exceptions thrown so JEI doesn't break if something goes wrong.
+                NutritionalBalance.LOGGER.error("Exception thrown while adding nutrient info  for '" + item.getName().getString() + "' to tooltips: " + e.getMessage());
             }
         }
 
