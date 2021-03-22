@@ -3,13 +3,17 @@ package com.dannyandson.nutritionalbalance.capabilities;
 import com.dannyandson.nutritionalbalance.Config;
 import com.dannyandson.nutritionalbalance.nutrients.Nutrient;
 import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
+import net.minecraft.item.Food;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultNutritionalBalancePlayer implements INutritionalBalancePlayer {
 
-    private List<IPlayerNutrient> playerNutrients = new ArrayList<>();
+    private final List<IPlayerNutrient> playerNutrients = new ArrayList<>();
     private float savedSaturation;
     private IPlayerNutrient.NutrientStatus cachedStatus = IPlayerNutrient.NutrientStatus.SAFE;
 
@@ -57,6 +61,28 @@ public class DefaultNutritionalBalancePlayer implements INutritionalBalancePlaye
     public void resetSavedSaturation(float savedSaturation)
     {
         this.savedSaturation = savedSaturation;
+    }
+
+    @Override
+    public void consume(ItemStack itemStack, World world) {
+        Item item = itemStack.getItem();
+        Food food = item.getFood();
+
+        if (food!=null) {
+            List<Nutrient> nutrients = WorldNutrients.getNutrients(item, world);
+            for (Nutrient nutrient : nutrients) {
+                float nutrientUnits = WorldNutrients.getEffectiveFoodQuality(food) * Config.NUTRIENT_INCREMENT_RATE.get().floatValue() / nutrients.size();
+                this.getPlayerNutrientByName(nutrient.name).changeValue(nutrientUnits);
+            }
+        }
+    }
+
+    @Override
+    public void consume(List<IPlayerNutrient> nutrients, float health, float saturation) {
+        for (IPlayerNutrient nutrient:nutrients) {
+            float nutrientUnits=WorldNutrients.getEffectiveFoodQuality(health,saturation) * Config.NUTRIENT_INCREMENT_RATE.get().floatValue() / nutrients.size();
+            this.getPlayerNutrientByName(nutrient.getNutrientName()).changeValue(nutrientUnits);
+        }
     }
 
     public IPlayerNutrient.NutrientStatus getStatus()

@@ -12,13 +12,14 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class WorldNutrients
 {
-    private static List<Nutrient> nutrients = new ArrayList<>();
+    private static final List<Nutrient> nutrients = new ArrayList<>();
 
     public static void register()
     {
@@ -63,12 +64,12 @@ public class WorldNutrients
 
 
     //Return nutrients of a food item
-    public static List<Nutrient> getNutrients(Item item, World world)
+    public static List<Nutrient> getNutrients(Item item, @Nullable World world)
     {
         return getNutrients(item,world,1);
     }
 
-    private static List<Nutrient> getNutrients(Item item, World world, int iteration)
+    private static List<Nutrient> getNutrients(Item item, @Nullable World world, int iteration)
     {
         List<Nutrient> nutrientList = new ArrayList<>();
 
@@ -165,7 +166,6 @@ public class WorldNutrients
                                 }
                             }
                         }
-                        String s = recipe.toString();
                     }
                 }
 
@@ -177,9 +177,13 @@ public class WorldNutrients
 
     public static float getEffectiveFoodQuality(Food foodItem)
     {
-        float foodPoints = foodItem.getHealing();
-        float saturation = foodPoints * foodItem.getSaturation() *2;
-        return foodPoints+saturation;
+        return getEffectiveFoodQuality(foodItem.getHealing(),foodItem.getSaturation());
+    }
+
+    public static float getEffectiveFoodQuality(float healing, float saturation)
+    {
+        float saturation1 = healing * saturation *2;
+        return healing+saturation1;
     }
 
     public static void reset() {
