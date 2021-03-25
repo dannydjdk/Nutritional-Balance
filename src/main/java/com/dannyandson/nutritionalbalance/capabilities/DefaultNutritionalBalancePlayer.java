@@ -1,6 +1,8 @@
 package com.dannyandson.nutritionalbalance.capabilities;
 
 import com.dannyandson.nutritionalbalance.Config;
+import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
+import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
 import com.dannyandson.nutritionalbalance.nutrients.Nutrient;
 import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
 import net.minecraft.item.Food;

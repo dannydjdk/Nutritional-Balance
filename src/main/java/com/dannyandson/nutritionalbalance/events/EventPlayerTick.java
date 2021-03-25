@@ -2,17 +2,13 @@ package com.dannyandson.nutritionalbalance.events;
 
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import com.dannyandson.nutritionalbalance.capabilities.CapabilityNutritionalBalancePlayer;
-import com.dannyandson.nutritionalbalance.capabilities.IPlayerNutrient;
+import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
 import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
-//import net.minecraft.client.Minecraft;
-//import net.minecraft.client.gui.toasts.SystemToast;
-//import net.minecraft.client.resources.I18n;
 import com.dannyandson.nutritionalbalance.network.PlayerSync;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
-//import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

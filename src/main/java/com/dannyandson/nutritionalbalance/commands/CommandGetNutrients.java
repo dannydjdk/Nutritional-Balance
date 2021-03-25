@@ -1,7 +1,7 @@
 package com.dannyandson.nutritionalbalance.commands;
 
 import com.dannyandson.nutritionalbalance.capabilities.CapabilityNutritionalBalancePlayer;
-import com.dannyandson.nutritionalbalance.capabilities.IPlayerNutrient;
+import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;

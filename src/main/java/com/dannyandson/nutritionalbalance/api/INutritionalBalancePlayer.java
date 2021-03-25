@@ -1,4 +1,4 @@
-package com.dannyandson.nutritionalbalance.capabilities;
+package com.dannyandson.nutritionalbalance.api;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;

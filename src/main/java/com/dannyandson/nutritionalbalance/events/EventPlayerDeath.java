@@ -2,7 +2,7 @@ package com.dannyandson.nutritionalbalance.events;
 
 import com.dannyandson.nutritionalbalance.Config;
 import com.dannyandson.nutritionalbalance.capabilities.CapabilityNutritionalBalancePlayer;
-import com.dannyandson.nutritionalbalance.capabilities.IPlayerNutrient;
+import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
