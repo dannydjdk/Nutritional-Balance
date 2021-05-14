@@ -4,5 +4,20 @@
     "minecraft:potato",
     "minecraft:poisonous_potato",
     "minecraft:wheat"
-  ]
+  ],
+  "optional" : [
+    "create:bar_of_chocolate",
+    "pneumaticcraft:wheat_flour",
+    "pneumaticcraft:chips",
+    "pneumaticcraft:salmon_tempura",
+    "minecolonies:milky_bread",
+    "minecolonies:sugary_bread",
+    "minecolonies:golden_bread",
+    "minecolonies:chorus_bread",
+    "farmersdelight:roast_chicken",
+    "farmersdelight:stuffed_pumpkin",
+    "farmersdelight:honey_glazed_ham",
+    "farmersdelight:rice",
+    "farmersdelight:shepherds_pie"
+]
 }

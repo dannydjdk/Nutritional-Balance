@@ -4,5 +4,9 @@
     "minecraft:sugar",
     "minecraft:honey_bottle",
     "minecraft:cocoa_beans"
+  ],
+  "optional": [
+    "create:bar_of_chocolate",
+    "farmersdelight:honey_glazed_ham"
   ]
 }

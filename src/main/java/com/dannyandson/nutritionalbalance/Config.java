@@ -89,10 +89,8 @@ public class Config {
         Map<String,List<String>> nutrientFoodsMap = new HashMap<>();
 
         String[] vegetables = {
-                "#forge:vegetables",
-                "simplefarming:chicory_root",
-                "inspirations:heartbeet",
-                "quark:root_item"
+                "#minecraft:flowers",
+                "#forge:vegetables"
         };
         List<String> vegetableList = new ArrayList<>();
         vegetableList.addAll(Arrays.asList(vegetables));
@@ -102,16 +100,7 @@ public class Config {
 
         String[] carbs = {
                 "#forge:carbs",
-                "#forge:grain",
-                "create:bar_of_chocolate",
-                "pneumaticcraft:wheat_flour",
-                "pneumaticcraft:chips",
-                "pneumaticcraft:salmon_tempura",
-                "minecolonies:milky_bread",
-                "minecolonies:sugary_bread",
-                "minecolonies:golden_bread",
-                "minecolonies:chorus_bread",
-                "pamhc2foodcore:doughitem"
+                "#forge:grain"
         };
         List<String> carbList = new ArrayList<>();
         carbList.addAll(Arrays.asList(carbs));
@@ -119,7 +108,7 @@ public class Config {
                 .define("carbs_item_list",carbList);
 
         String[] sugars = {
-                "create:bar_of_chocolate"
+
         };
         List<String> sugarsList = new ArrayList<>();
         sugarsList.addAll(Arrays.asList(sugars));
@@ -130,16 +119,7 @@ public class Config {
                 "#forge:protein",
                 "#forge:milk",
                 "#forge:yogurt",
-                "#forge:nuts",
-                "alexsmobs:maggot",
-                "simplefarming:cumin_seeds",
-                "simplefarming:marshmallow_root",
-                "simplefarming:sunflower_seeds",
-                "simplefarming:cheese_slice",
-                "simplefarming:raw_calamari",
-                "create:bar_of_chocolate",
-                "pneumaticcraft:salmon_tempura",
-                "pamhc2foodcore:cheeseitem"
+                "#forge:nuts"
         };
         List<String> proteinsList = new ArrayList<>();
         proteinsList.addAll(Arrays.asList(proteins));
@@ -147,9 +127,7 @@ public class Config {
                 .define("protein_item_list",proteinsList);
 
         String[] fruits = {
-                "#forge:fruits",
-                "simplefarming:olives",
-                "minecolonies:chorus_bread"
+                "#forge:fruits"
         };
         List<String> fruitsList = new ArrayList<>();
         fruitsList.addAll(Arrays.asList(fruits));

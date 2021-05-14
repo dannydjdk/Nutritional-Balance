@@ -7,5 +7,12 @@
     "minecraft:sweet_berries",
     "minecraft:chorus_fruit",
     "minecraft:enchanted_golden_apple"
+  ],
+  "optional": [
+    "simplefarming:olives",
+    "minecolonies:chorus_bread",
+    "farmersdelight:stuffed_pumpkin",
+    "farmersdelight:honey_glazed_ham",
+    "simplytea:cup_tea_chorus"
   ]
 }
