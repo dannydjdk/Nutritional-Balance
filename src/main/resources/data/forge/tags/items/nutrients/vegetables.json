@@ -18,6 +18,11 @@
     "farmersdelight:shepherds_pie",
     "simplytea:tea_leaf",
     "simplytea:black_tea",
-    "simplytea:chorus_petal"
+    "simplytea:chorus_petal",
+    "pamhc2crops:spiceleafitem",
+    "pamhc2crops:hotteaitem",
+    "pamhc2crops:hotcoffeeitem",
+    "pamhc2foodextended:ediblerootitem",
+    "pamhc2foodextended:groundcinnamonitem"
   ]
 }

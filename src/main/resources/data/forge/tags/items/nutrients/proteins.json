@@ -6,6 +6,7 @@
     "minecraft:red_mushroom",
     "minecraft:spider_eye",
     "minecraft:cocoa_beans",
+    "minecraft:bone",
     "#minecraft:fishes"
   ],
   "optional": [
@@ -44,6 +45,9 @@
     "farmersdelight:stuffed_pumpkin",
     "farmersdelight:honey_glazed_ham",
     "farmersdelight:shepherds_pie",
-    "simplytea:teapot_milk"
+    "simplytea:teapot_milk",
+    "pamhc2trees:candlenutitem",
+    "pamhc2trees:coconutitem",
+    "pamhc2crops:whitemushroomitem"
   ]
 }

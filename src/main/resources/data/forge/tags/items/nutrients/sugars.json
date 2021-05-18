@@ -7,6 +7,7 @@
   ],
   "optional": [
     "create:bar_of_chocolate",
-    "farmersdelight:honey_glazed_ham"
+    "farmersdelight:honey_glazed_ham",
+    "pamhc2trees:maplesyrupitem"
   ]
 }
