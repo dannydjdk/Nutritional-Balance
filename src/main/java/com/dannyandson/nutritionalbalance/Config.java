@@ -11,7 +11,7 @@ import java.util.*;
 public class Config {
 
     public static ForgeConfigSpec SERVER_CONFIG;
-//    public static ForgeConfigSpec CLIENT_CONFIG;
+    public static ForgeConfigSpec CLIENT_CONFIG;
 
     public static final String CATEGORY_GENERAL = "general";
     public static final String CATEGORY_NUTRIENT_LEVELS = "nutrient_levels";
@@ -38,9 +38,13 @@ public class Config {
     public static ForgeConfigSpec.ConfigValue<List<String>> LIST_PROTEINS;
     public static ForgeConfigSpec.ConfigValue<List<String>> LIST_Fruits;
 
+    public static ForgeConfigSpec.IntValue NUTRIENT_BUTTON_X;
+    public static ForgeConfigSpec.IntValue NUTRIENT_BUTTON_Y;
+    public static ForgeConfigSpec.BooleanValue NUTRIENT_BUTTON_ENABLED;
+
+
     static {
         ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
-//        ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
 
         //Server config building
         SERVER_BUILDER.comment("General Settings").push(CATEGORY_GENERAL);
@@ -140,7 +144,22 @@ public class Config {
         SERVER_BUILDER.pop().pop();
 
         SERVER_CONFIG = SERVER_BUILDER.build();
-        //CLIENT_CONFIG = CLIENT_BUILDER.build();
+
+        ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
+        CLIENT_BUILDER.comment("General Settings").push(CATEGORY_GENERAL);
+
+        NUTRIENT_BUTTON_ENABLED = CLIENT_BUILDER.comment("Show the nutrient button in the player inventory screen. (default:true)")
+                .define("nutrient_button_enabled",true);
+
+        CLIENT_BUILDER.comment("Nutrient Button Location").push("button");
+        NUTRIENT_BUTTON_X = CLIENT_BUILDER.comment("X Offset of nutrition button relative to the upper left corner of the player inventory screen. (default:131)")
+                .defineInRange("nutrient_button_x",131,0,512);
+        NUTRIENT_BUTTON_Y = CLIENT_BUILDER.comment("Y Offset of nutrition button relative to the upper left corner of the player inventory screen. (default:61)")
+                .defineInRange("nutrient_button_y",61,0,512);;
+
+
+        CLIENT_BUILDER.pop().pop();
+        CLIENT_CONFIG = CLIENT_BUILDER.build();
     }
 
     @SubscribeEvent

@@ -1,5 +1,6 @@
 package com.dannyandson.nutritionalbalance.gui;
 
+import com.dannyandson.nutritionalbalance.Config;
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -24,8 +25,8 @@ public class NutrientButton extends Widget {
     //need to update the location on render to account for recipe book toggling
     private void updateLocation()
     {
-        this.x = gui.getGuiLeft() + 131;
-        this.y = gui.getGuiTop() + 61;
+        this.x = gui.getGuiLeft() + Config.NUTRIENT_BUTTON_X.get();
+        this.y = gui.getGuiTop() + Config.NUTRIENT_BUTTON_Y.get();
         this.width = 20;
         this.height =18;
     }

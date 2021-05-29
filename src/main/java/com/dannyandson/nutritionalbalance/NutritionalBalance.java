@@ -55,7 +55,7 @@ public class NutritionalBalance
         MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
         MinecraftForge.EVENT_BUS.register(new ModInputHandler());
 
-        //ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONFIG);
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Config.SERVER_CONFIG);
 
 
@@ -80,6 +80,7 @@ public class NutritionalBalance
 
     }
 
+    @SuppressWarnings("unused")
     @SubscribeEvent
     public void onReload(AddReloadListenerEvent event)
     {
