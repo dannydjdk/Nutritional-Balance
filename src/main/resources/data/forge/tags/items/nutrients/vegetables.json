@@ -3,7 +3,8 @@
   "values": [
     "minecraft:carrot",
     "minecraft:beetroot",
-    "minecraft:kelp"
+    "minecraft:kelp",
+    "minecraft:seagrass"
   ],
   "optional": [
     "simplefarming:chicory_root",
@@ -23,6 +24,7 @@
     "pamhc2crops:hotteaitem",
     "pamhc2crops:hotcoffeeitem",
     "pamhc2foodextended:ediblerootitem",
-    "pamhc2foodextended:groundcinnamonitem"
+    "pamhc2foodextended:groundcinnamonitem",
+    "aquaculture:algae"
   ]
 }
