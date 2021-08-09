@@ -5,10 +5,10 @@ import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
 import com.dannyandson.nutritionalbalance.nutrients.Nutrient;
 import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
-import net.minecraft.item.Food;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,9 +66,9 @@ public class DefaultNutritionalBalancePlayer implements INutritionalBalancePlaye
     }
 
     @Override
-    public void consume(ItemStack itemStack, World world) {
+    public void consume(ItemStack itemStack, Level world) {
         Item item = itemStack.getItem();
-        Food food = item.getFood();
+        FoodProperties food = item.getFoodProperties();
 
         if (food!=null) {
             List<Nutrient> nutrients = WorldNutrients.getNutrients(item, world);

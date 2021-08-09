@@ -1,6 +1,6 @@
 package com.dannyandson.nutritionalbalance.gui;
 
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 
 import java.util.function.Supplier;
 

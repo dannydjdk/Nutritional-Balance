@@ -1,13 +1,13 @@
 package com.dannyandson.nutritionalbalance.gui;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.network.chat.Component;
 
-public class ModWidget extends Widget {
-
+public class ModWidget extends AbstractWidget {
 
     public enum HAlignment {
         LEFT, CENTER, RIGHT
@@ -23,32 +23,32 @@ public class ModWidget extends Widget {
     private int bgcolor=-1;
     private int textWidth;
     private int textHeight;
-    private ITextComponent toolTipTextComponent;
+    private Component toolTipTextComponent;
 
-    public ModWidget(int x, int y, int width, int height, ITextComponent title, int textColor, int bgColor)
+    public ModWidget(int x, int y, int width, int height, Component title, int textColor, int bgColor)
     {
         super(x, y, width, height, title);
         this.color=textColor;
         this.bgcolor=bgColor;
         if (title.getString().length()>0) {
-            this.textWidth = Minecraft.getInstance().fontRenderer.getStringPropertyWidth(getMessage());
-            this.textHeight = Minecraft.getInstance().fontRenderer.FONT_HEIGHT;
+            this.textWidth = Minecraft.getInstance().font.width(getMessage());
+            this.textHeight = Minecraft.getInstance().font.lineHeight;
         }
     }
 
-    public ModWidget(int x, int y, int width, int height, ITextComponent title, int textColor)
+    public ModWidget(int x, int y, int width, int height, Component title, int textColor)
     {
         this(x,y,width,height,title,textColor,-1);
 
     }
-    public ModWidget(int x, int y, int width, int height, ITextComponent title)
+    public ModWidget(int x, int y, int width, int height, Component title)
     {
         this(x,y,width,height,title,0xFFFFFFFF,-1);
 
     }
     public ModWidget(int x, int y, int width, int height, int bgColor)
     {
-        this(x,y,width,height,ITextComponent.getTextComponentOrEmpty(""),0xFFFFFFFF,bgColor);
+        this(x,y,width,height,Component.nullToEmpty(""),0xFFFFFFFF,bgColor);
 
     }
 
@@ -62,7 +62,7 @@ public class ModWidget extends Widget {
         return this;
     }
 
-    public ModWidget setToolTip(ITextComponent textComponent)
+    public ModWidget setToolTip(Component textComponent)
     {
         this.toolTipTextComponent = textComponent;
         return this;
@@ -74,10 +74,10 @@ public class ModWidget extends Widget {
     }
 
     @Override
-    public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTick) {
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTick) {
         if (visible) {
             int drawX,drawY;
-            FontRenderer fr = Minecraft.getInstance().fontRenderer;
+            Font fr = Minecraft.getInstance().font;
 
 
             switch (halignment) {
@@ -107,13 +107,13 @@ public class ModWidget extends Widget {
 
 
             if (scale != 1.0f) {
-                matrixStack.push();
+                matrixStack.pushPose();
                 matrixStack.scale(scale, scale, scale);
                 matrixStack.translate(drawX, y, 0);
-                fr.func_238422_b_(matrixStack, getMessage().func_241878_f(), drawX, y, this.color);
-                matrixStack.pop();
+                fr.draw(matrixStack, getMessage().getVisualOrderText(), drawX, y, this.color);
+                matrixStack.popPose();
             } else {
-                fr.func_238422_b_(matrixStack, getMessage().func_241878_f(), drawX, y, this.color);
+                fr.draw(matrixStack, getMessage().getVisualOrderText(), drawX, y, this.color);
             }
 
             if (bgcolor!=-1)
@@ -127,16 +127,22 @@ public class ModWidget extends Widget {
     }
 
 
-    public void renderHoverToolTip(MatrixStack matrixStack, int mouseX, int mouseY) {
+    public void renderHoverToolTip(PoseStack matrixStack, int mouseX, int mouseY) {
         if (this.toolTipTextComponent != null) {
-            FontRenderer fr = Minecraft.getInstance().fontRenderer;
-            int width = fr.getStringPropertyWidth(this.toolTipTextComponent);
-            int height = fr.FONT_HEIGHT;
+            Font fr = Minecraft.getInstance().font;
+            int width = fr.width(this.toolTipTextComponent);
+            int height = fr.lineHeight;
 
             fill(matrixStack, mouseX, mouseY+10, mouseX + width + 4, mouseY +10 + height + 4, 0xCC000000);
             fill(matrixStack, mouseX + 1, mouseY + 11, mouseX + width + 3, mouseY + 10 + height + 3, 0x66EEEEEE);
-            fr.func_238422_b_(matrixStack, this.toolTipTextComponent.func_241878_f(), (float) (mouseX + 3.0), (float) (mouseY + 13.0), 0xFFFEFEFE);
+            fr.draw(matrixStack, this.toolTipTextComponent.getVisualOrderText(), (float) (mouseX + 3.0), (float) (mouseY + 13.0), 0xFFFEFEFE);
         }
     }
+
+    @Override
+    public void updateNarration(NarrationElementOutput p_169152_) {
+
+    }
+
 
 }

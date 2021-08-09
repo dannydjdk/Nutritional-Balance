@@ -4,7 +4,8 @@ import com.dannyandson.nutritionalbalance.Config;
 import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
 import com.dannyandson.nutritionalbalance.nutrients.Nutrient;
 import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.resources.language.I18n;
+
 import java.util.List;
 
 public class DefaultPlayerNutrient implements IPlayerNutrient
@@ -28,7 +29,7 @@ public class DefaultPlayerNutrient implements IPlayerNutrient
 
     public String getLocalizedName()
     {
-        return I18n.format("nutritionalbalance.nutrient."+this.nutrientname);
+        return I18n.get("nutritionalbalance.nutrient."+this.nutrientname);
     }
 
     @Override

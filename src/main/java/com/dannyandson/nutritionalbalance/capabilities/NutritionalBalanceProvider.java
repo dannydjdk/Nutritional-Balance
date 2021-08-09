@@ -1,8 +1,8 @@
 package com.dannyandson.nutritionalbalance.capabilities;
 
 import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -10,21 +10,21 @@ import net.minecraftforge.common.util.LazyOptional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class NutritionalBalanceProvider implements ICapabilitySerializable<CompoundNBT> {
+public class NutritionalBalanceProvider implements ICapabilitySerializable<CompoundTag> {
     private final DefaultNutritionalBalancePlayer nutritionalbalancePlayer = new DefaultNutritionalBalancePlayer();
     private final LazyOptional<INutritionalBalancePlayer> nutritionalbalancePlayerLazyOptional = LazyOptional.of(() -> nutritionalbalancePlayer);
 
     @Override
-    public CompoundNBT serializeNBT() {
+    public CompoundTag serializeNBT() {
         if (CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY == null) {
-            return new CompoundNBT();
+            return new CompoundTag();
         } else {
-            return (CompoundNBT) CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY.writeNBT(nutritionalbalancePlayer, null);
+            return (CompoundTag) CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY.writeNBT(nutritionalbalancePlayer, null);
         }
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT nbt) {
+    public void deserializeNBT(CompoundTag nbt) {
         if (CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY != null) {
             CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY.readNBT(nutritionalbalancePlayer, null, nbt);
         }

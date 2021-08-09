@@ -4,9 +4,8 @@ import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
 import com.dannyandson.nutritionalbalance.nutrients.Nutrient;
 import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -19,7 +18,7 @@ public class CapabilityNutritionalBalancePlayer {
 
     public static void register()
     {
-        CapabilityManager.INSTANCE.register(INutritionalBalancePlayer.class, new NutritionalBalancePlayerStorage(), DefaultNutritionalBalancePlayer::new);
+        CapabilityManager.INSTANCE.register(INutritionalBalancePlayer.class);
     }
 
     public static class NutritionalBalancePlayerStorage implements Capability.IStorage<INutritionalBalancePlayer>
@@ -45,7 +44,7 @@ public class CapabilityNutritionalBalancePlayer {
         @Nullable
         @Override
         public INBT writeNBT(Capability<INutritionalBalancePlayer> capability, INutritionalBalancePlayer instance, Direction side) {
-            CompoundNBT nbtTags = new CompoundNBT();
+            CompoundTag nbtTags = new CompoundTag();
             for (IPlayerNutrient playerNutrient: instance.getPlayerNutrients())
             {
                 nbtTags.putFloat(playerNutrient.getNutrient().name, playerNutrient.getValue());
@@ -79,7 +78,7 @@ public class CapabilityNutritionalBalancePlayer {
             // to prevent loss of nutrient values if item tags are broken by something else.
             for (Nutrient nutrient: WorldNutrients.get())
             {
-                instance.getPlayerNutrientByName(nutrient.name).setValue(((CompoundNBT) nbt).getFloat(nutrient.name));
+                instance.getPlayerNutrientByName(nutrient.name).setValue(((CompoundTag) nbt).getFloat(nutrient.name));
             }
 
         }

@@ -1,7 +1,7 @@
 package com.dannyandson.nutritionalbalance.api;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -56,7 +56,7 @@ public interface INutritionalBalancePlayer {
      * @param itemStack ItemStack to process
      * @param world A world object used to query recipes to discover nutrients if necessary
      */
-    void consume(ItemStack itemStack, @Nullable World world);
+    void consume(ItemStack itemStack, @Nullable Level world);
 
     /**
      * Add to the player nutrients as if a food item was consumed.

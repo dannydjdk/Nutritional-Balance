@@ -11,9 +11,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -33,23 +33,22 @@ public class PlayerSync {
 
     }
 
-    public PlayerSync(PacketBuffer buffer)
+    public PlayerSync(FriendlyByteBuf buffer)
     {
         this.id = buffer.readResourceLocation();
-        String bufferString = buffer.readString();
+        String bufferString = buffer.readUtf();
         inutritionalbalancePlayerJson = (JsonObject) (new JsonParser()).parse(bufferString);
     }
 
-    public void toBytes(PacketBuffer buf)
+    public void toBytes(FriendlyByteBuf buf)
     {
         buf.writeResourceLocation(id);
-        buf.writeString(inutritionalbalancePlayerJson.toString());
+        buf.writeUtf(inutritionalbalancePlayerJson.toString());
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> ctx) {
 
         ctx.get().enqueueWork(()-> {
-            //Minecraft.getInstance().player.sendStatusMessage(ITextComponent.getTextComponentOrEmpty(inutritionalbalancePlayer.toString()),true);
 
             Minecraft.getInstance().player.getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(capabilitynutritionalbalancePlayer -> {
                 for (Map.Entry<String, JsonElement> jsonElementEntry : inutritionalbalancePlayerJson.entrySet())

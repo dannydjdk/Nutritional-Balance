@@ -3,13 +3,13 @@ package com.dannyandson.nutritionalbalance.commands;
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
 
 public class ModCommands {
 
-    public static void register(CommandDispatcher<CommandSource> dispatcher) {
-        LiteralCommandNode<CommandSource> cmdHD = dispatcher.register(
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+        LiteralCommandNode<CommandSourceStack> cmdHD = dispatcher.register(
                 Commands.literal(NutritionalBalance.MODID)
                         .then(CommandGetNutrients.register(dispatcher))
                         .then(CommandSyncClient.register(dispatcher))

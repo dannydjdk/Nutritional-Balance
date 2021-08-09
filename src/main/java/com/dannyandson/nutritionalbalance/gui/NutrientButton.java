@@ -2,21 +2,22 @@ package com.dannyandson.nutritionalbalance.gui;
 
 import com.dannyandson.nutritionalbalance.Config;
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.inventory.InventoryScreen;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
-public class NutrientButton extends Widget {
+public class NutrientButton extends AbstractWidget {
 
     private ResourceLocation buttonGUI = new ResourceLocation(NutritionalBalance.MODID,"textures/gui/nutrient_button.png");
     private ResourceLocation buttonGUIHover = new ResourceLocation(NutritionalBalance.MODID,"textures/gui/nutrient_button_hover.png");
     private InventoryScreen gui;
 
-    public NutrientButton(InventoryScreen gui, ITextComponent title) {
+    public NutrientButton(InventoryScreen gui, Component title) {
         super(gui.getGuiLeft(),gui.getGuiTop(), 0, 0, title);
         this.gui=gui;
         updateLocation();
@@ -37,16 +38,26 @@ public class NutrientButton extends Widget {
     }
 
     @Override
-    public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTick) {
+    public void renderButton(PoseStack matrixStack, int mouseX, int mouseY, float partialTick) {
         if (visible) {
             updateLocation();
-            RenderSystem.blendColor(1.0F, 1.0F, 1.0F, 1.0F);
-            if (mouseX>x && mouseX<x+width && mouseY>y && mouseY<y+height)
-                Minecraft.getInstance().getTextureManager().bindTexture(buttonGUIHover);
-            else
-                Minecraft.getInstance().getTextureManager().bindTexture(buttonGUI);
+            if (mouseX>x && mouseX<x+width && mouseY>y && mouseY<y+height) {
+                RenderSystem.setShaderTexture(0, buttonGUIHover);
+                RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+                Minecraft.getInstance().getTextureManager().bindForSetup(buttonGUIHover);
+            }
+            else {
+                RenderSystem.setShaderTexture(0, buttonGUI);
+                RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+                Minecraft.getInstance().getTextureManager().bindForSetup(buttonGUI);
+            }
             this.blit(matrixStack,x, y, 0, 0, width, height);
         }
+
+    }
+
+    @Override
+    public void updateNarration(NarrationElementOutput p_169152_) {
 
     }
 }

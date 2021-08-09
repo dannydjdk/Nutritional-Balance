@@ -5,14 +5,15 @@ import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import com.dannyandson.nutritionalbalance.capabilities.CapabilityNutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Widget;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class NutrientGUI extends Screen {
 
 
     public NutrientGUI() {
-        super(new TranslationTextComponent("nutritionalbalance.nutrients"));
+        super(new TranslatableComponent("nutritionalbalance.nutrients"));
     }
 
     @Override
@@ -50,11 +51,11 @@ public class NutrientGUI extends Screen {
         });
 
 
-        addButton(new Button(relX + 85, relY + 130, 80, 20, new TranslationTextComponent("nutritionalbalance.close"), button -> close()));
-        addButton(new ModWidget(relX,relY+5,WIDTH,10, new TranslationTextComponent("nutritionalbalance.nutrients"),0xFF000000).setTextHAlignment(ModWidget.HAlignment.CENTER).setTextVAlignment(ModWidget.VAlignment.TOP));
+        addWidget(new Button(relX + 85, relY + 130, 80, 20, new TranslatableComponent("nutritionalbalance.close"), button -> close()));
+        addWidget(new ModWidget(relX,relY+5,WIDTH,10, new TranslatableComponent("nutritionalbalance.nutrients"),0xFF000000).setTextHAlignment(ModWidget.HAlignment.CENTER).setTextVAlignment(ModWidget.VAlignment.TOP));
 
 
-        //addButton(new ModWidget(relX+205,relY+25,WIDTH,120, ITextComponent.getTextComponentOrEmpty("Get all nutrients between the blue lines for a healthy diet.\nStay away from the red lines."),0xFF000000).setTextHAlignment(ModWidget.HAlignment.LEFT));
+        //addWidget(new ModWidget(relX+205,relY+25,WIDTH,120, Component.nullToEmpty("Get all nutrients between the blue lines for a healthy diet.\nStay away from the red lines."),0xFF000000).setTextHAlignment(ModWidget.HAlignment.LEFT));
 
         //determine how much space is available to draw each nutrient column
         int nutrientcount = inutritionalbalancePlayer.getPlayerNutrients().size();
@@ -98,42 +99,42 @@ public class NutrientGUI extends Screen {
                 //Draw columns and fill them with player nutrient values
 
                 //draw border of nutrient column (solid block that will be overlain with background)
-                addButton(new ModWidget(columnRelX - 1, columnDrawY - 1, columnWidth + 2, columnHeight + 2, 0xFF000000));
+                addWidget(new ModWidget(columnRelX - 1, columnDrawY - 1, columnWidth + 2, columnHeight + 2, 0xFF000000));
                 //draw background of nutrient column
-                addButton(new ModWidget(columnRelX, columnDrawY, columnWidth, columnHeight, colorColumnBackground));
+                addWidget(new ModWidget(columnRelX, columnDrawY, columnWidth, columnHeight, colorColumnBackground));
                 //draw nutrient label
-                addButton(new ModWidget(columnBlockRelX, columnDrawY + columnHeight + 2, nBlockWidth, 10, new TranslationTextComponent("nutritionalbalance.nutrient." + playerNutrient.getNutrientName()), 0xFF000000)
+                addWidget(new ModWidget(columnBlockRelX, columnDrawY + columnHeight + 2, nBlockWidth, 10, new TranslatableComponent("nutritionalbalance.nutrient." + playerNutrient.getNutrientName()), 0xFF000000)
                         .setTextHAlignment(ModWidget.HAlignment.CENTER));
                 //fill nutrient column based player's level of this nutrient
-                addButton(new ModWidget(columnRelX, columnDrawY + columnHeight - nutrientValueHeight, columnWidth, nutrientValueHeight, colorNutrientValueFill))
-                        .setToolTip(ITextComponent.getTextComponentOrEmpty( (Math.round(playerNutrient.getValue()*10f)/10f) + "NU"));
+                addWidget(new ModWidget(columnRelX, columnDrawY + columnHeight - nutrientValueHeight, columnWidth, nutrientValueHeight, colorNutrientValueFill))
+                        .setToolTip(Component.nullToEmpty( (Math.round(playerNutrient.getValue()*10f)/10f) + "NU"));
 
                 //Draw lines and shading to indicate targets and "unsafe" ranges
                 if (nonEssentialNutrient) {
                     //for nonessential nutrients draw target line at bottom
-                    addButton(new ModWidget(columnRelX, columnDrawY + columnHeight - 1, columnWidth, 1, colorTargetIndicator))
-                            .setToolTip(ITextComponent.getTextComponentOrEmpty("Target: 0NU"));
+                    addWidget(new ModWidget(columnRelX, columnDrawY + columnHeight - 1, columnWidth, 1, colorTargetIndicator))
+                            .setToolTip(Component.nullToEmpty("Target: 0NU"));
                 } else {
                     //for essential nutrients (not nonessential)
                     //draw line at malnourishment border
-                    addButton(new ModWidget(columnRelX, columnDrawY + malnourished_top, columnWidth, 1, colorUnsafeIndicator))
-                        .setToolTip(ITextComponent.getTextComponentOrEmpty("Malnourishment: " + Config.NUTRIENT_MALNOURISHED.get().toString() + "NU"));
+                    addWidget(new ModWidget(columnRelX, columnDrawY + malnourished_top, columnWidth, 1, colorUnsafeIndicator))
+                        .setToolTip(Component.nullToEmpty("Malnourishment: " + Config.NUTRIENT_MALNOURISHED.get().toString() + "NU"));
                     //draw line at bottom of target
-                    addButton(new ModWidget(columnRelX, columnDrawY + target_bottom, columnWidth, 1, colorTargetIndicator))
-                            .setToolTip(ITextComponent.getTextComponentOrEmpty("Target: " + Config.NUTRIENT_LOW_TARGET.get().toString() + "NU"));
+                    addWidget(new ModWidget(columnRelX, columnDrawY + target_bottom, columnWidth, 1, colorTargetIndicator))
+                            .setToolTip(Component.nullToEmpty("Target: " + Config.NUTRIENT_LOW_TARGET.get().toString() + "NU"));
                 }
                 if (goodNutrient)
                     //for good nutrients, draw target line at top
-                    addButton(new ModWidget(columnRelX, columnDrawY, columnWidth, 1, colorTargetIndicator))
-                            .setToolTip(ITextComponent.getTextComponentOrEmpty("Target Cap: ∞NU"));
+                    addWidget(new ModWidget(columnRelX, columnDrawY, columnWidth, 1, colorTargetIndicator))
+                            .setToolTip(Component.nullToEmpty("Target Cap: ∞NU"));
                 else {
                     //for not good nutrients (but not necessarily bad)
                     //draw line at lower engorgement border
-                    addButton(new ModWidget(columnRelX, columnDrawY + engorged_bottom, columnWidth, 1, colorUnsafeIndicator))
-                            .setToolTip(ITextComponent.getTextComponentOrEmpty("Engorgement: " + Config.NUTRIENT_ENGORGED.get().toString() + "NU"));
+                    addWidget(new ModWidget(columnRelX, columnDrawY + engorged_bottom, columnWidth, 1, colorUnsafeIndicator))
+                            .setToolTip(Component.nullToEmpty("Engorgement: " + Config.NUTRIENT_ENGORGED.get().toString() + "NU"));
                     //draw line at top of target
-                    addButton(new ModWidget(columnRelX, columnDrawY + target_top, columnWidth, 1, colorTargetIndicator))
-                            .setToolTip(ITextComponent.getTextComponentOrEmpty("Target Cap: " + Config.NUTRIENT_TARGET_HIGH.get().toString() + "NU"));
+                    addWidget(new ModWidget(columnRelX, columnDrawY + target_top, columnWidth, 1, colorTargetIndicator))
+                            .setToolTip(Component.nullToEmpty("Target Cap: " + Config.NUTRIENT_TARGET_HIGH.get().toString() + "NU"));
                 }
 
 
@@ -149,13 +150,14 @@ public class NutrientGUI extends Screen {
     }
 
     private void close() {
-        minecraft.displayGuiScreen(null);
+        minecraft.setScreen(null);
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        RenderSystem.blendColor(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bindTexture(GUI);
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        RenderSystem.setShaderTexture(0, GUI);
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        this.minecraft.getTextureManager().bindForSetup(GUI);
         int relX = (this.width - WIDTH) / 2;
         int relY = (this.height - HEIGHT) / 2;
         this.blit(matrixStack,relX, relY, 0, 0, WIDTH, HEIGHT);
@@ -175,6 +177,6 @@ public class NutrientGUI extends Screen {
     }
 
     public static void open() {
-        Minecraft.getInstance().displayGuiScreen(new NutrientGUI());
+        Minecraft.getInstance().setScreen(new NutrientGUI());
     }
 }
