@@ -3,7 +3,7 @@ package com.dannyandson.nutritionalbalance.events;
 import com.dannyandson.nutritionalbalance.Config;
 import com.dannyandson.nutritionalbalance.capabilities.CapabilityNutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -14,8 +14,7 @@ public class EventPlayerDeath {
         //player capabilities do not persist on death, so
         //grab previous nutrition values, apply penalty,
         //and set to new player instance
-        if (event.getEntity() instanceof PlayerEntity) {
-            PlayerEntity playerEntity = (PlayerEntity)event.getEntity();
+        if (event.getEntity() instanceof Player playerEntity) {
 
             event.getOriginal().getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(originalInutritionalbalancePlayer -> {
 

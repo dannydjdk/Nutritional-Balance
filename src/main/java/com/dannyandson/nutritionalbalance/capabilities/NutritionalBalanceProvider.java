@@ -1,6 +1,9 @@
 package com.dannyandson.nutritionalbalance.capabilities;
 
 import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
+import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
+import com.dannyandson.nutritionalbalance.nutrients.Nutrient;
+import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.Capability;
@@ -19,14 +22,26 @@ public class NutritionalBalanceProvider implements ICapabilitySerializable<Compo
         if (CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY == null) {
             return new CompoundTag();
         } else {
-            return (CompoundTag) CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY.writeNBT(nutritionalbalancePlayer, null);
+
+            CompoundTag nbtTags = new CompoundTag();
+            for (IPlayerNutrient playerNutrient: nutritionalbalancePlayer.getPlayerNutrients())
+            {
+                nbtTags.putFloat(playerNutrient.getNutrient().name, playerNutrient.getValue());
+            }
+            return nbtTags;
         }
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
         if (CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY != null) {
-            CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY.readNBT(nutritionalbalancePlayer, null, nbt);
+
+            //TODO (maybe): Read all player nutrient values, even if nutrient not defined in the world
+            // to prevent loss of nutrient values if item tags are broken by something else.
+            for (Nutrient nutrient: WorldNutrients.get())
+            {
+                nutritionalbalancePlayer.getPlayerNutrientByName(nutrient.name).setValue(nbt.getFloat(nutrient.name));
+            }
         }
     }
 
