@@ -23,13 +23,13 @@ public class CommandSyncClient implements Command<CommandSource> {
         context.getSource().getEntity().getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
             playerSync[0] = new PlayerSync(new ResourceLocation(NutritionalBalance.MODID, "playersync"),inutritionalbalancePlayer);
         });
-        ModNetworkHandler.sendToClient(playerSync[0], context.getSource().asPlayer());
+        ModNetworkHandler.sendToClient(playerSync[0], context.getSource().getPlayerOrException());
         return 0;
     }
 
     public static ArgumentBuilder<CommandSource, ?> register(CommandDispatcher<CommandSource> dispatcher) {
         return Commands.literal("sync")
-                .requires(cs -> cs.hasPermissionLevel(0))
+                .requires(cs -> cs.hasPermission(0))
                 .executes(CMD);
     }
 }

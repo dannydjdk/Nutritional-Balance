@@ -35,7 +35,7 @@ public class CommandGetNutrients implements Command<CommandSource> {
 
             stringJoiner.add("Overall Status: " + inutritionalbalancePlayer.getStatus().name());
 
-            context.getSource().sendFeedback(new TranslationTextComponent(stringJoiner.toString()),false);
+            context.getSource().sendSuccess(new TranslationTextComponent(stringJoiner.toString()),false);
 
             //ModNetworkHandler.sendToClient(new PacketOpenGui(),player);
         });
@@ -45,7 +45,7 @@ public class CommandGetNutrients implements Command<CommandSource> {
 
     public static ArgumentBuilder<CommandSource, ?> register(CommandDispatcher<CommandSource> dispatcher) {
         return Commands.literal("get_nutrients")
-                .requires(cs -> cs.hasPermissionLevel(0))
+                .requires(cs -> cs.hasPermission(0))
                 .executes(CMD);
     }
 }

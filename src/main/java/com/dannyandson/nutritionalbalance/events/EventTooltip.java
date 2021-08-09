@@ -23,12 +23,12 @@ public class EventTooltip {
         Item item = itemStack.getItem();
         World world;
         if (event.getEntity()!=null)
-            world = event.getEntity().world;
+            world = event.getEntity().level;
         else
         {
             //tool tip event being called by a non-entity such as JEI
             try {
-                world = Minecraft.getInstance().world;
+                world = Minecraft.getInstance().level;
             }catch (Exception e)
             {
                 //this shouldn't happen unless some mod calls the tool tip event on the server side for some reason.
@@ -37,7 +37,7 @@ public class EventTooltip {
             }
         }
 
-        if(item.getFood() != null || item instanceof BlockItem && ((BlockItem) item).getBlock() instanceof CakeBlock) {
+        if(item.getFoodProperties() != null || item instanceof BlockItem && ((BlockItem) item).getBlock() instanceof CakeBlock) {
             // Create readable list of nutrients
             StringJoiner stringJoiner = new StringJoiner(", ");
 
@@ -51,11 +51,11 @@ public class EventTooltip {
                 if (stringJoiner.length() > 0) {
 
                     String NUvalue = "";
-                    if (item.getFood() != null) {
-                        NUvalue = " (" + ((float) Math.round((WorldNutrients.getEffectiveFoodQuality(item.getFood())) * 10)) / 10 + "NU)";
+                    if (item.getFoodProperties() != null) {
+                        NUvalue = " (" + ((float) Math.round((WorldNutrients.getEffectiveFoodQuality(item.getFoodProperties())) * 10)) / 10 + "NU)";
                     }
 
-                    event.getToolTip().add(ITextComponent.getTextComponentOrEmpty(
+                    event.getToolTip().add(ITextComponent.nullToEmpty(
                             "Nutrients: " + stringJoiner.toString() + NUvalue
                     ));
 
@@ -64,7 +64,7 @@ public class EventTooltip {
             }catch (Exception e)
             {
                 //catch and log any exceptions thrown so JEI doesn't break if something goes wrong.
-                NutritionalBalance.LOGGER.error("Exception thrown while adding nutrient info  for '" + item.getName().getString() + "' to tooltips: " + e.getMessage());
+                NutritionalBalance.LOGGER.error("Exception thrown while adding nutrient info  for '" + item.getDefaultInstance().getDisplayName().getString() + "' to tooltips: " + e.getMessage());
             }
         }
 

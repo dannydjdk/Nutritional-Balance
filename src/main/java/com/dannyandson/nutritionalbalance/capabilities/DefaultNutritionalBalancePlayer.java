@@ -68,7 +68,7 @@ public class DefaultNutritionalBalancePlayer implements INutritionalBalancePlaye
     @Override
     public void consume(ItemStack itemStack, World world) {
         Item item = itemStack.getItem();
-        Food food = item.getFood();
+        Food food = item.getFoodProperties();
 
         if (food!=null) {
             List<Nutrient> nutrients = WorldNutrients.getNutrients(item, world);

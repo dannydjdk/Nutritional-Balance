@@ -23,8 +23,8 @@ public class WorldNutrients
     public static void register()
     {
         reset();
-        ITagCollection<Item> itemITagCollection = ItemTags.getCollection();
-        Collection<ResourceLocation> resourceLocationCollection =  itemITagCollection.getRegisteredTags();
+        ITagCollection<Item> itemITagCollection = ItemTags.getAllTags();
+        Collection<ResourceLocation> resourceLocationCollection =  itemITagCollection.getAvailableTags();
         //loop through nutrient/* tags
         for (ResourceLocation resourceLocation : resourceLocationCollection)
         {
@@ -75,7 +75,7 @@ public class WorldNutrients
             List<Nutrient> nutrientList = new ArrayList<>();
 
             //Get all the ItemTags for the item and find any tags with namespace:path matching forge:nutrients/*
-            Collection<ResourceLocation> tags = ItemTags.getCollection().getOwningTags(item);
+            Collection<ResourceLocation> tags = ItemTags.getAllTags().getMatchingTags(item);
             for (ResourceLocation tag : tags) {
                 Nutrient nutrient = null;
                 if (tag.getNamespace().equals("forge") && tag.getPath().startsWith("nutrients/")) {
@@ -132,7 +132,7 @@ public class WorldNutrients
             // first check if it is a meat item. If not,
             // traverse through it's recipe items and check those for nutrient tags
             if (nutrientList.size() == 0 && iteration < 5) {
-                if (item.getFood() != null && item.getFood().isMeat()) {
+                if (item.getFoodProperties() != null && item.getFoodProperties().isMeat()) {
                     Nutrient proteinNutrient = getByName("proteins");
                     if (proteinNutrient != null && !nutrientList.contains(proteinNutrient))
                         nutrientList.add(proteinNutrient);
@@ -141,10 +141,10 @@ public class WorldNutrients
                     Collection<IRecipe<?>> recipes = world.getRecipeManager().getRecipes();
 
                     for (IRecipe<?> recipe : recipes) {
-                        if (recipe.getRecipeOutput().getItem() == item) {
+                        if (recipe.getResultItem().getItem() == item) {
                             NonNullList<Ingredient> ingredients = recipe.getIngredients();
                             for (Ingredient ingredient : ingredients) {
-                                ItemStack[] itemStacks = ingredient.getMatchingStacks();
+                                ItemStack[] itemStacks = ingredient.getItems();
                                 if (itemStacks.length > 0) {
                                     List<Nutrient> ingredientNutrients = getNutrients(itemStacks[0].getItem(), world, iteration + 1);
                                     for (Nutrient ingredientNutrient : ingredientNutrients) {
@@ -167,7 +167,7 @@ public class WorldNutrients
 
     public static float getEffectiveFoodQuality(Food foodItem)
     {
-        return getEffectiveFoodQuality(foodItem.getHealing(),foodItem.getSaturation());
+        return getEffectiveFoodQuality(foodItem.getNutrition(),foodItem.getSaturationModifier());
     }
 
     public static float getEffectiveFoodQuality(float healing, float saturation)

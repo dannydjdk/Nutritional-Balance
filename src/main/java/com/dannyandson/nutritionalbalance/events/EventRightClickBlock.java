@@ -28,7 +28,7 @@ public class EventRightClickBlock {
             Item cakeItem = block.asItem();
 
             player.getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
-                List<Nutrient> nutrients = WorldNutrients.getNutrients(cakeItem,player.world);
+                List<Nutrient> nutrients = WorldNutrients.getNutrients(cakeItem,player.level);
                 for (Nutrient nutrient:nutrients) {
                     //hardcoding cake to 2.4 effective food quality per Minecraft wiki. No way to query for this.
                     float nutrientunits=2.4f * Config.NUTRIENT_INCREMENT_RATE.get().floatValue() / nutrients.size();

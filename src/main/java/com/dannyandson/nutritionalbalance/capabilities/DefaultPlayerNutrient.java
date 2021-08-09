@@ -28,7 +28,7 @@ public class DefaultPlayerNutrient implements IPlayerNutrient
 
     public String getLocalizedName()
     {
-        return I18n.format("nutritionalbalance.nutrient."+this.nutrientname);
+        return I18n.get("nutritionalbalance.nutrient."+this.nutrientname);
     }
 
     @Override

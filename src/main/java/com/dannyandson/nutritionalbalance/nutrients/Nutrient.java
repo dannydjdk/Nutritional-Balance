@@ -16,12 +16,12 @@ public class Nutrient {
     }
     public List<Item> getFoodItems()
     {
-        return ItemTags.getCollection().get(new ResourceLocation("forge","nutrients/"+this.name)).getAllElements();
+        return ItemTags.getAllTags().getTag(new ResourceLocation("forge","nutrients/"+this.name)).getValues();
     }
 
     public String getLocalizedName()
     {
-        return I18n.format("nutritionalbalance.nutrient."+this.name);
+        return I18n.get("nutritionalbalance.nutrient."+this.name);
     }
 
 }

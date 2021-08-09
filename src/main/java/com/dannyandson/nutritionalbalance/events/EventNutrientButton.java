@@ -14,7 +14,7 @@ public class EventNutrientButton {
     {
         if ((event.getGui() instanceof InventoryScreen) && Config.NUTRIENT_BUTTON_ENABLED.get()) {
             InventoryScreen gui = (InventoryScreen) event.getGui();
-            event.addWidget(new NutrientButton(gui, ITextComponent.getTextComponentOrEmpty("N")));
+            event.addWidget(new NutrientButton(gui, ITextComponent.nullToEmpty("N")));
         }
     }
 

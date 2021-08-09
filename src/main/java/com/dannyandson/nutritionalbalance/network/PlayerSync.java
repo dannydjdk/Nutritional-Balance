@@ -36,14 +36,14 @@ public class PlayerSync {
     public PlayerSync(PacketBuffer buffer)
     {
         this.id = buffer.readResourceLocation();
-        String bufferString = buffer.readString();
+        String bufferString = buffer.readUtf();
         inutritionalbalancePlayerJson = (JsonObject) (new JsonParser()).parse(bufferString);
     }
 
     public void toBytes(PacketBuffer buf)
     {
         buf.writeResourceLocation(id);
-        buf.writeString(inutritionalbalancePlayerJson.toString());
+        buf.writeUtf(inutritionalbalancePlayerJson.toString());
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> ctx) {

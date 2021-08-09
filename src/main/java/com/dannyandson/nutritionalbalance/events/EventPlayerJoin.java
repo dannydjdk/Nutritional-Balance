@@ -19,7 +19,7 @@ public class EventPlayerJoin {
             return;
 
         // Server only
-        if (!event.getWorld().isRemote && event.getEntity() instanceof ServerPlayerEntity)
+        if (!event.getWorld().isClientSide() && event.getEntity() instanceof ServerPlayerEntity)
         {
             event.getEntity().getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
                 PlayerSync playerSync = new PlayerSync(new ResourceLocation(NutritionalBalance.MODID, "playersync"),inutritionalbalancePlayer);

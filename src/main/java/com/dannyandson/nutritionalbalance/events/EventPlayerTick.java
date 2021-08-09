@@ -29,8 +29,8 @@ public class EventPlayerTick {
         if (event.phase==TickEvent.Phase.END) {
             PlayerEntity playerEntity = event.player;
 
-            float playerSaturation = playerEntity.getFoodStats().getSaturationLevel();
-            int playerFoodLevel = playerEntity.getFoodStats().getFoodLevel();
+            float playerSaturation = playerEntity.getFoodData().getSaturationLevel();
+            int playerFoodLevel = playerEntity.getFoodData().getFoodLevel();
             float foodpoints = playerSaturation + playerFoodLevel;
             playerEntity.getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
                 inutritionalbalancePlayer.processSaturationChange(foodpoints);
@@ -42,30 +42,30 @@ public class EventPlayerTick {
                     IPlayerNutrient.NutrientStatus currentStatus = inutritionalbalancePlayer.getStatus();
                     if (currentStatus== IPlayerNutrient.NutrientStatus.ENGORGED) {
                         //slowness
-                        playerEntity.addPotionEffect(new EffectInstance(Effect.get(2),200, 0, true, true));
+                        playerEntity.addEffect(new EffectInstance(Effect.byId(2),200, 0, true, true));
                         //mining fatigue
-                        playerEntity.addPotionEffect(new EffectInstance(Effect.get(4),200, 0, true, true));
+                        playerEntity.addEffect(new EffectInstance(Effect.byId(4),200, 0, true, true));
                     }
                     else if (currentStatus== IPlayerNutrient.NutrientStatus.MALNOURISHED)
                     {
                         //mining fatigue
-                        playerEntity.addPotionEffect(new EffectInstance(Effect.get(4),200, 0, true, true));
+                        playerEntity.addEffect(new EffectInstance(Effect.byId(4),200, 0, true, true));
                         //weakness
-                        playerEntity.addPotionEffect(new EffectInstance(Effect.get(18),200, 0, true, true));
+                        playerEntity.addEffect(new EffectInstance(Effect.byId(18),200, 0, true, true));
                     }
                     else if (currentStatus== IPlayerNutrient.NutrientStatus.ON_TARGET)
                     {
                         //speed
-                        playerEntity.addPotionEffect(new EffectInstance(Effect.get(1),200, 0, true, true));
+                        playerEntity.addEffect(new EffectInstance(Effect.byId(1),200, 0, true, true));
                         //haste
-                        playerEntity.addPotionEffect(new EffectInstance(Effect.get(3),200, 0, true, true));
+                        playerEntity.addEffect(new EffectInstance(Effect.byId(3),200, 0, true, true));
                         //strength
-                        playerEntity.addPotionEffect(new EffectInstance(Effect.get(5),200, 0, true, true));
+                        playerEntity.addEffect(new EffectInstance(Effect.byId(5),200, 0, true, true));
                     }
 
                     if (cachedStatus != currentStatus)
                     {
-                        if (playerEntity.world.isRemote) {
+                        if (playerEntity.level.isClientSide()) {
                             /*
                             playerEntity.sendStatusMessage(ITextComponent.getTextComponentOrEmpty(I18n.format("nutritionalbalance.nutrientstatus.msg." + currentStatus.name())), true);
                             Minecraft.getInstance().getToastGui().add(

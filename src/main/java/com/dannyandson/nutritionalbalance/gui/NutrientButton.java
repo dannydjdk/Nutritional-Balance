@@ -42,9 +42,9 @@ public class NutrientButton extends Widget {
             updateLocation();
             RenderSystem.blendColor(1.0F, 1.0F, 1.0F, 1.0F);
             if (mouseX>x && mouseX<x+width && mouseY>y && mouseY<y+height)
-                Minecraft.getInstance().getTextureManager().bindTexture(buttonGUIHover);
+                Minecraft.getInstance().getTextureManager().bind(buttonGUIHover);
             else
-                Minecraft.getInstance().getTextureManager().bindTexture(buttonGUI);
+                Minecraft.getInstance().getTextureManager().bind(buttonGUI);
             this.blit(matrixStack,x, y, 0, 0, width, height);
         }
 

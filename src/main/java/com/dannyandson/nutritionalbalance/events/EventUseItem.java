@@ -12,10 +12,10 @@ public class EventUseItem {
         if (event.getEntity() instanceof net.minecraft.entity.player.PlayerEntity) {
 
             Item item = event.getItem().getItem();
-            if (item.getFood()!=null)
+            if (item.getFoodProperties()!=null)
             {
                 event.getEntity().getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
-                    inutritionalbalancePlayer.consume(event.getItem(),event.getEntity().world);
+                    inutritionalbalancePlayer.consume(event.getItem(),event.getEntity().level);
                 });
             }
         }

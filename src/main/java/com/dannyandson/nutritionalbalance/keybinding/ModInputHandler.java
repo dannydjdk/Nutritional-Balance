@@ -8,7 +8,7 @@ public class ModInputHandler {
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) {
        // NutritionalBalance.LOGGER.info("Key pressed:" + event.getKey());
-        if (ModKeyBindings.keyBindings.get("nutrientgui").isPressed())
+        if (ModKeyBindings.keyBindings.get("nutrientgui").isDown())
         {
             NutrientGUI.open();
         }
