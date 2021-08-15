@@ -3,7 +3,9 @@
   "values": [
     "minecraft:potato",
     "minecraft:poisonous_potato",
-    "minecraft:wheat"
+    "minecraft:wheat",
+    "minecraft:crimson_roots",
+    "minecraft:warped_roots"
   ],
   "optional" : [
     "create:bar_of_chocolate",
@@ -18,6 +20,7 @@
     "farmersdelight:stuffed_pumpkin",
     "farmersdelight:honey_glazed_ham",
     "farmersdelight:rice",
-    "farmersdelight:shepherds_pie"
+    "farmersdelight:shepherds_pie",
+    "environmental:truffle"
 ]
 }

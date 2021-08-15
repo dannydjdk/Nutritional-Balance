@@ -7,7 +7,10 @@
     "minecraft:spider_eye",
     "minecraft:cocoa_beans",
     "minecraft:bone",
-    "#minecraft:fishes"
+    "#minecraft:fishes",
+    "minecraft:turtle_egg",
+    "minecraft:ink_sac",
+    "minecraft:nether_wart"
   ],
   "optional": [
     "alexsmobs:maggot",
@@ -51,6 +54,9 @@
     "pamhc2crops:whitemushroomitem",
     "aquaculture:fish_fillet_raw",
     "aquaculture:frog_legs_raw",
-    "aquaculture:turtle_soup"
+    "aquaculture:turtle_soup",
+    "#forge:fungi",
+    "#forge:seeds",
+    "vanillacookbook:chocolate_egg"
   ]
 }

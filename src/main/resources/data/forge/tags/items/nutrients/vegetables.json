@@ -4,7 +4,11 @@
     "minecraft:carrot",
     "minecraft:beetroot",
     "minecraft:kelp",
-    "minecraft:seagrass"
+    "minecraft:seagrass",
+    "minecraft:bamboo",
+    "minecraft:cactus",
+    "minecraft:sea_pickle",
+    "#minecraft:leaves"
   ],
   "optional": [
     "simplefarming:chicory_root",
@@ -25,6 +29,9 @@
     "pamhc2crops:hotcoffeeitem",
     "pamhc2foodextended:ediblerootitem",
     "pamhc2foodextended:groundcinnamonitem",
-    "aquaculture:algae"
+    "aquaculture:algae",
+    "atmospheric:aloe_leaves",
+    "upgrade_aquatic:blue_pickerelweed",
+    "upgrade_aquatic:purple_pickerelweed"
   ]
 }
