@@ -1,6 +1,7 @@
 package com.dannyandson.nutritionalbalance.events;
 
-import com.dannyandson.nutritionalbalance.capabilities.CapabilityNutritionalBalancePlayer;
+import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
+import com.dannyandson.nutritionalbalance.nutrients.PlayerNutritionData;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -10,14 +11,12 @@ public class EventUseItem {
 
     @SubscribeEvent
     public void onUseItemFinish(LivingEntityUseItemEvent.Finish event) {
-        if (event.getEntity() instanceof Player) {
-
+        if (event.getEntity() instanceof Player player) {
             Item item = event.getItem().getItem();
-            if (item.getFoodProperties()!=null)
-            {
-                event.getEntity().getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
-                    inutritionalbalancePlayer.consume(event.getItem(),event.getEntity().level);
-                });
+            INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(player);
+            if (item.getFoodProperties() != null) {
+                iNutritionalBalancePlayer.consume(event.getItem(), event.getEntity().level);
+                PlayerNutritionData.getWorldNutritionData().setDirty();
             }
         }
 

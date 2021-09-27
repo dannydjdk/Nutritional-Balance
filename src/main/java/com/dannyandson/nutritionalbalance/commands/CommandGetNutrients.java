@@ -1,12 +1,12 @@
 package com.dannyandson.nutritionalbalance.commands;
 
-import com.dannyandson.nutritionalbalance.capabilities.CapabilityNutritionalBalancePlayer;
+import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
+import com.dannyandson.nutritionalbalance.nutrients.PlayerNutritionData;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -19,27 +19,23 @@ public class CommandGetNutrients implements Command<CommandSourceStack> {
     private static final CommandGetNutrients CMD = new CommandGetNutrients();
 
     @Override
-    public int run(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+    public int run(CommandContext<CommandSourceStack> context) {
         String feedback = "Must be run on client.";
 
-        ServerPlayer player = (ServerPlayer)context.getSource().getEntity();
-
-        player.getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
-            StringJoiner stringJoiner=new StringJoiner("\n");
+        if (context.getSource().getEntity() instanceof ServerPlayer player) {
+            INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(player);
+            StringJoiner stringJoiner = new StringJoiner("\n");
             stringJoiner.add("Player Nutrition:");
 
-            for (IPlayerNutrient nutrient:inutritionalbalancePlayer.getPlayerNutrients())
-            {
-                stringJoiner.add(nutrient.getNutrient().name +": " + (((float)Math.round(nutrient.getValue()*10))/10) + " " + nutrient.getStatus().name());
+            for (IPlayerNutrient nutrient : iNutritionalBalancePlayer.getPlayerNutrients()) {
+                stringJoiner.add(nutrient.getNutrient().name + ": " + (((float) Math.round(nutrient.getValue() * 10)) / 10) + " " + nutrient.getStatus().name());
             }
 
-            stringJoiner.add("Overall Status: " + inutritionalbalancePlayer.getStatus().name());
+            stringJoiner.add("Overall Status: " + iNutritionalBalancePlayer.getStatus().name());
 
-            context.getSource().sendSuccess(new TranslatableComponent(stringJoiner.toString()),false);
+            context.getSource().sendSuccess(new TranslatableComponent(stringJoiner.toString()), false);
 
-            //ModNetworkHandler.sendToClient(new PacketOpenGui(),player);
-        });
-
+        }
         return 0;
     }
 

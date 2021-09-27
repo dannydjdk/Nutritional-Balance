@@ -1,10 +1,11 @@
 package com.dannyandson.nutritionalbalance.events;
 
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
-import com.dannyandson.nutritionalbalance.capabilities.CapabilityNutritionalBalancePlayer;
+import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
 import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
 import com.dannyandson.nutritionalbalance.network.PlayerSync;
+import com.dannyandson.nutritionalbalance.nutrients.PlayerNutritionData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -28,18 +29,16 @@ public class EventPlayerTick {
     {
         if (event.phase==TickEvent.Phase.END) {
             Player playerEntity = event.player;
-
+            INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(playerEntity);
             float playerSaturation = playerEntity.getFoodData().getSaturationLevel();
             int playerFoodLevel = playerEntity.getFoodData().getFoodLevel();
             float foodpoints = playerSaturation + playerFoodLevel;
-            playerEntity.getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
-                inutritionalbalancePlayer.processSaturationChange(foodpoints);
-            });
+
+            iNutritionalBalancePlayer.processSaturationChange(foodpoints);
 
             if (i >= 200) {
-                playerEntity.getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
-                    IPlayerNutrient.NutrientStatus cachedStatus = inutritionalbalancePlayer.getCachedStatus();
-                    IPlayerNutrient.NutrientStatus currentStatus = inutritionalbalancePlayer.getStatus();
+                    IPlayerNutrient.NutrientStatus cachedStatus = iNutritionalBalancePlayer.getCachedStatus();
+                    IPlayerNutrient.NutrientStatus currentStatus = iNutritionalBalancePlayer.getStatus();
                     if (currentStatus== IPlayerNutrient.NutrientStatus.ENGORGED) {
                         //slowness
                         playerEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,200, 0, true, true));
@@ -80,13 +79,12 @@ public class EventPlayerTick {
                         }
                         else {
 
-                            PlayerSync playerSync = new PlayerSync(new ResourceLocation(NutritionalBalance.MODID, "playersync"),inutritionalbalancePlayer);
+                            PlayerSync playerSync = new PlayerSync(new ResourceLocation(NutritionalBalance.MODID, "playersync"),iNutritionalBalancePlayer);
                             ModNetworkHandler.sendToClient(playerSync, (ServerPlayer) playerEntity);
 
                         }
 
                     }
-                });
 
                 i = 0;
             }

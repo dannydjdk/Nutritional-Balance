@@ -1,8 +1,8 @@
 package com.dannyandson.nutritionalbalance.network;
 
 import com.dannyandson.nutritionalbalance.nutrients.Nutrient;
+import com.dannyandson.nutritionalbalance.nutrients.PlayerNutritionData;
 import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
-import com.dannyandson.nutritionalbalance.capabilities.CapabilityNutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.capabilities.DefaultPlayerNutrient;
 import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
@@ -49,22 +49,19 @@ public class PlayerSync {
     public boolean handle(Supplier<NetworkEvent.Context> ctx) {
 
         ctx.get().enqueueWork(()-> {
-
-            Minecraft.getInstance().player.getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(capabilitynutritionalbalancePlayer -> {
+            INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(ctx.get().getSender());
                 for (Map.Entry<String, JsonElement> jsonElementEntry : inutritionalbalancePlayerJson.entrySet())
                 {
 
-                    IPlayerNutrient playerNutrient = capabilitynutritionalbalancePlayer.getPlayerNutrientByName(jsonElementEntry.getKey());
+                    IPlayerNutrient playerNutrient = iNutritionalBalancePlayer.getPlayerNutrientByName(jsonElementEntry.getKey());
                     if (playerNutrient == null) {
                         Nutrient worldNutrient = WorldNutrients.getByName(jsonElementEntry.getKey());
                         playerNutrient = new DefaultPlayerNutrient(worldNutrient);
-                        capabilitynutritionalbalancePlayer.getPlayerNutrients().add(playerNutrient);
+                        iNutritionalBalancePlayer.getPlayerNutrients().add(playerNutrient);
                     }
                     playerNutrient.setValue(jsonElementEntry.getValue().getAsFloat());
 
                 }
-            });
-
 
             ctx.get().setPacketHandled(true);
         });

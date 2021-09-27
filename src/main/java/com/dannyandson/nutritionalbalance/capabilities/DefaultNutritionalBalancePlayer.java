@@ -19,13 +19,12 @@ public class DefaultNutritionalBalancePlayer implements INutritionalBalancePlaye
     private float savedSaturation;
     private IPlayerNutrient.NutrientStatus cachedStatus = IPlayerNutrient.NutrientStatus.SAFE;
 
-    DefaultNutritionalBalancePlayer()
+    public DefaultNutritionalBalancePlayer()
     {
         for (Nutrient nutrient:WorldNutrients.get())
         {
             this.playerNutrients.add(new DefaultPlayerNutrient(nutrient));
         }
-        //this.savedSaturation=
     }
 
     @Override

@@ -1,14 +1,12 @@
 package com.dannyandson.nutritionalbalance;
 
+import com.dannyandson.nutritionalbalance.nutrients.PlayerNutritionData;
 import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
-import com.dannyandson.nutritionalbalance.capabilities.CapabilityNutritionalBalancePlayer;
-import com.dannyandson.nutritionalbalance.capabilities.NutrientEventHandler;
 import com.dannyandson.nutritionalbalance.commands.ModCommands;
 import com.dannyandson.nutritionalbalance.events.*;
 import com.dannyandson.nutritionalbalance.keybinding.ModInputHandler;
 import com.dannyandson.nutritionalbalance.keybinding.ModKeyBindings;
 import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
-import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -18,6 +16,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fmlserverevents.FMLServerStartedEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,7 +31,6 @@ public class NutritionalBalance
     // config for colors?
     // custom effect handling?
     // slow down eating when engorged?
-    // Upgrade forge
 
     public static final String MODID = "nutritionalbalance";
     // Directly reference a log4j logger.
@@ -50,9 +48,10 @@ public class NutritionalBalance
         MinecraftForge.EVENT_BUS.register(new EventUseItem());
         MinecraftForge.EVENT_BUS.register(new EventPlayerTick());
         MinecraftForge.EVENT_BUS.register(new EventPlayerJoin());
-        MinecraftForge.EVENT_BUS.register(new EventPlayerDeath());
+        MinecraftForge.EVENT_BUS.register(new EventPlayerClone());
         MinecraftForge.EVENT_BUS.register(new EventRightClickBlock());
         MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
+        MinecraftForge.EVENT_BUS.addListener(this::serverStarted);
         MinecraftForge.EVENT_BUS.register(new ModInputHandler());
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONFIG);
@@ -63,10 +62,9 @@ public class NutritionalBalance
 
     private void setup(final FMLCommonSetupEvent event)
     {
-        CapabilityNutritionalBalancePlayer.register();
-        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class,NutrientEventHandler::onAttachCapabilitiesEvent);
         ModNetworkHandler.registerMessages();
     }
+
 
     private void registerCommands(RegisterCommandsEvent event) {
         ModCommands.register(event.getDispatcher());
@@ -78,6 +76,11 @@ public class NutritionalBalance
         ModKeyBindings.register();
         MinecraftForge.EVENT_BUS.register(new EventNutrientButton());
 
+    }
+
+    @SubscribeEvent
+    public void serverStarted(FMLServerStartedEvent event){
+        PlayerNutritionData.init(event.getServer().overworld());
     }
 
     @SuppressWarnings("unused")
