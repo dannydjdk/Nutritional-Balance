@@ -5,6 +5,7 @@ import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.nutrients.Nutrient;
 import com.dannyandson.nutritionalbalance.nutrients.PlayerNutritionData;
 import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -24,7 +25,7 @@ public class EventRightClickBlock {
         if (block instanceof CakeBlock) {
             Player player = event.getPlayer();
             //Detect eating cake
-            if (player.canEat(false)) {
+            if (player instanceof ServerPlayer && player.canEat(false)) {
                 INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(player);
                 Item cakeItem = block.asItem();
 

@@ -20,5 +20,9 @@
   "nutritionalbalance.nutrientstatus.msg.ON_TARGET" :    "Your diet is well balanced.",
   "nutritionalbalance.nutrientstatus.msg.ENGORGED" :     "You have engorged yourself.",
 
+  "effect.nutritionalbalance.engorged_effect": "Engorged",
+  "effect.nutritionalbalance.malnourished_effect": "Malnourished",
+  "effect.nutritionalbalance.nourished_effect": "Well Nourished",
+
   "nutritionalbalance.close" : "Close"
 }

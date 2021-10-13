@@ -1,5 +1,6 @@
 package com.dannyandson.nutritionalbalance;
 
+import com.dannyandson.nutritionalbalance.effects.ModMobAffects;
 import com.dannyandson.nutritionalbalance.nutrients.PlayerNutritionData;
 import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
 import com.dannyandson.nutritionalbalance.commands.ModCommands;
@@ -7,6 +8,7 @@ import com.dannyandson.nutritionalbalance.events.*;
 import com.dannyandson.nutritionalbalance.keybinding.ModInputHandler;
 import com.dannyandson.nutritionalbalance.keybinding.ModKeyBindings;
 import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -16,7 +18,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.fmlserverevents.FMLServerStartedEvent;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,6 +40,10 @@ public class NutritionalBalance
     public static final String MODID = "nutritionalbalance";
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
+    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MODID);
+    public static final RegistryObject<MobEffect> NOURISHED_EFFECT = EFFECTS.register("nourished_effect", ModMobAffects.Nourished::new);
+    public static final RegistryObject<MobEffect> MALNOURISHED_EFFECT = EFFECTS.register("malnourished_effect", ModMobAffects.MalNourished::new);
+    public static final RegistryObject<MobEffect> ENGORGED_EFFECT = EFFECTS.register("engorged_effect", ModMobAffects.Nourished::new);
 
     public NutritionalBalance() {
 
@@ -56,6 +65,8 @@ public class NutritionalBalance
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONFIG);
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Config.SERVER_CONFIG);
+
+        EFFECTS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
 
     }
