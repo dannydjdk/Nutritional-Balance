@@ -1,5 +1,6 @@
 package com.dannyandson.nutritionalbalance.events;
 
+import com.dannyandson.nutritionalbalance.Config;
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import com.dannyandson.nutritionalbalance.capabilities.CapabilityNutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
@@ -7,9 +8,7 @@ import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
 import com.dannyandson.nutritionalbalance.network.PlayerSync;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -29,58 +28,64 @@ public class EventPlayerTick {
         if (event.phase==TickEvent.Phase.END) {
             PlayerEntity playerEntity = event.player;
 
-            float playerSaturation = playerEntity.getFoodData().getSaturationLevel();
-            int playerFoodLevel = playerEntity.getFoodData().getFoodLevel();
-            float foodpoints = playerSaturation + playerFoodLevel;
-            playerEntity.getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
-                inutritionalbalancePlayer.processSaturationChange(foodpoints);
-            });
+            if (!playerEntity.level.isClientSide) {
+                float playerSaturation = playerEntity.getFoodData().getSaturationLevel();
+                int playerFoodLevel = playerEntity.getFoodData().getFoodLevel();
+                float foodpoints = playerSaturation + playerFoodLevel;
+                playerEntity.getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
+                    inutritionalbalancePlayer.processSaturationChange(foodpoints);
+                });
+            }
 
             if (i >= 200) {
                 playerEntity.getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
                     IPlayerNutrient.NutrientStatus cachedStatus = inutritionalbalancePlayer.getCachedStatus();
                     IPlayerNutrient.NutrientStatus currentStatus = inutritionalbalancePlayer.getStatus();
-                    if (currentStatus== IPlayerNutrient.NutrientStatus.ENGORGED) {
-                        //slowness
-                        playerEntity.addEffect(new EffectInstance(Effect.byId(2),200, 0, true, true));
-                        //mining fatigue
-                        playerEntity.addEffect(new EffectInstance(Effect.byId(4),200, 0, true, true));
-                    }
-                    else if (currentStatus== IPlayerNutrient.NutrientStatus.MALNOURISHED)
-                    {
-                        //mining fatigue
-                        playerEntity.addEffect(new EffectInstance(Effect.byId(4),200, 0, true, true));
-                        //weakness
-                        playerEntity.addEffect(new EffectInstance(Effect.byId(18),200, 0, true, true));
-                    }
-                    else if (currentStatus== IPlayerNutrient.NutrientStatus.ON_TARGET)
-                    {
-                        //speed
-                        playerEntity.addEffect(new EffectInstance(Effect.byId(1),200, 0, true, true));
-                        //haste
-                        playerEntity.addEffect(new EffectInstance(Effect.byId(3),200, 0, true, true));
-                        //strength
-                        playerEntity.addEffect(new EffectInstance(Effect.byId(5),200, 0, true, true));
+                    EffectInstance nourished = playerEntity.getEffect(NutritionalBalance.NOURISHED_EFFECT.get()),
+                            malnourished = playerEntity.getEffect(NutritionalBalance.MALNOURISHED_EFFECT.get()),
+                            engorged = playerEntity.getEffect(NutritionalBalance.ENGORGED_EFFECT.get());
+
+                    if (currentStatus == IPlayerNutrient.NutrientStatus.ENGORGED) {
+                        if (nourished != null)
+                            playerEntity.removeEffect(NutritionalBalance.NOURISHED_EFFECT.get());
+                        if (malnourished != null)
+                            playerEntity.removeEffect(NutritionalBalance.MALNOURISHED_EFFECT.get());
+                        if (engorged == null)
+                            playerEntity.addEffect(new EffectInstance(NutritionalBalance.ENGORGED_EFFECT.get(), Integer.MAX_VALUE, 0, true, false, true));
+
+                    } else if (currentStatus == IPlayerNutrient.NutrientStatus.MALNOURISHED) {
+                        if (nourished != null)
+                            playerEntity.removeEffect(NutritionalBalance.NOURISHED_EFFECT.get());
+                        if (malnourished == null)
+                            playerEntity.addEffect(new EffectInstance(NutritionalBalance.MALNOURISHED_EFFECT.get(), Integer.MAX_VALUE, 0, true, false, true));
+                        if (engorged != null)
+                            playerEntity.removeEffect(NutritionalBalance.ENGORGED_EFFECT.get());
+
+                    } else if (currentStatus == IPlayerNutrient.NutrientStatus.ON_TARGET) {
+                        if (nourished == null)
+                            playerEntity.addEffect(new EffectInstance(NutritionalBalance.NOURISHED_EFFECT.get(), Integer.MAX_VALUE, 0, true, false, true));
+                        if (malnourished != null)
+                            playerEntity.removeEffect(NutritionalBalance.MALNOURISHED_EFFECT.get());
+                        if (engorged != null)
+                            playerEntity.removeEffect(NutritionalBalance.ENGORGED_EFFECT.get());
+
+                    } else {
+                        if (nourished != null)
+                            playerEntity.removeEffect(NutritionalBalance.NOURISHED_EFFECT.get());
+                        if (malnourished != null)
+                            playerEntity.removeEffect(NutritionalBalance.MALNOURISHED_EFFECT.get());
+                        if (engorged != null)
+                            playerEntity.removeEffect(NutritionalBalance.ENGORGED_EFFECT.get());
                     }
 
-                    if (cachedStatus != currentStatus)
-                    {
+                    if (cachedStatus != currentStatus) {
                         if (playerEntity.level.isClientSide()) {
-                            /*
-                            playerEntity.sendStatusMessage(ITextComponent.getTextComponentOrEmpty(I18n.format("nutritionalbalance.nutrientstatus.msg." + currentStatus.name())), true);
-                            Minecraft.getInstance().getToastGui().add(
-                                    new SystemToast(
-                                            SystemToast.Type.TUTORIAL_HINT,
-                                            ITextComponent.getTextComponentOrEmpty(I18n.format("nutritionalbalance.nutrientstatus." + currentStatus.name())),
-                                            ITextComponent.getTextComponentOrEmpty(I18n.format("nutritionalbalance.nutrientstatus.msg." + currentStatus.name()))
-                                    )
-                            );
+                            //playerEntity.sendStatusMessage(ITextComponent.getTextComponentOrEmpty(I18n.format("nutritionalbalance.nutrientstatus.msg." + currentStatus.name())), true);
+                            if (Config.SHOW_THRESHOLD_TOAST.get())
+                                ClientHelpers.showStatusToast(currentStatus.name());
+                        } else {
 
-                             */
-                        }
-                        else {
-
-                            PlayerSync playerSync = new PlayerSync(new ResourceLocation(NutritionalBalance.MODID, "playersync"),inutritionalbalancePlayer);
+                            PlayerSync playerSync = new PlayerSync(inutritionalbalancePlayer);
                             ModNetworkHandler.sendToClient(playerSync, (ServerPlayerEntity) playerEntity);
 
                         }

@@ -2,6 +2,8 @@ package com.dannyandson.nutritionalbalance.gui;
 
 import com.dannyandson.nutritionalbalance.Config;
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
+import com.dannyandson.nutritionalbalance.network.GUITrigger;
+import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -33,7 +35,7 @@ public class NutrientButton extends Widget {
 
     @Override
     public void onClick(double mouseX, double mouseY) {
-        NutrientGUI.open();
+        ModNetworkHandler.sendToServer(new GUITrigger());
     }
 
     @Override

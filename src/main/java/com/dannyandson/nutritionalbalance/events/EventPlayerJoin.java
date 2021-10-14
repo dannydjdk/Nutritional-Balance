@@ -22,7 +22,7 @@ public class EventPlayerJoin {
         if (!event.getWorld().isClientSide() && event.getEntity() instanceof ServerPlayerEntity)
         {
             event.getEntity().getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
-                PlayerSync playerSync = new PlayerSync(new ResourceLocation(NutritionalBalance.MODID, "playersync"),inutritionalbalancePlayer);
+                PlayerSync playerSync = new PlayerSync(inutritionalbalancePlayer);
                 ModNetworkHandler.sendToClient(playerSync, (ServerPlayerEntity) event.getEntity());
             });
         }

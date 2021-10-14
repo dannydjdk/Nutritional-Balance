@@ -11,7 +11,7 @@ import net.minecraftforge.fml.network.simple.SimpleChannel;
 public class ModNetworkHandler {
     private static SimpleChannel INSTANCE;
     private static int ID = 0;
-    private static final String PROTOCOL_VERSION = "1.1";
+    private static final String PROTOCOL_VERSION = "1.2";
     public static PacketOpenGui packetOpenGui;
 
     private static int nextID() {
@@ -31,6 +31,11 @@ public class ModNetworkHandler {
                 .decoder(PlayerSync::new)
                 .consumer(PlayerSync::handle)
                 .add();
+        INSTANCE.messageBuilder(GUITrigger.class,nextID())
+                .encoder(GUITrigger::toBytes)
+                .decoder(GUITrigger::new)
+                .consumer(GUITrigger::handle)
+                .add();
         INSTANCE.registerMessage(
                 nextID(),
                 PacketOpenGui.class,
@@ -38,15 +43,6 @@ public class ModNetworkHandler {
                 (packetBuffer->packetOpenGui),
                 PacketOpenGui::handle
         );
-
-        /*
-        INSTANCE.messageBuilder(PlayerSync.class, nextID())
-                .encoder((packetOpenGui, packetBuffer) -> {})
-                .decoder(buf -> new PlayerSync())
-                .consumer(PlayerSync::handle)
-                .add();
-
-         */
 
     }
 

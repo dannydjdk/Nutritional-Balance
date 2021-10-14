@@ -20,5 +20,14 @@
   "nutritionalbalance.nutrientstatus.msg.ON_TARGET" :    "Your diet is well balanced.",
   "nutritionalbalance.nutrientstatus.msg.ENGORGED" :     "You have engorged yourself.",
 
+  "nutritionalbalance.nutrientstatus.details.MALNOURISHED" : "You're feeling a little slow and weak.",
+  "nutritionalbalance.nutrientstatus.details.SAFE" :         "Nothing bad. Nothing good.",
+  "nutritionalbalance.nutrientstatus.details.ON_TARGET" :    "You're feeling strong, fast and efficient.",
+  "nutritionalbalance.nutrientstatus.details.ENGORGED" :     "You're feeling a little slow and inefficient.",
+
+  "effect.nutritionalbalance.engorged_effect": "Engorged",
+  "effect.nutritionalbalance.malnourished_effect": "Malnourished",
+  "effect.nutritionalbalance.nourished_effect": "Well Nourished",
+
   "nutritionalbalance.close" : "Close"
 }

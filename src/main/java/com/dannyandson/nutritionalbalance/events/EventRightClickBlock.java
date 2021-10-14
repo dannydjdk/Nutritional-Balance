@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CakeBlock;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,27 +17,27 @@ import java.util.List;
 
 public class EventRightClickBlock {
     @SubscribeEvent
-    public void rightClickBlock(PlayerInteractEvent.RightClickBlock event)
-    {
-        PlayerEntity player = event.getPlayer();
+    public void rightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         BlockState blockState = event.getWorld().getBlockState(event.getPos());
         Block block = blockState.getBlock();
 
         //Detect eating cake
-        if (block instanceof CakeBlock && player != null && player.canEat(false))
-        {
-            Item cakeItem = block.asItem();
+        if (block instanceof CakeBlock) {
+            PlayerEntity player = event.getPlayer();
+            if (player instanceof ServerPlayerEntity && player.canEat(false)) {
+                Item cakeItem = block.asItem();
 
-            player.getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
-                List<Nutrient> nutrients = WorldNutrients.getNutrients(cakeItem,player.level);
-                for (Nutrient nutrient:nutrients) {
-                    //hardcoding cake to 2.4 effective food quality per Minecraft wiki. No way to query for this.
-                    float nutrientunits=2.4f * Config.NUTRIENT_INCREMENT_RATE.get().floatValue() / nutrients.size();
-                    inutritionalbalancePlayer.getPlayerNutrientByName(nutrient.name).changeValue(nutrientunits);
+                player.getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
+                    List<Nutrient> nutrients = WorldNutrients.getNutrients(cakeItem, player.level);
+                    for (Nutrient nutrient : nutrients) {
+                        //hardcoding cake to 2.4 effective food quality per Minecraft wiki. No way to query for this.
+                        float nutrientunits = 2.4f * Config.NUTRIENT_INCREMENT_RATE.get().floatValue() / nutrients.size();
+                        inutritionalbalancePlayer.getPlayerNutrientByName(nutrient.name).changeValue(nutrientunits);
 
-                }
-            });
+                    }
+                });
 
+            }
         }
     }
 }

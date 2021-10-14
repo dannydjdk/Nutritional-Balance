@@ -41,6 +41,7 @@ public class Config {
     public static ForgeConfigSpec.IntValue NUTRIENT_BUTTON_X;
     public static ForgeConfigSpec.IntValue NUTRIENT_BUTTON_Y;
     public static ForgeConfigSpec.BooleanValue NUTRIENT_BUTTON_ENABLED;
+    public static ForgeConfigSpec.BooleanValue SHOW_THRESHOLD_TOAST;
 
 
     static {
@@ -155,10 +156,15 @@ public class Config {
         NUTRIENT_BUTTON_X = CLIENT_BUILDER.comment("X Offset of nutrition button relative to the upper left corner of the player inventory screen. (default:131)")
                 .defineInRange("nutrient_button_x",131,0,512);
         NUTRIENT_BUTTON_Y = CLIENT_BUILDER.comment("Y Offset of nutrition button relative to the upper left corner of the player inventory screen. (default:61)")
-                .defineInRange("nutrient_button_y",61,0,512);;
+                .defineInRange("nutrient_button_y",61,0,512);
 
+        CLIENT_BUILDER.pop();
 
-        CLIENT_BUILDER.pop().pop();
+        SHOW_THRESHOLD_TOAST = CLIENT_BUILDER.comment("Show a Toast notification when player nutrition status changes. (default:true)")
+                        .define("show_threshold_toast",true);
+
+        CLIENT_BUILDER.pop();
+
         CLIENT_CONFIG = CLIENT_BUILDER.build();
     }
 

@@ -21,7 +21,7 @@ public class CommandSyncClient implements Command<CommandSource> {
     public int run(CommandContext<CommandSource> context) throws CommandSyntaxException {
         final PlayerSync[] playerSync = new PlayerSync[1];
         context.getSource().getEntity().getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
-            playerSync[0] = new PlayerSync(new ResourceLocation(NutritionalBalance.MODID, "playersync"),inutritionalbalancePlayer);
+            playerSync[0] = new PlayerSync(inutritionalbalancePlayer);
         });
         ModNetworkHandler.sendToClient(playerSync[0], context.getSource().getPlayerOrException());
         return 0;
