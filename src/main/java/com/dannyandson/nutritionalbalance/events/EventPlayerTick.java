@@ -1,5 +1,6 @@
 package com.dannyandson.nutritionalbalance.events;
 
+import com.dannyandson.nutritionalbalance.Config;
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
@@ -28,9 +29,9 @@ public class EventPlayerTick {
         if (event.phase==TickEvent.Phase.END) {
                 Player playerEntity = event.player;
                 INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(playerEntity);
-                float playerSaturation = playerEntity.getFoodData().getSaturationLevel();
 
                 if (!playerEntity.level.isClientSide) {
+                    float playerSaturation = playerEntity.getFoodData().getSaturationLevel();
                     int playerFoodLevel = playerEntity.getFoodData().getFoodLevel();
                     float foodpoints = playerSaturation + playerFoodLevel;
                     iNutritionalBalancePlayer.processSaturationChange(foodpoints);
@@ -82,8 +83,8 @@ public class EventPlayerTick {
                     if (playerEntity.level.isClientSide()) {
 
                         //playerEntity.sendStatusMessage(ITextComponent.getTextComponentOrEmpty(I18n.format("nutritionalbalance.nutrientstatus.msg." + currentStatus.name())), true);
-                        ClientHelpers.showStatusToast(currentStatus.name());
-
+                        if (Config.SHOW_THRESHOLD_TOAST.get())
+                            ClientHelpers.showStatusToast(currentStatus.name());
 
                     } else {
 

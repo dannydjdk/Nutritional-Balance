@@ -33,7 +33,7 @@ public class NutrientGUI extends Screen {
         //max width of columns (not including border)
         int maxColumnWidth = 10;
         //height of columns (not including border)
-        int columnHeight = 95;
+        int columnHeight = 85;
         //colors (in hex aRGB) - consider making these configurable
         int colorColumnBackground = 0x00000000;
         int colorNutrientValueFill = 0xFF0033FF;
@@ -48,6 +48,23 @@ public class NutrientGUI extends Screen {
         addRenderableWidget(new Button(relX + 85, relY + 130, 80, 20, new TranslatableComponent("nutritionalbalance.close"), button -> close()));
         addRenderableWidget(new ModWidget(relX, relY + 5, WIDTH, 10, new TranslatableComponent("nutritionalbalance.nutrients"), 0xFF000000).setTextHAlignment(ModWidget.HAlignment.CENTER).setTextVAlignment(ModWidget.VAlignment.TOP));
 
+        TranslatableComponent message;
+        int messageColor;
+        if (inutritionalbalancePlayer.getCachedStatus()== IPlayerNutrient.NutrientStatus.ON_TARGET){
+            message = new TranslatableComponent("nutritionalbalance.nutrientstatus.details.ON_TARGET");
+            messageColor = 0xFF008800;
+        } else if (inutritionalbalancePlayer.getCachedStatus()== IPlayerNutrient.NutrientStatus.ENGORGED){
+            message = new TranslatableComponent("nutritionalbalance.nutrientstatus.details.ENGORGED");
+            messageColor = 0xFF880000;
+        } else if (inutritionalbalancePlayer.getCachedStatus()== IPlayerNutrient.NutrientStatus.MALNOURISHED){
+            message = new TranslatableComponent("nutritionalbalance.nutrientstatus.details.MALNOURISHED");
+            messageColor = 0xFF880000;
+        } else {
+            message = new TranslatableComponent("nutritionalbalance.nutrientstatus.details.SAFE");
+            messageColor = 0xFF004400;
+        }
+
+        addRenderableWidget(new ModWidget(relX,relY+16,WIDTH,10, message,messageColor).setTextHAlignment(ModWidget.HAlignment.CENTER).setTextVAlignment(ModWidget.VAlignment.TOP));
 
         //determine how much space is available to draw each nutrient column
         int nutrientcount = inutritionalbalancePlayer.getPlayerNutrients().size();
@@ -59,7 +76,7 @@ public class NutrientGUI extends Screen {
             //columnBlockRelX stores the x value of the column block currently being drawn
             int columnBlockRelX = relX + 5 + (nBlockWidth * (nutrientcount - 1));
             //columnDrawY stores the Y offset at which nutrient columns will be drawn
-            int columnDrawY = relY + 19;
+            int columnDrawY = relY + 30;
 
             int engorged_bottom = Math.round((Config.NUTRIENT_MAX.get().floatValue() - Config.NUTRIENT_ENGORGED.get().floatValue()) / Config.NUTRIENT_MAX.get().floatValue() * columnHeight);
             int target_top = Math.round((Config.NUTRIENT_MAX.get().floatValue() - Config.NUTRIENT_TARGET_HIGH.get().floatValue()) / Config.NUTRIENT_MAX.get().floatValue() * columnHeight);

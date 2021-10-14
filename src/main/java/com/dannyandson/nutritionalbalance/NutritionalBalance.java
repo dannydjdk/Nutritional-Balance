@@ -43,7 +43,7 @@ public class NutritionalBalance
     public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MODID);
     public static final RegistryObject<MobEffect> NOURISHED_EFFECT = EFFECTS.register("nourished_effect", ModMobAffects.Nourished::new);
     public static final RegistryObject<MobEffect> MALNOURISHED_EFFECT = EFFECTS.register("malnourished_effect", ModMobAffects.MalNourished::new);
-    public static final RegistryObject<MobEffect> ENGORGED_EFFECT = EFFECTS.register("engorged_effect", ModMobAffects.Nourished::new);
+    public static final RegistryObject<MobEffect> ENGORGED_EFFECT = EFFECTS.register("engorged_effect", ModMobAffects.Engorged::new);
 
     public NutritionalBalance() {
 
