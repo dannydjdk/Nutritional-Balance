@@ -13,8 +13,8 @@ public class EventUseItem {
     public void onUseItemFinish(LivingEntityUseItemEvent.Finish event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             Item item = event.getItem().getItem();
-            INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(player);
             if (item.getFoodProperties() != null) {
+                INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(player);
                 iNutritionalBalancePlayer.consume(event.getItem(), event.getEntity().level);
                 PlayerNutritionData.getWorldNutritionData().setDirty();
             }

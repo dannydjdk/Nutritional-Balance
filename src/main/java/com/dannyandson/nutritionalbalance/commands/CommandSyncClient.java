@@ -1,6 +1,5 @@
 package com.dannyandson.nutritionalbalance.commands;
 
-import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
 import com.dannyandson.nutritionalbalance.network.PlayerSync;
@@ -12,7 +11,6 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
 public class CommandSyncClient implements Command<CommandSourceStack> {
@@ -24,7 +22,7 @@ public class CommandSyncClient implements Command<CommandSourceStack> {
         final PlayerSync[] playerSync = new PlayerSync[1];
         if (context.getSource().getEntity() instanceof Player player) {
             INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(player);
-            playerSync[0] = new PlayerSync(new ResourceLocation(NutritionalBalance.MODID, "playersync"), iNutritionalBalancePlayer);
+            playerSync[0] = new PlayerSync(iNutritionalBalancePlayer);
             ModNetworkHandler.sendToClient(playerSync[0], context.getSource().getPlayerOrException());
         }
         return 0;

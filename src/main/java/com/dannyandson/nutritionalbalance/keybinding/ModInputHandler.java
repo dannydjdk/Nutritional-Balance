@@ -1,6 +1,7 @@
 package com.dannyandson.nutritionalbalance.keybinding;
 
-import com.dannyandson.nutritionalbalance.gui.NutrientGUI;
+import com.dannyandson.nutritionalbalance.network.GUITrigger;
+import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -10,7 +11,7 @@ public class ModInputHandler {
        // NutritionalBalance.LOGGER.info("Key pressed:" + event.getKey());
         if (ModKeyBindings.keyBindings.get("nutrientgui").isDown())
         {
-            NutrientGUI.open();
+            ModNetworkHandler.sendToServer(new GUITrigger());
         }
     }
 }

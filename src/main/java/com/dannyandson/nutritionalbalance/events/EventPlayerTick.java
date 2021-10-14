@@ -6,10 +6,6 @@ import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
 import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
 import com.dannyandson.nutritionalbalance.network.PlayerSync;
 import com.dannyandson.nutritionalbalance.nutrients.PlayerNutritionData;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.toasts.SystemToast;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
@@ -86,17 +82,12 @@ public class EventPlayerTick {
                     if (playerEntity.level.isClientSide()) {
 
                         //playerEntity.sendStatusMessage(ITextComponent.getTextComponentOrEmpty(I18n.format("nutritionalbalance.nutrientstatus.msg." + currentStatus.name())), true);
-                        Minecraft.getInstance().getToasts().addToast(
-                                new SystemToast(
-                                        SystemToast.SystemToastIds.TUTORIAL_HINT,
-                                        new TranslatableComponent("nutritionalbalance.nutrientstatus." + currentStatus.name()),
-                                        new TranslatableComponent("nutritionalbalance.nutrientstatus.msg." + currentStatus.name()))
-                        );
+                        ClientHelpers.showStatusToast(currentStatus.name());
 
 
                     } else {
 
-                        PlayerSync playerSync = new PlayerSync(new ResourceLocation(NutritionalBalance.MODID, "playersync"), iNutritionalBalancePlayer);
+                        PlayerSync playerSync = new PlayerSync(iNutritionalBalancePlayer);
                         ModNetworkHandler.sendToClient(playerSync, (ServerPlayer) playerEntity);
 
                     }
