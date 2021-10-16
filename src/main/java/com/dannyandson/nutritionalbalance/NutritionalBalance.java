@@ -1,5 +1,6 @@
 package com.dannyandson.nutritionalbalance;
 
+import com.dannyandson.nutritionalbalance.commands.CommandSetNutrient;
 import com.dannyandson.nutritionalbalance.effects.ModMobAffects;
 import com.dannyandson.nutritionalbalance.nutrients.PlayerNutritionData;
 import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
@@ -8,6 +9,7 @@ import com.dannyandson.nutritionalbalance.events.*;
 import com.dannyandson.nutritionalbalance.keybinding.ModInputHandler;
 import com.dannyandson.nutritionalbalance.keybinding.ModKeyBindings;
 import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
+import net.minecraft.commands.synchronization.ArgumentTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -74,6 +76,7 @@ public class NutritionalBalance
     private void setup(final FMLCommonSetupEvent event)
     {
         ModNetworkHandler.registerMessages();
+        ArgumentTypes.register(MODID + ":nutrient_string_argument" , CommandSetNutrient.NutrientStringArgumentType.class, new CommandSetNutrient.NutrientStringArgumentType.Serializer());
     }
 
 
