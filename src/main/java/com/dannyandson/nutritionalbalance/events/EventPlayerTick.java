@@ -20,8 +20,6 @@ Call on finish eating event and reset the saturation value after eating.
 
 public class EventPlayerTick {
 
-    private int i = 0;
-
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event)
     {
@@ -37,10 +35,13 @@ public class EventPlayerTick {
                 });
             }
 
-            if (i >= 200) {
+            if (event.player.tickCount % 200 == 0) {
                 playerEntity.getCapability(CapabilityNutritionalBalancePlayer.HEALTHY_DIET_PLAYER_CAPABILITY).ifPresent(inutritionalbalancePlayer -> {
                     IPlayerNutrient.NutrientStatus cachedStatus = inutritionalbalancePlayer.getCachedStatus();
                     IPlayerNutrient.NutrientStatus currentStatus = inutritionalbalancePlayer.getStatus();
+                   
+                    if(!playerEntity.level.isClientSide){
+                    
                     EffectInstance nourished = playerEntity.getEffect(NutritionalBalance.NOURISHED_EFFECT.get()),
                             malnourished = playerEntity.getEffect(NutritionalBalance.MALNOURISHED_EFFECT.get()),
                             engorged = playerEntity.getEffect(NutritionalBalance.ENGORGED_EFFECT.get());
@@ -77,6 +78,7 @@ public class EventPlayerTick {
                         if (engorged != null)
                             playerEntity.removeEffect(NutritionalBalance.ENGORGED_EFFECT.get());
                     }
+                    }
 
                     if (cachedStatus != currentStatus) {
                         if (playerEntity.level.isClientSide()) {
@@ -93,9 +95,8 @@ public class EventPlayerTick {
                     }
                 });
 
-                i = 0;
+            
             }
-            i++;
         }
     }
 }
