@@ -3,7 +3,6 @@ package com.dannyandson.nutritionalbalance;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 import java.util.*;
@@ -17,6 +16,9 @@ public class Config {
     public static final String CATEGORY_GENERAL = "general";
     public static final String CATEGORY_NUTRIENT_LEVELS = "nutrient_levels";
     public static final String CATEGORY_EFFECTS = "nutrition_affects";
+    public static final String CATEGORY_EFFECTS_NOURISHED = "nourished_affects";
+    public static final String CATEGORY_EFFECTS_MALNOURISHED = "malnourished_affects";
+    public static final String CATEGORY_EFFECTS_ENGORGED = "engorged_affects";
     public static final String CATEGORY_FOODS = "nutrient_foods";
 
     //Server config values
@@ -44,6 +46,27 @@ public class Config {
     public static ForgeConfigSpec.BooleanValue NUTRIENT_BUTTON_ENABLED;
     public static ForgeConfigSpec.BooleanValue SHOW_THRESHOLD_TOAST;
 
+    //common config
+    public static ForgeConfigSpec.DoubleValue NOURISHED_MAX_HEALTH;
+    public static ForgeConfigSpec.DoubleValue NOURISHED_KNOCKBACK_RESISTANCE;
+    public static ForgeConfigSpec.DoubleValue NOURISHED_MOVEMENT_SPEED;
+    public static ForgeConfigSpec.DoubleValue NOURISHED_ATTACK_DAMAGE;
+    public static ForgeConfigSpec.DoubleValue NOURISHED_ATTACK_KNOCKBACK;
+    public static ForgeConfigSpec.DoubleValue NOURISHED_ATTACK_SPEED;
+
+    public static ForgeConfigSpec.DoubleValue MALNOURISHED_MAX_HEALTH;
+    public static ForgeConfigSpec.DoubleValue MALNOURISHED_KNOCKBACK_RESISTANCE;
+    public static ForgeConfigSpec.DoubleValue MALNOURISHED_MOVEMENT_SPEED;
+    public static ForgeConfigSpec.DoubleValue MALNOURISHED_ATTACK_DAMAGE;
+    public static ForgeConfigSpec.DoubleValue MALNOURISHED_ATTACK_KNOCKBACK;
+    public static ForgeConfigSpec.DoubleValue MALNOURISHED_ATTACK_SPEED;
+
+    public static ForgeConfigSpec.DoubleValue ENGORGED_MAX_HEALTH;
+    public static ForgeConfigSpec.DoubleValue ENGORGED_KNOCKBACK_RESISTANCE;
+    public static ForgeConfigSpec.DoubleValue ENGORGED_MOVEMENT_SPEED;
+    public static ForgeConfigSpec.DoubleValue ENGORGED_ATTACK_DAMAGE;
+    public static ForgeConfigSpec.DoubleValue ENGORGED_ATTACK_KNOCKBACK;
+    public static ForgeConfigSpec.DoubleValue ENGORGED_ATTACK_SPEED;
 
     static {
         ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
@@ -82,6 +105,51 @@ public class Config {
         goodnutrients.add("vegetables");
         GOOD_NUTRIENTS = SERVER_BUILDER.comment("List of nutrients which only give good effects, are not required for a balanced diet and do not cause engorgement. You can eat as much as you want (default:vegetables).")
                 .define("effect_good_nutrients",goodnutrients);
+
+        SERVER_BUILDER.comment("Nourished Effects - effects to apply when the player reaches all nutrient targets.").push(CATEGORY_EFFECTS_NOURISHED);
+        NOURISHED_MAX_HEALTH = SERVER_BUILDER.comment("Max Health - number of health points (1/2 hearts) to add or subtract. (default: 10.0)")
+                .defineInRange("nourished_max_health",10d,-40d,40d);
+        NOURISHED_KNOCKBACK_RESISTANCE = SERVER_BUILDER.comment("Knockback Resistance - knockback resistance to add. 1.0 is 100%. (default: 0.0)")
+                .defineInRange("nourished_knockback_resistance",0d,0d,1d);
+        NOURISHED_MOVEMENT_SPEED = SERVER_BUILDER.comment("Movement Speed - increase or reduce player movement speed. Speed I is 0.2. Slowness I is -0.15. (default: 0.2)")
+                .defineInRange("nourished_movement_speed", 0.2d,-0.7d,2.0d);
+        NOURISHED_ATTACK_DAMAGE = SERVER_BUILDER.comment("Attack Damage - increase or reduce attack damage caused by player. Strength I is 0.2. Weakness I is -0.15. (default: 0.2)")
+                .defineInRange("nourished_attack_damage",0.2d,-2.0d, 4.0d);
+        NOURISHED_ATTACK_KNOCKBACK  = SERVER_BUILDER.comment("Attack Knockback - increase the amount of knockback caused by the player. (default: 0.0)")
+                .defineInRange("nourished_knockback", 0d,0d,4d);
+        NOURISHED_ATTACK_SPEED = SERVER_BUILDER.comment("Mining Speed - increase or decrease mining speed of the player. Haste I is 0.1. Mining Fatique I is -0.1. (default: 0.1)")
+                .defineInRange("nourished_mining_speed",0.1d,-4.0d,4.0d);
+        SERVER_BUILDER.pop();
+
+        SERVER_BUILDER.comment("Malnourished Effects").push(CATEGORY_EFFECTS_MALNOURISHED);
+        MALNOURISHED_MAX_HEALTH = SERVER_BUILDER.comment("Max Health - number of health points (1/2 hearts) to add or subtract. (default: -4.0)")
+                .defineInRange("malnourished_max_health",-4d,-40d,40d);
+        MALNOURISHED_KNOCKBACK_RESISTANCE = SERVER_BUILDER.comment("Knockback Resistance - knockback resistance to add. 1.0 is 100%. (default: 0.0)")
+                .defineInRange("malnourished_knockback_resistance",0d,0d,1d);
+        MALNOURISHED_MOVEMENT_SPEED = SERVER_BUILDER.comment("Movement Speed - increase or reduce player movement speed. Speed I is 0.2. Slowness I is -0.15. (default: -0.15)")
+                .defineInRange("malnourished_movement_speed", -0.15d,-0.7d,2.0d);
+        MALNOURISHED_ATTACK_DAMAGE = SERVER_BUILDER.comment("Attack Damage - increase or reduce attack damage caused by player. Strength I is 0.2. Weakness I is -0.15. (default: -0.15)")
+                .defineInRange("malnourished_attack_damage",-0.15d,-2.0d, 4.0d);
+        MALNOURISHED_ATTACK_KNOCKBACK  = SERVER_BUILDER.comment("Attack Knockback - increase the amount of knockback caused by the player. (default: 0.0)")
+                .defineInRange("malnourished_knockback", 0d,0d,4d);
+        MALNOURISHED_ATTACK_SPEED = SERVER_BUILDER.comment("Mining Speed - increase or decrease mining speed of the player. Haste I is 0.1. Mining Fatique I is -0.1. (default: 0.0)")
+                .defineInRange("malnourished_mining_speed",0.0d,-4.0d,4.0d);
+        SERVER_BUILDER.pop();
+
+        SERVER_BUILDER.comment("Engorged Effects").push(CATEGORY_EFFECTS_ENGORGED);
+        ENGORGED_MAX_HEALTH = SERVER_BUILDER.comment("Max Health - number of health points (1/2 hearts) to add or subtract. (default: 0.0)")
+                .defineInRange("engorged_max_health",0d,-40d,40d);
+        ENGORGED_KNOCKBACK_RESISTANCE = SERVER_BUILDER.comment("Knockback Resistance - knockback resistance to add. 1.0 is 100%. (default: 0.0)")
+                .defineInRange("engorged_knockback_resistance",0d,0d,1d);
+        ENGORGED_MOVEMENT_SPEED = SERVER_BUILDER.comment("Movement Speed - increase or reduce player movement speed. Speed I is 0.2. Slowness I is -0.15. (default: -0.15)")
+                .defineInRange("engorged_movement_speed", -0.15d,-0.7d,2.0d);
+        ENGORGED_ATTACK_DAMAGE = SERVER_BUILDER.comment("Attack Damage - increase or reduce attack damage caused by player. Strength I is 0.2. Weakness I is -0.15. (default: 0.0)")
+                .defineInRange("engorged_attack_damage",0.0d,-2.0d, 4.0d);
+        ENGORGED_ATTACK_KNOCKBACK  = SERVER_BUILDER.comment("Attack Knockback - increase the amount of knockback caused by the player. (default: 0.0)")
+                .defineInRange("engorged_knockback", 0d,0d,4d);
+        ENGORGED_ATTACK_SPEED = SERVER_BUILDER.comment("Mining Speed - increase or decrease mining speed of the player. Haste I is 0.1. Mining Fatique I is -0.1. (default: -0.1)")
+                .defineInRange("engorged_mining_speed",-0.1d,-4.0d,4.0d);
+        SERVER_BUILDER.pop();
 
         SERVER_BUILDER.pop();
 
@@ -157,7 +225,7 @@ public class Config {
         NUTRIENT_BUTTON_X = CLIENT_BUILDER.comment("X Offset of nutrition button relative to the upper left corner of the player inventory screen. (default:131)")
                 .defineInRange("nutrient_button_x",131,0,512);
         NUTRIENT_BUTTON_Y = CLIENT_BUILDER.comment("Y Offset of nutrition button relative to the upper left corner of the player inventory screen. (default:61)")
-                .defineInRange("nutrient_button_y",61,0,512);;
+                .defineInRange("nutrient_button_y",61,0,512);
 
 
         CLIENT_BUILDER.pop();
@@ -167,6 +235,7 @@ public class Config {
 
         CLIENT_BUILDER.pop();
         CLIENT_CONFIG = CLIENT_BUILDER.build();
+
     }
 
     @SubscribeEvent

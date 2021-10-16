@@ -41,9 +41,9 @@ public class NutritionalBalance
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
     public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MODID);
-    public static final RegistryObject<MobEffect> NOURISHED_EFFECT = EFFECTS.register("nourished_effect", ModMobAffects.Nourished::new);
-    public static final RegistryObject<MobEffect> MALNOURISHED_EFFECT = EFFECTS.register("malnourished_effect", ModMobAffects.MalNourished::new);
-    public static final RegistryObject<MobEffect> ENGORGED_EFFECT = EFFECTS.register("engorged_effect", ModMobAffects.Engorged::new);
+    public static final RegistryObject<ModMobAffects.Nourished> NOURISHED_EFFECT = EFFECTS.register("nourished_effect", ModMobAffects.Nourished::new);
+    public static final RegistryObject<ModMobAffects.MalNourished> MALNOURISHED_EFFECT = EFFECTS.register("malnourished_effect", ModMobAffects.MalNourished::new);
+    public static final RegistryObject<ModMobAffects.Engorged> ENGORGED_EFFECT = EFFECTS.register("engorged_effect", ModMobAffects.Engorged::new);
 
     public NutritionalBalance() {
 
@@ -99,6 +99,10 @@ public class NutritionalBalance
     public void onReload(AddReloadListenerEvent event)
     {
         WorldNutrients.register();
+
+        NOURISHED_EFFECT.get().setAttributes();
+        MALNOURISHED_EFFECT.get().setAttributes();
+        ENGORGED_EFFECT.get().setAttributes();
     }
 
 }
