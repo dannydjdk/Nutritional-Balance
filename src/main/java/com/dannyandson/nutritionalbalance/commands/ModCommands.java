@@ -14,6 +14,8 @@ public class ModCommands {
                         .then(CommandGetNutrients.register(dispatcher))
                         .then(CommandSyncClient.register(dispatcher))
                         .then(CommandGetUnassignedFoods.register(dispatcher))
+                        .then(CommandResetPlayerEffects.register(dispatcher))
+                        .then(CommandSetNutrient.register(dispatcher))
         );
         dispatcher.register(Commands.literal("nb").redirect(cmdHD));
     }

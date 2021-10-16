@@ -1,8 +1,10 @@
 package com.dannyandson.nutritionalbalance.effects;
 
 import com.dannyandson.nutritionalbalance.Config;
+import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;
 
@@ -93,6 +95,16 @@ public class ModMobAffects {
                 addAttributeModifier(Attributes.ATTACK_SPEED, "f812363c-2e1b-11ec-8d3d-0242ac130005", Config.ENGORGED_ATTACK_SPEED.get(), AttributeModifier.Operation.MULTIPLY_TOTAL);
             }
         }
+    }
+
+    public static void resetPlayerEffects(PlayerEntity player){
+        if (player.getEffect(NutritionalBalance.NOURISHED_EFFECT.get()) != null)
+            player.removeEffect(NutritionalBalance.NOURISHED_EFFECT.get());
+        if (player.getEffect(NutritionalBalance.MALNOURISHED_EFFECT.get()) != null)
+            player.removeEffect(NutritionalBalance.MALNOURISHED_EFFECT.get());
+        if (player.getEffect(NutritionalBalance.ENGORGED_EFFECT.get()) != null)
+            player.removeEffect(NutritionalBalance.ENGORGED_EFFECT.get());
+
     }
 
 }

@@ -1,5 +1,6 @@
 package com.dannyandson.nutritionalbalance;
 
+import com.dannyandson.nutritionalbalance.commands.CommandSetNutrient;
 import com.dannyandson.nutritionalbalance.effects.ModMobAffects;
 import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
 import com.dannyandson.nutritionalbalance.capabilities.CapabilityNutritionalBalancePlayer;
@@ -9,6 +10,7 @@ import com.dannyandson.nutritionalbalance.events.*;
 import com.dannyandson.nutritionalbalance.keybinding.ModInputHandler;
 import com.dannyandson.nutritionalbalance.keybinding.ModKeyBindings;
 import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
+import net.minecraft.command.arguments.ArgumentTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.potion.Effect;
 import net.minecraftforge.common.MinecraftForge;
@@ -72,6 +74,7 @@ public class NutritionalBalance
         CapabilityNutritionalBalancePlayer.register();
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class,NutrientEventHandler::onAttachCapabilitiesEvent);
         ModNetworkHandler.registerMessages();
+        ArgumentTypes.register(MODID + ":nutrient_string_argument" , CommandSetNutrient.NutrientStringArgumentType.class, new CommandSetNutrient.NutrientStringArgumentType.Serializer());
     }
 
     private void registerCommands(RegisterCommandsEvent event) {
