@@ -3,7 +3,7 @@
 
   "nutritionalbalance.nutrients" : "Питание",
 
-  "nutritionalbalance.nutrient.proteins" : "Питательность",
+  "nutritionalbalance.nutrient.proteins" : "Белки",
   "nutritionalbalance.nutrient.carbs" : "Углеводы",
   "nutritionalbalance.nutrient.dairy" : "Молочки",
   "nutritionalbalance.nutrient.fruits" : "Фрукты",
@@ -13,7 +13,7 @@
   "nutritionalbalance.nutrientstatus.MALNOURISHED" : "Истощение",
   "nutritionalbalance.nutrientstatus.SAFE" : "Безопасно",
   "nutritionalbalance.nutrientstatus.ON_TARGET" : "Цель",
-  "nutritionalbalance.nutrientstatus.ENGORGED" : "Проглоченный",
+  "nutritionalbalance.nutrientstatus.ENGORGED" : "Прожорливый",
 
   "nutritionalbalance.nutrientstatus.msg.MALNOURISHED" : "Вы истощены.",
   "nutritionalbalance.nutrientstatus.msg.SAFE" :         "Ваша диета приличная.",
@@ -25,7 +25,7 @@
   "nutritionalbalance.nutrientstatus.details.ON_TARGET" :    "Вы чувствуйте себя сильным, быстрым и рукастым",
   "nutritionalbalance.nutrientstatus.details.ENGORGED" :     "Вы чувствуйте себя слабым и менее эффективным",
 
-  "effect.nutritionalbalance.engorged_effect": "Проглоченный",
+  "effect.nutritionalbalance.engorged_effect": "Прожорливый",
   "effect.nutritionalbalance.malnourished_effect": "Истощенный",
   "effect.nutritionalbalance.nourished_effect": "Откормленный",
 
