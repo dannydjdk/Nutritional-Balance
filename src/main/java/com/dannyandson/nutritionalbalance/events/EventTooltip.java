@@ -5,6 +5,7 @@ import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import net.minecraft.block.CakeBlock;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -56,7 +57,7 @@ public class EventTooltip {
                     }
 
                     event.getToolTip().add(ITextComponent.nullToEmpty(
-                            "Nutrients: " + stringJoiner.toString() + NUvalue
+                            "§7" + I18n.get("nutritionalbalance.nutrients") + ": §2" + stringJoiner.toString() + "§7" + NUvalue + "§r"
                     ));
 
                 }
