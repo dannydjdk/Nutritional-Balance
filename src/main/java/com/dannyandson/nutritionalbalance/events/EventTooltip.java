@@ -4,6 +4,7 @@ import com.dannyandson.nutritionalbalance.nutrients.Nutrient;
 import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -56,7 +57,7 @@ public class EventTooltip {
                     }
 
                     event.getToolTip().add(Component.nullToEmpty(
-                            "Nutrients: " + stringJoiner.toString() + NUvalue
+                           "§7" +I18n.get("nutritionalbalance.nutrients") + ": §2" + stringJoiner.toString() + "§7" + NUvalue + "§r"
                     ));
 
                 }
