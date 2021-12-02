@@ -2,7 +2,7 @@ package com.dannyandson.nutritionalbalance.keybinding;
 
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import net.minecraft.client.KeyMapping;
-import net.minecraftforge.fmlclient.registry.ClientRegistry;
+import net.minecraftforge.client.ClientRegistry;
 
 import java.util.HashMap;
 import java.util.Map;
