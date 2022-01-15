@@ -5,15 +5,19 @@ import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import net.minecraft.block.CakeBlock;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -61,6 +65,20 @@ public class EventTooltip {
                     ));
 
                 }
+
+                if (event.getPlayer()!=null && event.getPlayer().getDisplayName().getString().equals("Dev") && Minecraft.getInstance().options.advancedItemTooltips)
+                    if (Screen.hasShiftDown()) {
+                        Collection<ResourceLocation> tags = ItemTags.getAllTags().getMatchingTags(itemStack.getItem());
+                        for (ResourceLocation tag : tags) {
+                            event.getToolTip().add(ITextComponent.nullToEmpty("#" + tag.toString()));
+                        }
+
+                        if (itemStack.getTag() != null) {
+                            event.getToolTip().add(ITextComponent.nullToEmpty(itemStack.getTag().toString()));
+                        }
+                    } else {
+                        event.getToolTip().add(ITextComponent.nullToEmpty("§8--Hold shift for tag info--§r"));
+                    }
 
             }catch (Exception e)
             {

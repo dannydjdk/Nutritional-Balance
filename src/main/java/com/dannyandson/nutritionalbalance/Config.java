@@ -164,7 +164,8 @@ public class Config {
 
         String[] vegetables = {
                 "#minecraft:flowers",
-                "#forge:vegetables"
+                "#forge:vegetables",
+                "#nourish:vegetables"
         };
         List<String> vegetableList = new ArrayList<>();
         vegetableList.addAll(Arrays.asList(vegetables));
@@ -174,7 +175,8 @@ public class Config {
 
         String[] carbs = {
                 "#forge:carbs",
-                "#forge:grain"
+                "#forge:grain",
+                "#nourish:carbohydrates"
         };
         List<String> carbList = new ArrayList<>();
         carbList.addAll(Arrays.asList(carbs));
@@ -182,7 +184,7 @@ public class Config {
                 .define("carbs_item_list",carbList);
 
         String[] sugars = {
-
+                "#nourish:sweets"
         };
         List<String> sugarsList = new ArrayList<>();
         sugarsList.addAll(Arrays.asList(sugars));
@@ -193,7 +195,8 @@ public class Config {
                 "#forge:protein",
                 "#forge:milk",
                 "#forge:yogurt",
-                "#forge:nuts"
+                "#forge:nuts",
+                "#nourish:protein"
         };
         List<String> proteinsList = new ArrayList<>();
         proteinsList.addAll(Arrays.asList(proteins));
@@ -201,7 +204,8 @@ public class Config {
                 .define("protein_item_list",proteinsList);
 
         String[] fruits = {
-                "#forge:fruits"
+                "#forge:fruits",
+                "#nourish:fruit"
         };
         List<String> fruitsList = new ArrayList<>();
         fruitsList.addAll(Arrays.asList(fruits));
