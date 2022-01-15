@@ -4,8 +4,11 @@ import com.dannyandson.nutritionalbalance.nutrients.Nutrient;
 import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -14,6 +17,7 @@ import net.minecraft.world.level.block.CakeBlock;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -61,6 +65,21 @@ public class EventTooltip {
                     ));
 
                 }
+
+                if (event.getPlayer()!=null && event.getPlayer().getDisplayName().getString().equals("Dev") && Minecraft.getInstance().options.advancedItemTooltips)
+                    if (Screen.hasShiftDown()) {
+                        Collection<ResourceLocation> tags = ItemTags.getAllTags().getMatchingTags(itemStack.getItem());
+                        for (ResourceLocation tag : tags) {
+                            event.getToolTip().add(Component.nullToEmpty("#" + tag.toString()));
+                        }
+
+                        if (itemStack.getTag() != null) {
+                            //event.getEntity().sendMessage(itemStack.getTag().toFormattedComponent(),event.getEntity().getUniqueID());
+                            event.getToolTip().add(Component.nullToEmpty(itemStack.getTag().toString()));
+                        }
+                    } else {
+                        event.getToolTip().add(Component.nullToEmpty("§8--Hold shift for tag info--§r"));
+                    }
 
             }catch (Exception e)
             {
