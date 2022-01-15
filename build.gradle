@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.17.1-2.0.5'
+version = '1.17.1-2.0.6'
 group = 'com.dannyandson.nutritionalbalance' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'nutritionalbalance'
 def jeiFileID = '3448057'
@@ -58,7 +58,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                tinyredstone {
+                nutritionalbalance {
                     source sourceSets.main
                 }
             }
@@ -80,7 +80,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                tinyredstone {
+                nutritionalbalance {
                     source sourceSets.main
                 }
             }
@@ -102,10 +102,10 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'tinyredstone', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', 'nutritionalbalance', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                tinyredstone {
+                nutritionalbalance {
                     source sourceSets.main
                 }
             }
@@ -129,10 +129,11 @@ dependencies {
     // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft', it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.17.1-37.0.95'
+    minecraft 'net.minecraftforge:forge:1.17.1-37.1.1'
 
     implementation fg.deobf("curse.maven:jei-238222:${jeiFileID}")
     implementation fg.deobf("curse.maven:oauth-513857:${oAuthFileID}")
+    implementation fg.deobf("curse.maven:croptopia-415438:3565528")
 
 }
 
