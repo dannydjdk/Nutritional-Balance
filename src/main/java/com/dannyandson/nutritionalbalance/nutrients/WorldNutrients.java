@@ -173,7 +173,7 @@ public class WorldNutrients
     public static float getEffectiveFoodQuality(float healing, float saturation)
     {
         float saturation1 = healing * saturation *2;
-        return healing+saturation1;
+        return Math.min(healing+saturation1, Config.NUTRIENT_MAX_FOOD_VALUE.get().floatValue());
     }
 
     public static void reset() {
