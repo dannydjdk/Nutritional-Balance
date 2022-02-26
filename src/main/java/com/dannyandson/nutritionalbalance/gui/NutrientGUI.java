@@ -119,7 +119,7 @@ public class NutrientGUI extends Screen {
                 addRenderableWidget(new ModWidget(columnBlockRelX, columnDrawY, labelWidth, 10, new TranslatableComponent("nutritionalbalance.nutrient." + playerNutrient.getNutrientName()), 0xFF000000));
 
                 //fill nutrient column based on player's level of this nutrient
-                addRenderableWidget(new ModWidget(columnBlockRelX + labelWidth, columnRelY, columnWidth - nutrientValueWidth, columnHeight, colorNutrientValueFill))
+                addRenderableWidget(new ModWidget(columnBlockRelX + labelWidth, columnRelY, nutrientValueWidth, columnHeight, colorNutrientValueFill))
                         .setToolTip(Component.nullToEmpty((Math.round(playerNutrient.getValue() * 10f) / 10f) + "NU"));
 
                 //Draw lines and shading to indicate targets and "unsafe" ranges
