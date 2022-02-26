@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.18-3.0.1'
+version = '1.18-3.0.2'
 group = 'com.dannyandson.nutritionalbalance' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'nutritionalbalance'
 def jeiFileID = '3599262'
@@ -133,7 +133,7 @@ dependencies {
 
     implementation fg.deobf("curse.maven:jei-238222:${jeiFileID}")
     //implementation fg.deobf("curse.maven:oauth-513857:${oAuthFileID}")
-    implementation fg.deobf("curse.maven:croptopia-415438:3590394")
+    //implementation fg.deobf("curse.maven:croptopia-415438:3590394")
 
 }
 

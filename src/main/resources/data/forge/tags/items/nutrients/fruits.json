@@ -7,13 +7,12 @@
     "minecraft:sweet_berries",
     "minecraft:chorus_fruit",
     "minecraft:enchanted_golden_apple",
-    "minecraft:glow_berries"
-  ],
-  "optional": [
-    "simplefarming:olives",
-    "minecolonies:chorus_bread",
-    "farmersdelight:stuffed_pumpkin",
-    "farmersdelight:honey_glazed_ham",
-    "simplytea:cup_tea_chorus"
+    "minecraft:glow_berries",
+    
+    {"id":"simplefarming:olives",            "required":false},
+    {"id":"minecolonies:chorus_bread",       "required":false},
+    {"id":"farmersdelight:stuffed_pumpkin",  "required":false},
+    {"id":"farmersdelight:honey_glazed_ham", "required":false},
+    {"id":"simplytea:cup_tea_chorus",        "required":false}
   ]
 }

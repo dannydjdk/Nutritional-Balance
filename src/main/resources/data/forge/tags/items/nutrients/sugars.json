@@ -3,11 +3,10 @@
   "values": [
     "minecraft:sugar",
     "minecraft:honey_bottle",
-    "minecraft:cocoa_beans"
-  ],
-  "optional": [
-    "create:bar_of_chocolate",
-    "farmersdelight:honey_glazed_ham",
-    "pamhc2trees:maplesyrupitem"
+    "minecraft:cocoa_beans",
+    
+    {"id":"create:bar_of_chocolate",         "required":false},
+    {"id":"farmersdelight:honey_glazed_ham", "required":false},
+    {"id":"pamhc2trees:maplesyrupitem",       "required":false}
   ]
 }
