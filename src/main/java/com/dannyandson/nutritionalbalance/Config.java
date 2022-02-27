@@ -32,6 +32,8 @@ public class Config {
     public static ForgeConfigSpec.DoubleValue NUTRIENT_DECAY_RATE;
     public static ForgeConfigSpec.DoubleValue NUTRIENT_DEATH_LOSS;
 
+    public static ForgeConfigSpec.DoubleValue NUTRIENT_MAX_FOOD_VALUE;
+
     public static ForgeConfigSpec.ConfigValue<List<String>> BAD_NUTRIENTS;
     public static ForgeConfigSpec.ConfigValue<List<String>> GOOD_NUTRIENTS;
 
@@ -92,6 +94,8 @@ public class Config {
                 .defineInRange("nutrient_decay_rate",1.0,0.0,Double.MAX_VALUE);
         NUTRIENT_DEATH_LOSS = SERVER_BUILDER.comment("Nutrient Loss On Death - number of nutrition point lost from each nutrient on death (bottoms out at initial value). (default:10.0)")
                 .defineInRange("nutrient_death_loss",10.0,0.0,Double.MAX_VALUE);
+        NUTRIENT_MAX_FOOD_VALUE = SERVER_BUILDER.comment("Max food value a single food item can contain. Helps prevent OP food mods from making it impossible to keep nutrients balanced. (default:20.0)")
+                .defineInRange("nutrient_max_food_value",20.0,1.0, Double.MAX_VALUE);
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.comment("Effects").push(CATEGORY_EFFECTS);
