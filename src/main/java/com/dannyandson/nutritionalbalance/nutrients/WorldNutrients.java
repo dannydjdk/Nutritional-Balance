@@ -141,7 +141,8 @@ public class WorldNutrients
                     Collection<Recipe<?>> recipes = world.getRecipeManager().getRecipes();
 
                     for (Recipe<?> recipe : recipes) {
-                        if (recipe.getResultItem().getItem() == item) {
+                        ItemStack recipeItemStack =  recipe.getResultItem();
+                        if (recipeItemStack!=null && recipe.getResultItem().getItem() == item) {
                             NonNullList<Ingredient> ingredients = recipe.getIngredients();
                             for (Ingredient ingredient : ingredients) {
                                 ItemStack[] itemStacks = ingredient.getItems();
