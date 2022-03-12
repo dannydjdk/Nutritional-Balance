@@ -15,7 +15,7 @@ plugins {
 }
 apply plugin: 'net.minecraftforge.gradle'
 
-version = '1.18-3.1.0'
+version = '1.18.2-3.1.0'
 group = 'com.dannyandson.nutritionalbalance' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'nutritionalbalance'
 def jeiFileID = '3683240'
