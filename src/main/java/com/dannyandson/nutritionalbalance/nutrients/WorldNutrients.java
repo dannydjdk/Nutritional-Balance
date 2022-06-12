@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -98,7 +99,7 @@ public class WorldNutrients
             }
 
             //Check nutrient lists from configs
-            String itemRegistryName = item.getRegistryName().getNamespace() + ":" + item.getRegistryName().getPath();
+            String itemRegistryName = ForgeRegistries.ITEMS.getKey(item).getNamespace() + ":" + ForgeRegistries.ITEMS.getKey(item).getPath();
             if (Config.LIST_Fruits.get().contains(itemRegistryName) && !nutrientList.contains(WorldNutrients.getByName("fruits"))) {
                 Nutrient nutrient = WorldNutrients.getByName("fruits");
                 if (nutrient != null)
@@ -164,15 +165,15 @@ public class WorldNutrients
         return nutrientMap.get(item);
     }
 
-    public static float getEffectiveFoodQuality(FoodProperties foodItem)
+    public static float getEffectiveFoodQuality(FoodProperties foodItem, int numberOfNutrients)
     {
-        return getEffectiveFoodQuality(foodItem.getNutrition(),foodItem.getSaturationModifier());
+        return getEffectiveFoodQuality(foodItem.getNutrition(),foodItem.getSaturationModifier(),numberOfNutrients);
     }
 
-    public static float getEffectiveFoodQuality(float healing, float saturation)
+    public static float getEffectiveFoodQuality(float healing, float saturation, int numberOfNutrients)
     {
         float saturation1 = healing * saturation *2;
-        return Math.min(healing+saturation1, Config.NUTRIENT_MAX_FOOD_VALUE.get().floatValue());
+        return Math.min(healing+saturation1, Config.NUTRIENT_MAX_FOOD_VALUE.get().floatValue()*numberOfNutrients);
     }
 
     public static void reset() {

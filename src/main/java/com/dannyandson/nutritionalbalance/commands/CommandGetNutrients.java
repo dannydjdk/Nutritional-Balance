@@ -9,7 +9,7 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.StringJoiner;
@@ -33,7 +33,7 @@ public class CommandGetNutrients implements Command<CommandSourceStack> {
 
             stringJoiner.add("Overall Status: " + iNutritionalBalancePlayer.getStatus().name());
 
-            context.getSource().sendSuccess(new TranslatableComponent(stringJoiner.toString()), false);
+            context.getSource().sendSuccess(Component.translatable(stringJoiner.toString()), false);
 
         }
         return 0;

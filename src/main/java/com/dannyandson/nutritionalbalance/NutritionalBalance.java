@@ -9,7 +9,7 @@ import com.dannyandson.nutritionalbalance.events.*;
 import com.dannyandson.nutritionalbalance.keybinding.ModInputHandler;
 import com.dannyandson.nutritionalbalance.keybinding.ModKeyBindings;
 import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
-import net.minecraft.commands.synchronization.ArgumentTypes;
+import net.minecraft.commands.synchronization.ArgumentTypeInfos;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -31,14 +31,6 @@ import org.apache.logging.log4j.Logger;
 @Mod("nutritionalbalance")
 public class NutritionalBalance
 {
-    //TODO:
-    // Configurable feedback to player when crossing threshold and/or advancements
-    // HUD?
-    // config for affects
-    // config for colors?
-    // custom effect handling?
-    // slow down eating when engorged?
-
     public static final String MODID = "nutritionalbalance";
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
@@ -76,7 +68,7 @@ public class NutritionalBalance
     private void setup(final FMLCommonSetupEvent event)
     {
         ModNetworkHandler.registerMessages();
-        ArgumentTypes.register(MODID + ":nutrient_string_argument" , CommandSetNutrient.NutrientStringArgumentType.class, new CommandSetNutrient.NutrientStringArgumentType.Serializer());
+        ArgumentTypeInfos.registerByClass(CommandSetNutrient.NutrientStringArgumentType.class, new CommandSetNutrient.NutrientStringArgumentType.Serializer());
     }
 
 

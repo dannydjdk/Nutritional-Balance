@@ -8,7 +8,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -26,10 +26,10 @@ public class CommandGetUnassignedFoods implements Command<CommandSourceStack> {
         StringJoiner stringJoiner = new StringJoiner("\n");
         for(Item item:items) {
             if (item.getFoodProperties()!=null && WorldNutrients.getNutrients(item,context.getSource().getLevel()).size()==0)
-                stringJoiner.add(item.getRegistryName().toString());
+                stringJoiner.add(ForgeRegistries.ITEMS.getKey(item).toString());
         }
 
-        context.getSource().sendSuccess(new TranslatableComponent(stringJoiner.toString(),false),false);
+        context.getSource().sendSuccess(Component.translatable(stringJoiner.toString(),false),false);
 
         return 0;
     }

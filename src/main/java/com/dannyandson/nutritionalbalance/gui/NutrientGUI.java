@@ -12,7 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 
 public class NutrientGUI extends Screen {
@@ -26,7 +26,7 @@ public class NutrientGUI extends Screen {
 
 
     public NutrientGUI() {
-        super(new TranslatableComponent("nutritionalbalance.nutrients"));
+        super(Component.translatable("nutritionalbalance.nutrients"));
     }
 
     @Override
@@ -48,22 +48,22 @@ public class NutrientGUI extends Screen {
 
         this.inutritionalbalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(this.minecraft.player);
 
-        addRenderableWidget(new Button(relX + 85, relY + 128, 80, 20, new TranslatableComponent("nutritionalbalance.close"), button -> close()));
-        addRenderableWidget(new ModWidget(relX, relY + 5, WIDTH, 10, new TranslatableComponent("nutritionalbalance.nutrients"), 0xFF000000).setTextHAlignment(ModWidget.HAlignment.CENTER).setTextVAlignment(ModWidget.VAlignment.TOP));
+        addRenderableWidget(new Button(relX + 85, relY + 128, 80, 20, Component.translatable("nutritionalbalance.close"), button -> close()));
+        addRenderableWidget(new ModWidget(relX, relY + 5, WIDTH, 10, Component.translatable("nutritionalbalance.nutrients"), 0xFF000000).setTextHAlignment(ModWidget.HAlignment.CENTER).setTextVAlignment(ModWidget.VAlignment.TOP));
 
-        TranslatableComponent message;
+        MutableComponent message;
         int messageColor;
         if (inutritionalbalancePlayer.getCachedStatus()== IPlayerNutrient.NutrientStatus.ON_TARGET){
-            message = new TranslatableComponent("nutritionalbalance.nutrientstatus.details.ON_TARGET");
+            message = Component.translatable("nutritionalbalance.nutrientstatus.details.ON_TARGET");
             messageColor = 0xFF008800;
         } else if (inutritionalbalancePlayer.getCachedStatus()== IPlayerNutrient.NutrientStatus.ENGORGED){
-            message = new TranslatableComponent("nutritionalbalance.nutrientstatus.details.ENGORGED");
+            message = Component.translatable("nutritionalbalance.nutrientstatus.details.ENGORGED");
             messageColor = 0xFF880000;
         } else if (inutritionalbalancePlayer.getCachedStatus()== IPlayerNutrient.NutrientStatus.MALNOURISHED){
-            message = new TranslatableComponent("nutritionalbalance.nutrientstatus.details.MALNOURISHED");
+            message = Component.translatable("nutritionalbalance.nutrientstatus.details.MALNOURISHED");
             messageColor = 0xFF880000;
         } else {
-            message = new TranslatableComponent("nutritionalbalance.nutrientstatus.details.SAFE");
+            message = Component.translatable("nutritionalbalance.nutrientstatus.details.SAFE");
             messageColor = 0xFF004400;
         }
 
@@ -116,7 +116,7 @@ public class NutrientGUI extends Screen {
                 //draw background of nutrient column
                 addRenderableWidget(new ModWidget(columnBlockRelX + labelWidth, columnRelY, columnWidth, columnHeight, colorColumnBackground));
                 //draw nutrient label
-                addRenderableWidget(new ModWidget(columnBlockRelX, columnDrawY, labelWidth, 10, new TranslatableComponent("nutritionalbalance.nutrient." + playerNutrient.getNutrientName()), 0xFF000000));
+                addRenderableWidget(new ModWidget(columnBlockRelX, columnDrawY, labelWidth, 10, Component.translatable("nutritionalbalance.nutrient." + playerNutrient.getNutrientName()), 0xFF000000));
 
                 //fill nutrient column based on player's level of this nutrient
                 addRenderableWidget(new ModWidget(columnBlockRelX + labelWidth, columnRelY, nutrientValueWidth, columnHeight, colorNutrientValueFill))

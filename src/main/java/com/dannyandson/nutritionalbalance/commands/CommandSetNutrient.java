@@ -17,12 +17,14 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
+import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
-import net.minecraft.commands.synchronization.ArgumentSerializer;
+import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.server.command.EnumArgument;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +55,7 @@ public class CommandSetNutrient {
         return 0;
     }
 
-    public static class NutrientStringArgumentType implements ArgumentType<String>{
+    public static class NutrientStringArgumentType implements ArgumentType<String> {
 
         private List<String> nutrientList = new ArrayList<>();
 
@@ -73,7 +75,7 @@ public class CommandSetNutrient {
 
         @Override
         public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-            return SharedSuggestionProvider.suggest(getNutrientList(),builder);
+            return SharedSuggestionProvider.suggest(getNutrientList(), builder);
         }
 
         @Override
@@ -82,9 +84,9 @@ public class CommandSetNutrient {
         }
 
         private List<String> getNutrientList() {
-            if (nutrientList.size()==0){
+            if (nutrientList.size() == 0) {
                 List<Nutrient> nutrients = WorldNutrients.get();
-                for(Nutrient nutrient : nutrients)
+                for (Nutrient nutrient : nutrients)
                     nutrientList.add(nutrient.name);
             }
             return nutrientList;
@@ -94,27 +96,55 @@ public class CommandSetNutrient {
             this.nutrientList = nutrientList;
         }
 
-        public static class Serializer implements ArgumentSerializer<NutrientStringArgumentType>{
+        public static class Serializer implements ArgumentTypeInfo<NutrientStringArgumentType, Serializer.Template> {
 
             @Override
-            public void serializeToNetwork(NutrientStringArgumentType nutrientStringArgumentType, FriendlyByteBuf buffer) {
-                buffer.writeUtf(String.join("!!",nutrientStringArgumentType.getNutrientList()));
+            public void serializeToNetwork(Template template, FriendlyByteBuf buffer) {
+                buffer.writeUtf(String.join("!!", template.getNutrientStringArgumentType().getNutrientList()));
             }
 
             @Override
-            public NutrientStringArgumentType deserializeFromNetwork(FriendlyByteBuf buffer) {
+            public void serializeToJson(Template template, JsonObject json) {
+                json.addProperty("nutrient_string_argument", String.join("!!", template.getNutrientStringArgumentType().getNutrientList()));
+            }
+
+            @Override
+            public Template unpack(NutrientStringArgumentType nutrientStringArgumentType) {
+                return new Template(nutrientStringArgumentType);
+            }
+
+            @Override
+            public Template deserializeFromNetwork(FriendlyByteBuf buffer) {
                 List<String> nutrientList = Arrays.stream(buffer.readUtf().split("!!")).toList();
                 NutrientStringArgumentType nutrientStringArgumentType = new NutrientStringArgumentType();
                 nutrientStringArgumentType.setNutrientList(nutrientList);
-                return nutrientStringArgumentType;
+                return new Template(nutrientStringArgumentType);
             }
 
-            @Override
-            public void serializeToJson(NutrientStringArgumentType nutrientStringArgumentType, JsonObject json) {
-                json.addProperty("nutrient_string_argument",String.join("!!",nutrientStringArgumentType.getNutrientList()));
+
+            public final class Template implements ArgumentTypeInfo.Template<NutrientStringArgumentType> {
+
+                NutrientStringArgumentType nutrientStringArgumentType;
+
+                Template(NutrientStringArgumentType type) {
+                    this.nutrientStringArgumentType = type;
+                }
+
+                @Override
+                public NutrientStringArgumentType instantiate(CommandBuildContext p_235378_) {
+                    return nutrientStringArgumentType;
+                }
+
+                @Override
+                public ArgumentTypeInfo<NutrientStringArgumentType, ?> type() {
+                    return Serializer.this;
+                }
+
+                public NutrientStringArgumentType getNutrientStringArgumentType() {
+                    return nutrientStringArgumentType;
+                }
             }
+
         }
-
     }
-
 }

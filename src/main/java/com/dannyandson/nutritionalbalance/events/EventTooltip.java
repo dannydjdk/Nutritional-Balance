@@ -56,7 +56,7 @@ public class EventTooltip {
 
                     String NUvalue = "";
                     if (item.getFoodProperties() != null) {
-                        NUvalue = " (" + ((float) Math.round((WorldNutrients.getEffectiveFoodQuality(item.getFoodProperties())) * 10)) / 10 + "NU)";
+                        NUvalue = " (" + ((float) Math.round((WorldNutrients.getEffectiveFoodQuality(item.getFoodProperties(),WorldNutrients.getNutrients(item,world).size())) * 10)) / 10 + "NU)";
                     }
 
                     event.getToolTip().add(Component.nullToEmpty(
