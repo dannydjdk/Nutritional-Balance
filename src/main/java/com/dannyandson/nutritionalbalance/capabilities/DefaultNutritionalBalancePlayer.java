@@ -72,7 +72,7 @@ public class DefaultNutritionalBalancePlayer implements INutritionalBalancePlaye
         if (food!=null) {
             List<Nutrient> nutrients = WorldNutrients.getNutrients(item, world);
             for (Nutrient nutrient : nutrients) {
-                float nutrientUnits = WorldNutrients.getEffectiveFoodQuality(food) * Config.NUTRIENT_INCREMENT_RATE.get().floatValue() / nutrients.size();
+                float nutrientUnits = WorldNutrients.getEffectiveFoodQuality(food, nutrients.size()) * Config.NUTRIENT_INCREMENT_RATE.get().floatValue() / nutrients.size();
                 this.getPlayerNutrientByName(nutrient.name).changeValue(nutrientUnits);
             }
         }
@@ -81,7 +81,7 @@ public class DefaultNutritionalBalancePlayer implements INutritionalBalancePlaye
     @Override
     public void consume(List<IPlayerNutrient> nutrients, float health, float saturation) {
         for (IPlayerNutrient nutrient:nutrients) {
-            float nutrientUnits=WorldNutrients.getEffectiveFoodQuality(health,saturation) * Config.NUTRIENT_INCREMENT_RATE.get().floatValue() / nutrients.size();
+            float nutrientUnits=WorldNutrients.getEffectiveFoodQuality(health, saturation, nutrients.size()) * Config.NUTRIENT_INCREMENT_RATE.get().floatValue() / nutrients.size();
             this.getPlayerNutrientByName(nutrient.getNutrientName()).changeValue(nutrientUnits);
         }
     }

@@ -15,7 +15,7 @@ plugins {
 }
 apply plugin: 'net.minecraftforge.gradle'
 
-version = '1.18.2-3.1.0'
+version = '1.18.2-3.1.1'
 group = 'com.dannyandson.nutritionalbalance' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'nutritionalbalance'
 def jeiFileID = '3683240'
@@ -79,7 +79,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            property 'forge.enabledGameTestNamespaces', 'examplemod'
+            property 'forge.enabledGameTestNamespaces', 'nutritionalbalance'
 
             mods {
                 nutritionalbalance {
