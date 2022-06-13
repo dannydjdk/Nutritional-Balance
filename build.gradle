@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.17.1-2.0.7'
+version = '1.17.1-2.0.8'
 group = 'com.dannyandson.nutritionalbalance' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'nutritionalbalance'
 def jeiFileID = '3448057'

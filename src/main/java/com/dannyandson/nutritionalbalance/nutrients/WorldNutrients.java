@@ -165,15 +165,15 @@ public class WorldNutrients
         return nutrientMap.get(item);
     }
 
-    public static float getEffectiveFoodQuality(FoodProperties foodItem)
+    public static float getEffectiveFoodQuality(FoodProperties foodItem, int numberOfNutrients)
     {
-        return getEffectiveFoodQuality(foodItem.getNutrition(),foodItem.getSaturationModifier());
+        return getEffectiveFoodQuality(foodItem.getNutrition(), foodItem.getSaturationModifier(), numberOfNutrients);
     }
 
-    public static float getEffectiveFoodQuality(float healing, float saturation)
+    public static float getEffectiveFoodQuality(float healing, float saturation, int numberOfNutrients)
     {
         float saturation1 = healing * saturation *2;
-        return Math.min(healing+saturation1, Config.NUTRIENT_MAX_FOOD_VALUE.get().floatValue());
+        return Math.min(healing + saturation1, Config.NUTRIENT_MAX_FOOD_VALUE.get().floatValue() * numberOfNutrients);
     }
 
     public static void reset() {
