@@ -7,7 +7,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ModInputHandler {
     @SubscribeEvent
-    public void onKeyInput(InputEvent.KeyInputEvent event) {
+    public void onKeyInput(InputEvent.Key event) {
        // NutritionalBalance.LOGGER.info("Key pressed:" + event.getKey());
         if (ModKeyBindings.keyBindings.get("nutrientgui").isDown())
         {

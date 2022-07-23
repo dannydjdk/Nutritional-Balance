@@ -19,11 +19,11 @@ import java.util.List;
 public class EventRightClickBlock {
     @SubscribeEvent
     public void rightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        BlockState blockState = event.getWorld().getBlockState(event.getPos());
+        BlockState blockState = event.getLevel().getBlockState(event.getPos());
         Block block = blockState.getBlock();
 
         if (block instanceof CakeBlock) {
-            Player player = event.getPlayer();
+            Player player = event.getEntity();
             //Detect eating cake
             if (player instanceof ServerPlayer && player.canEat(false)) {
                 INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(player);

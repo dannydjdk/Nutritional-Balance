@@ -107,4 +107,11 @@ public class ModMobAffects {
 
     }
 
+    public static void loadModEffects() {
+        NutritionalBalance.NOURISHED_EFFECT.get().setAttributes();
+        NutritionalBalance.MALNOURISHED_EFFECT.get().setAttributes();
+        NutritionalBalance.ENGORGED_EFFECT.get().setAttributes();
+        NutritionalBalance.modEffectsLoaded = true;
+    }
+
 }

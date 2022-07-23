@@ -7,7 +7,6 @@ import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
 import com.dannyandson.nutritionalbalance.commands.ModCommands;
 import com.dannyandson.nutritionalbalance.events.*;
 import com.dannyandson.nutritionalbalance.keybinding.ModInputHandler;
-import com.dannyandson.nutritionalbalance.keybinding.ModKeyBindings;
 import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
 import net.minecraft.commands.synchronization.ArgumentTypeInfos;
 import net.minecraft.world.effect.MobEffect;
@@ -38,6 +37,7 @@ public class NutritionalBalance
     public static final RegistryObject<ModMobAffects.Nourished> NOURISHED_EFFECT = EFFECTS.register("nourished_effect", ModMobAffects.Nourished::new);
     public static final RegistryObject<ModMobAffects.MalNourished> MALNOURISHED_EFFECT = EFFECTS.register("malnourished_effect", ModMobAffects.MalNourished::new);
     public static final RegistryObject<ModMobAffects.Engorged> ENGORGED_EFFECT = EFFECTS.register("engorged_effect", ModMobAffects.Engorged::new);
+    public static boolean modEffectsLoaded = false;
 
     public NutritionalBalance() {
 
@@ -79,7 +79,6 @@ public class NutritionalBalance
     private void doClientStuff(final FMLClientSetupEvent event) {
         // register tooltips and keybinding on client only
         MinecraftForge.EVENT_BUS.register(new EventTooltip());
-        ModKeyBindings.register();
         MinecraftForge.EVENT_BUS.register(new EventNutrientButton());
 
     }
@@ -91,13 +90,9 @@ public class NutritionalBalance
 
     @SuppressWarnings("unused")
     @SubscribeEvent
-    public void onReload(AddReloadListenerEvent event)
-    {
+    public void onReload(AddReloadListenerEvent event) {
         WorldNutrients.register();
-
-        NOURISHED_EFFECT.get().setAttributes();
-        MALNOURISHED_EFFECT.get().setAttributes();
-        ENGORGED_EFFECT.get().setAttributes();
+        modEffectsLoaded = false;
     }
 
 }

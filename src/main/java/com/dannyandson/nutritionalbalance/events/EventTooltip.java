@@ -65,7 +65,7 @@ public class EventTooltip {
 
                 }
 
-                if (event.getPlayer()!=null && event.getPlayer().getDisplayName().getString().equals("Dev") && Minecraft.getInstance().options.advancedItemTooltips)
+                if (event.getEntity()!=null && event.getEntity().getDisplayName().getString().equals("Dev") && Minecraft.getInstance().options.advancedItemTooltips)
                     if (Screen.hasShiftDown()) {
                         for (TagKey<Item> tagKey: item.getDefaultInstance().getTags().toList()) {
                             ResourceLocation tag = tagKey.location();

@@ -10,7 +10,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 public class EventNutrientButton {
 
     @SubscribeEvent
-    public void openGUI (ScreenEvent.InitScreenEvent.Post event)
+    public void openGUI (ScreenEvent.Init.Post event)
     {
         if ((event.getScreen() instanceof InventoryScreen gui) && Config.NUTRIENT_BUTTON_ENABLED.get()) {
             event.addListener(new NutrientButton(gui, Component.nullToEmpty("N")));

@@ -29,12 +29,12 @@ public class ModNetworkHandler {
         INSTANCE.messageBuilder(PlayerSync.class,nextID())
                 .encoder(PlayerSync::toBytes)
                 .decoder(PlayerSync::new)
-                .consumer(PlayerSync::handle)
+                .consumerNetworkThread(PlayerSync::handle)
                 .add();
         INSTANCE.messageBuilder(GUITrigger.class,nextID())
                 .encoder(GUITrigger::toBytes)
                 .decoder(GUITrigger::new)
-                .consumer(GUITrigger::handle)
+                .consumerNetworkThread(GUITrigger::handle)
                 .add();
         INSTANCE.registerMessage(
                 nextID(),

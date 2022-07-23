@@ -38,7 +38,7 @@ public class CommandSetNutrient {
         return Commands.literal("set_nutrient")
                 .requires(cs -> cs.hasPermission(3))
                 .then(Commands.argument("nutrient", new NutrientStringArgumentType())
-                        .then(Commands.argument("value", FloatArgumentType.floatArg(0.0f,Config.NUTRIENT_MAX.get().floatValue()))
+                        .then(Commands.argument("value", FloatArgumentType.floatArg(0.0f,180f))
                                 .executes(ctx->setNutrients(ctx))));
 
     }

@@ -12,7 +12,8 @@ public class EventPlayerClone {
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event) {
         //apply penalty
-        if (event.getEntity() instanceof Player playerEntity && event.isWasDeath()) {
+        Player playerEntity = event.getEntity();
+        if (playerEntity != null && event.isWasDeath()) {
             INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(playerEntity);
             for (IPlayerNutrient playerNutrient : iNutritionalBalancePlayer.getPlayerNutrients()) {
                 float newNutrientValue = Math.max(Config.NUTRIENT_INITIAL.get().floatValue(), playerNutrient.getValue() - Config.NUTRIENT_DEATH_LOSS.get().floatValue());

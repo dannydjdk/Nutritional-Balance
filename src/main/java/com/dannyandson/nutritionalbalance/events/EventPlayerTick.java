@@ -4,6 +4,7 @@ import com.dannyandson.nutritionalbalance.Config;
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
+import com.dannyandson.nutritionalbalance.effects.ModMobAffects;
 import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
 import com.dannyandson.nutritionalbalance.network.PlayerSync;
 import com.dannyandson.nutritionalbalance.nutrients.PlayerNutritionData;
@@ -29,6 +30,10 @@ public class EventPlayerTick {
             INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(playerEntity);
 
             if (!playerEntity.level.isClientSide) {
+
+                if (!NutritionalBalance.modEffectsLoaded)
+                    ModMobAffects.loadModEffects();
+                
                 float playerSaturation = playerEntity.getFoodData().getSaturationLevel();
                 int playerFoodLevel = playerEntity.getFoodData().getFoodLevel();
                 float foodpoints = playerSaturation + playerFoodLevel;
