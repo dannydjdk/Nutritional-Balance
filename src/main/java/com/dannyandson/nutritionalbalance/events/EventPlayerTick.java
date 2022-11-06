@@ -29,11 +29,10 @@ public class EventPlayerTick {
             Player playerEntity = event.player;
             INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(playerEntity);
 
-            if (!playerEntity.level.isClientSide) {
+            if (!NutritionalBalance.modEffectsLoaded)
+                ModMobAffects.loadModEffects();
 
-                if (!NutritionalBalance.modEffectsLoaded)
-                    ModMobAffects.loadModEffects();
-                
+            if (!playerEntity.level.isClientSide) {
                 float playerSaturation = playerEntity.getFoodData().getSaturationLevel();
                 int playerFoodLevel = playerEntity.getFoodData().getFoodLevel();
                 float foodpoints = playerSaturation + playerFoodLevel;
