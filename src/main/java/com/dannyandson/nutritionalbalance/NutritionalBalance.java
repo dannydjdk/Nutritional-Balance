@@ -8,7 +8,9 @@ import com.dannyandson.nutritionalbalance.commands.ModCommands;
 import com.dannyandson.nutritionalbalance.events.*;
 import com.dannyandson.nutritionalbalance.keybinding.ModInputHandler;
 import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
+import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.commands.synchronization.ArgumentTypeInfos;
+import net.minecraft.core.Registry;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -37,6 +39,13 @@ public class NutritionalBalance
     public static final RegistryObject<ModMobAffects.Nourished> NOURISHED_EFFECT = EFFECTS.register("nourished_effect", ModMobAffects.Nourished::new);
     public static final RegistryObject<ModMobAffects.MalNourished> MALNOURISHED_EFFECT = EFFECTS.register("malnourished_effect", ModMobAffects.MalNourished::new);
     public static final RegistryObject<ModMobAffects.Engorged> ENGORGED_EFFECT = EFFECTS.register("engorged_effect", ModMobAffects.Engorged::new);
+
+    private static final DeferredRegister<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(Registry.COMMAND_ARGUMENT_TYPE_REGISTRY, MODID);
+    public static final RegistryObject<CommandSetNutrient.NutrientStringArgumentType.Serializer> NUTRIENT_STRING_ARGUMENT_TYPE =
+            COMMAND_ARGUMENT_TYPES.register(
+                    "nutrient_argument_type",
+                    () -> ArgumentTypeInfos.registerByClass(CommandSetNutrient.NutrientStringArgumentType.class, new CommandSetNutrient.NutrientStringArgumentType.Serializer())
+            );
     public static boolean modEffectsLoaded = false;
 
     public NutritionalBalance() {
@@ -56,6 +65,7 @@ public class NutritionalBalance
         MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
         MinecraftForge.EVENT_BUS.addListener(this::serverStarted);
         MinecraftForge.EVENT_BUS.register(new ModInputHandler());
+        COMMAND_ARGUMENT_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONFIG);
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Config.SERVER_CONFIG);
@@ -68,7 +78,6 @@ public class NutritionalBalance
     private void setup(final FMLCommonSetupEvent event)
     {
         ModNetworkHandler.registerMessages();
-        ArgumentTypeInfos.registerByClass(CommandSetNutrient.NutrientStringArgumentType.class, new CommandSetNutrient.NutrientStringArgumentType.Serializer());
     }
 
 

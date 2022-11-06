@@ -1,6 +1,5 @@
 package com.dannyandson.nutritionalbalance.commands;
 
-import com.dannyandson.nutritionalbalance.Config;
 import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.nutrients.Nutrient;
 import com.dannyandson.nutritionalbalance.nutrients.PlayerNutritionData;
@@ -24,7 +23,6 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.server.command.EnumArgument;
 
 import java.util.ArrayList;
 import java.util.Arrays;
