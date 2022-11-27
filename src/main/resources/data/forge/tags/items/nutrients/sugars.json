@@ -6,7 +6,14 @@
     "minecraft:cocoa_beans",
     
     {"id":"create:bar_of_chocolate",         "required":false},
+    {"id":"create_confectionery:bar_of_ruby_chocolate", "required":false},
+    {"id": "create_confectionery:bar_of_caramel", "required": false},
+    {"id": "create_confectionery:bar_of_black_chocolate", "required": false},
+    {"id": "create_confectionery:bar_of_white_chocolate", "required": false},
+    {"id": "create_confectionery:hot_chocolate_bottle", "required": false},
     {"id":"farmersdelight:honey_glazed_ham", "required":false},
+    {"id":"iwannaskate:energy_drink", "required":false},
     {"id":"pamhc2trees:maplesyrupitem",       "required":false}
+
   ]
 }

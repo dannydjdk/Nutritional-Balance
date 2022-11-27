@@ -8,11 +8,21 @@
     "minecraft:chorus_fruit",
     "minecraft:enchanted_golden_apple",
     "minecraft:glow_berries",
-    
+
+    {"id":"ars_nouveau:source_berry",            "required":false},
+    {"id":"ars_nouveau:mendosteen_pod",            "required":false},
+    {"id":"ars_nouveau:bastion_pod",            "required":false},
+    {"id":"ars_nouveau:bombegranate_pod",            "required":false},
+    {"id":"ars_nouveau:frostaya_pod",           "required":false},
+    {"id": "domesticationinnovation:rotten_apple", "required": false},
     {"id":"simplefarming:olives",            "required":false},
     {"id":"minecolonies:chorus_bread",       "required":false},
     {"id":"farmersdelight:stuffed_pumpkin",  "required":false},
     {"id":"farmersdelight:honey_glazed_ham", "required":false},
-    {"id":"simplytea:cup_tea_chorus",        "required":false}
+    {"id":"simplytea:cup_tea_chorus",        "required":false},
+    {"id":"alexsmobs:banana", "required":false},
+    {"id":"twilightforest:torchberries", "required":false},
+    {"id": "twilightforest:experiment_115", "required": false}
+
   ]
 }

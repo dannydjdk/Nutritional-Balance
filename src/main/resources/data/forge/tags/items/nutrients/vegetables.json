@@ -9,6 +9,7 @@
     {"id":"simplefarming:chicory_root",           "required":false },
     {"id":"inspirations:heartbeet",               "required":false },
     {"id":"quark:root_item",                      "required":false },
+    {"id": "domesticationinnovation:sinister_carrot", "required": false},
     {"id":"farmersdelight:cabbage",               "required":false },
     {"id":"farmersdelight:cabbage_leaf",          "required":false },
     {"id":"farmersdelight:nether_salad",          "required":false },

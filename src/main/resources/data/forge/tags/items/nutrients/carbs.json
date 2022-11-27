@@ -4,8 +4,11 @@
     "minecraft:potato",
     "minecraft:poisonous_potato",
     "minecraft:wheat",
-    
+    "minecraft:bread",
+
+    {"id":"alexsmobs:shrimp_fried_rice", "required":false},
     {"id":"create:bar_of_chocolate",         "required":false},
+    {"id":"iwannaskate:pizza_slice", "required":false},
     {"id":"pneumaticcraft:wheat_flour",      "required":false},
     {"id":"pneumaticcraft:chips",            "required":false},
     {"id":"pneumaticcraft:salmon_tempura",   "required":false},
@@ -18,6 +21,9 @@
     {"id":"farmersdelight:honey_glazed_ham", "required":false},
     {"id":"farmersdelight:rice",             "required":false},
     {"id":"farmersdelight:shepherds_pie",    "required":false},
+    {"id":"immersive_weathering:moss_clump", "required":false},
+    {"id":"immersive_weathering:golden_moss_clump", "required":false},
+    {"id":"immersive_weathering:enchanted_golden_moss_clump", "required":false},
     {"id":"sushigocrafting:cooked_rice",	 "required":false},
     {"id":"sushigocrafting:salmon_maki",                       "required":false},
     {"id":"sushigocrafting:tuna_maki",                         "required":false},
@@ -52,6 +58,8 @@
     {"id":"sushigocrafting:salmon_temaki",                     "required":false},                   
     {"id":"sushigocrafting:tuna_temaki",                       "required":false},
     {"id":"sushigocrafting:shrimp_temaki",                     "required":false},
-    {"id":"sushigocrafting:chicken_temaki",                    "required":false}
+    {"id":"sushigocrafting:chicken_temaki",                    "required":false},
+    {"id":"twilightforest:maze_wafer", "required":false},
+    {"id": "twilightforest:experiment_115", "required": false}
 ]
 }
