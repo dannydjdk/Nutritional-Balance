@@ -10,7 +10,7 @@ import com.dannyandson.nutritionalbalance.keybinding.ModInputHandler;
 import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
 import net.minecraft.commands.synchronization.ArgumentTypeInfos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -40,7 +40,7 @@ public class NutritionalBalance
     public static final RegistryObject<ModMobAffects.MalNourished> MALNOURISHED_EFFECT = EFFECTS.register("malnourished_effect", ModMobAffects.MalNourished::new);
     public static final RegistryObject<ModMobAffects.Engorged> ENGORGED_EFFECT = EFFECTS.register("engorged_effect", ModMobAffects.Engorged::new);
 
-    private static final DeferredRegister<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(Registry.COMMAND_ARGUMENT_TYPE_REGISTRY, MODID);
+    private static final DeferredRegister<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(Registries.COMMAND_ARGUMENT_TYPE, MODID);
     public static final RegistryObject<CommandSetNutrient.NutrientStringArgumentType.Serializer> NUTRIENT_STRING_ARGUMENT_TYPE =
             COMMAND_ARGUMENT_TYPES.register(
                     "nutrient_argument_type",

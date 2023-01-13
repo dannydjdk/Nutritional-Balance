@@ -48,7 +48,7 @@ public class NutrientGUI extends Screen {
 
         this.inutritionalbalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(this.minecraft.player);
 
-        addRenderableWidget(new Button(relX + 85, relY + 128, 80, 20, Component.translatable("nutritionalbalance.close"), button -> close()));
+        addRenderableWidget(ModWidget.buildButton(relX + 85, relY + 128, 80, 20, Component.translatable("nutritionalbalance.close"), button -> close()));
         addRenderableWidget(new ModWidget(relX, relY + 5, WIDTH, 10, Component.translatable("nutritionalbalance.nutrients"), 0xFF000000).setTextHAlignment(ModWidget.HAlignment.CENTER).setTextVAlignment(ModWidget.VAlignment.TOP));
 
         MutableComponent message;

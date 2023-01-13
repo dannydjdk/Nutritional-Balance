@@ -28,8 +28,8 @@ public class NutrientButton extends AbstractWidget {
     //need to update the location on render to account for recipe book toggling
     private void updateLocation()
     {
-        this.x = gui.getGuiLeft() + Config.NUTRIENT_BUTTON_X.get();
-        this.y = gui.getGuiTop() + Config.NUTRIENT_BUTTON_Y.get();
+        this.setX( gui.getGuiLeft() + Config.NUTRIENT_BUTTON_X.get() );
+        this.setY( gui.getGuiTop() + Config.NUTRIENT_BUTTON_Y.get() );
         this.width = 20;
         this.height =18;
     }
@@ -43,7 +43,7 @@ public class NutrientButton extends AbstractWidget {
     public void renderButton(PoseStack matrixStack, int mouseX, int mouseY, float partialTick) {
         if (visible) {
             updateLocation();
-            if (mouseX>x && mouseX<x+width && mouseY>y && mouseY<y+height) {
+            if (mouseX>getX() && mouseX<getX()+width && mouseY>getY() && mouseY<getY()+height) {
                 RenderSystem.setShaderTexture(0, buttonGUIHover);
                 RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                 Minecraft.getInstance().getTextureManager().bindForSetup(buttonGUIHover);
@@ -53,13 +53,13 @@ public class NutrientButton extends AbstractWidget {
                 RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                 Minecraft.getInstance().getTextureManager().bindForSetup(buttonGUI);
             }
-            this.blit(matrixStack,x, y, 0, 0, width, height);
+            this.blit(matrixStack,getX(), getY(), 0, 0, width, height);
         }
 
     }
 
     @Override
-    public void updateNarration(NarrationElementOutput p_169152_) {
+    protected void updateWidgetNarration(NarrationElementOutput p_259858_) {
 
     }
 }

@@ -4,7 +4,7 @@ plugins {
     id 'net.minecraftforge.gradle' version '5.1.+'
 }
 
-version = '1.19.2-4.1.4'
+version = '1.19.3-4.2.0'
 group = 'com.dannyandson.nutritionalbalance' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'nutritionalbalance'
 
@@ -22,11 +22,11 @@ minecraft {
     // See more information here: https://github.com/MinecraftForge/MCPConfig/blob/master/Mojang.md
     //
     // Parchment is an unofficial project maintained by ParchmentMC, separate from MinecraftForge
-    // Additional setup is needed to use their mappings: https://github.com/ParchmentMC/Parchment/wiki/Getting-Started
+    // Additional setup is needed to use their mappings: https://parchmentmc.org/docs/getting-started
     //
     // Use non-default mappings at your own risk. They may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'official', version: '1.19.2'
+    mappings channel: 'official', version: '1.19.3'
 
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
 
@@ -126,7 +126,7 @@ dependencies {
     // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft', it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.19.2-43.1.1'
+    minecraft 'net.minecraftforge:forge:1.19.3-44.1.0'
 
 }
 
