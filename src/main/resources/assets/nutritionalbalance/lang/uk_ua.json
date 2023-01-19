@@ -1,0 +1,33 @@
+{
+  "key.nutritionalbalance.opennutrientgui" : "Nutrient GUI",
+
+  "nutritionalbalance.nutrients" : "Живлення",
+
+  "nutritionalbalance.nutrient.proteins" : "Білки",
+  "nutritionalbalance.nutrient.carbs" : "Вуглеводи",
+  "nutritionalbalance.nutrient.dairy" : "Молочні",
+  "nutritionalbalance.nutrient.fruits" : "Фрукти",
+  "nutritionalbalance.nutrient.sugars" : "Цукру",
+  "nutritionalbalance.nutrient.vegetables" : "Овочі",
+
+  "nutritionalbalance.nutrientstatus.MALNOURISHED" : "Виснаження",
+  "nutritionalbalance.nutrientstatus.SAFE" : "Безпечно",
+  "nutritionalbalance.nutrientstatus.ON_TARGET" : "Ціль",
+  "nutritionalbalance.nutrientstatus.ENGORGED" : "Ненажерливий",
+
+  "nutritionalbalance.nutrientstatus.msg.MALNOURISHED" : "Ви виснажені.",
+  "nutritionalbalance.nutrientstatus.msg.SAFE" :         "Ваша дієта пристойна.",
+  "nutritionalbalance.nutrientstatus.msg.ON_TARGET" :    "Ваша дієта добре збалансована.",
+  "nutritionalbalance.nutrientstatus.msg.ENGORGED" :     "Ви переїли дуже багато.",
+
+  "nutritionalbalance.nutrientstatus.details.MALNOURISHED" : "Ви почуваєте себе повільним та слабким.",
+  "nutritionalbalance.nutrientstatus.details.SAFE" :         "Не погано. Не добре.",
+  "nutritionalbalance.nutrientstatus.details.ON_TARGET" :    "Ви почуваєте себе сильним, швидким і рукостим.",
+  "nutritionalbalance.nutrientstatus.details.ENGORGED" :     "Ви почуваєте себе слабким та менш ефективним.",
+
+  "effect.nutritionalbalance.engorged_effect": "Ненажерливий",
+  "effect.nutritionalbalance.malnourished_effect": "Виснажений",
+  "effect.nutritionalbalance.nourished_effect": "Відгодований",
+
+  "nutritionalbalance.close" : "Закрити"
+}
