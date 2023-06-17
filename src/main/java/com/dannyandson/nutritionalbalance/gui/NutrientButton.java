@@ -5,8 +5,8 @@ import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import com.dannyandson.nutritionalbalance.network.GUITrigger;
 import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -40,7 +40,7 @@ public class NutrientButton extends AbstractWidget {
     }
 
     @Override
-    public void renderButton(PoseStack matrixStack, int mouseX, int mouseY, float partialTick) {
+    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         if (visible) {
             updateLocation();
             if (mouseX>getX() && mouseX<getX()+width && mouseY>getY() && mouseY<getY()+height) {
@@ -53,7 +53,7 @@ public class NutrientButton extends AbstractWidget {
                 RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                 Minecraft.getInstance().getTextureManager().bindForSetup(buttonGUI);
             }
-            this.blit(matrixStack,getX(), getY(), 0, 0, width, height);
+            guiGraphics.blit(buttonGUI,getX(), getY(), 0, 0, width, height);
         }
 
     }

@@ -32,7 +32,7 @@ public class EventPlayerTick {
             if (!NutritionalBalance.modEffectsLoaded)
                 ModMobAffects.loadModEffects();
 
-            if (!playerEntity.level.isClientSide) {
+            if (!playerEntity.level().isClientSide) {
                 float playerSaturation = playerEntity.getFoodData().getSaturationLevel();
                 int playerFoodLevel = playerEntity.getFoodData().getFoodLevel();
                 float foodpoints = playerSaturation + playerFoodLevel;
@@ -84,7 +84,7 @@ public class EventPlayerTick {
                 }
 
                 if (cachedStatus != currentStatus) {
-                    if (playerEntity.level.isClientSide()) {
+                    if (playerEntity.level().isClientSide()) {
 
                         //playerEntity.sendStatusMessage(ITextComponent.getTextComponentOrEmpty(I18n.format("nutritionalbalance.nutrientstatus.msg." + currentStatus.name())), true);
                         if (Config.SHOW_THRESHOLD_TOAST.get())

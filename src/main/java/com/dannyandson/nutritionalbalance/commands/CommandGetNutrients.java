@@ -33,7 +33,7 @@ public class CommandGetNutrients implements Command<CommandSourceStack> {
 
             stringJoiner.add("Overall Status: " + iNutritionalBalancePlayer.getStatus().name());
 
-            context.getSource().sendSuccess(Component.translatable(stringJoiner.toString()), false);
+            context.getSource().sendSuccess(() -> { return Component.translatable(stringJoiner.toString());}, false);
 
         }
         return 0;

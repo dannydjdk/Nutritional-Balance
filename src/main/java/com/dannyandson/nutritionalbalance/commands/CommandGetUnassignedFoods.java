@@ -29,7 +29,7 @@ public class CommandGetUnassignedFoods implements Command<CommandSourceStack> {
                 stringJoiner.add(ForgeRegistries.ITEMS.getKey(item).toString());
         }
 
-        context.getSource().sendSuccess(Component.translatable(stringJoiner.toString(),false),false);
+        context.getSource().sendSuccess(() -> {return Component.translatable(stringJoiner.toString(),false);},false);
 
         return 0;
     }

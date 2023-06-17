@@ -27,7 +27,7 @@ public class EventTooltip {
         Item item = itemStack.getItem();
         Level world;
         if (event.getEntity()!=null)
-            world = event.getEntity().level;
+            world = event.getEntity().level();
         else
         {
             //tool tip event being called by a non-entity such as JEI
