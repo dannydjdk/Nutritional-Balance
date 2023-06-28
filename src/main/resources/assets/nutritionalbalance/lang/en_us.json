@@ -29,5 +29,7 @@
   "effect.nutritionalbalance.malnourished_effect": "Malnourished",
   "effect.nutritionalbalance.nourished_effect": "Well Nourished",
 
-  "nutritionalbalance.close" : "Close"
+  "nutritionalbalance.close" : "Close",
+
+  "item.nutritionalbalance.lunchbox" : "Lunch Box"
 }
