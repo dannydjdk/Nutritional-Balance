@@ -17,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 public class LunchBoxItemRenderer extends BlockEntityWithoutLevelRenderer {
@@ -29,7 +30,7 @@ public class LunchBoxItemRenderer extends BlockEntityWithoutLevelRenderer {
     }
 
     @Override
-    public void renderByItem(ItemStack stack, ItemDisplayContext context, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay) {
+    public void renderByItem(ItemStack stack, @NotNull ItemDisplayContext context, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay) {
         poseStack.pushPose();
         TextureAtlasSprite sprite =  Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(LUNCHBOX);
         VertexConsumer buffer = bufferSource.getBuffer(RenderType.translucent());
@@ -63,7 +64,7 @@ public class LunchBoxItemRenderer extends BlockEntityWithoutLevelRenderer {
                 poseStack.scale(.6f,.6f,.6f);
                 //poseStack.mulPose(Axis.XP.rotationDegrees(45));
 
-                itemRenderer.renderStatic(activeStack, ItemDisplayContext.FIXED, combinedLight, OverlayTexture.NO_OVERLAY, poseStack, bufferSource, Minecraft.getInstance().level, 0);
+                itemRenderer.renderStatic(activeStack, ItemDisplayContext.FIXED, combinedLight, combinedOverlay, poseStack, bufferSource, Minecraft.getInstance().level, 0);
             }
         }
         poseStack.popPose();

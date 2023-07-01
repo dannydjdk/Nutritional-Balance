@@ -7,6 +7,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 public class ModWidget extends AbstractWidget {
 
@@ -25,6 +26,7 @@ public class ModWidget extends AbstractWidget {
     private int textWidth;
     private int textHeight;
     private Component toolTipTextComponent;
+    private ResourceLocation texture;
 
     public ModWidget(int x, int y, int width, int height, Component title, int textColor, int bgColor)
     {
@@ -52,6 +54,11 @@ public class ModWidget extends AbstractWidget {
         this(x,y,width,height,Component.nullToEmpty(""),0xFFFFFFFF,bgColor);
 
     }
+    public ModWidget(int x, int y, int width, int height, ResourceLocation texture)
+    {
+        this(x,y,width,height,Component.nullToEmpty(""),0xFFFFFFFF,-1);
+        this.texture = texture;
+    }
 
 
     public ModWidget setTextHAlignment(HAlignment alignment) {
@@ -77,53 +84,55 @@ public class ModWidget extends AbstractWidget {
     @Override
     public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         if (visible) {
-            int drawX,drawY;
-            Font fr = Minecraft.getInstance().font;
-
-
-            switch (halignment) {
-                case LEFT:
-                default:
-                    drawX = getX();
-                    break;
-                case CENTER:
-                    drawX = getX() + (int)((width-textWidth) / 2 * scale);
-                    break;
-                case RIGHT:
-                    drawX = getX() + (int)((width-textWidth) * scale);
-                    break;
-            }
-            switch (valignment) {
-                case TOP:
-                default:
-                    drawY = getY();
-                    break;
-                case MIDDLE:
-                    drawY = getY() + (int)((height-textHeight) / 2 * scale);
-                    break;
-                case BOTTOM:
-                    drawY = getY() + (int)((height-textHeight) * scale);
-                    break;
-            }
-
-
-            if (scale != 1.0f) {
-                guiGraphics.pose().pushPose();
-                guiGraphics.pose().scale(scale, scale, scale);
-                guiGraphics.pose().translate(drawX, getY(), 0);
-                guiGraphics.drawString( fr, getMessage().getVisualOrderText(), drawX, getY(), this.color,false);
-                guiGraphics.pose().popPose();
+            if (texture != null) {
+                this.renderTexture(guiGraphics,texture,this.getX(),this.getY(),0,0,0,width,height,width,height);
             } else {
-                guiGraphics.drawString( fr, getMessage().getVisualOrderText(), drawX, getY(), this.color,false);
+                int drawX, drawY;
+                Font fr = Minecraft.getInstance().font;
+
+
+                switch (halignment) {
+                    case LEFT:
+                    default:
+                        drawX = getX();
+                        break;
+                    case CENTER:
+                        drawX = getX() + (int) ((width - textWidth) / 2 * scale);
+                        break;
+                    case RIGHT:
+                        drawX = getX() + (int) ((width - textWidth) * scale);
+                        break;
+                }
+                switch (valignment) {
+                    case TOP:
+                    default:
+                        drawY = getY();
+                        break;
+                    case MIDDLE:
+                        drawY = getY() + (int) ((height - textHeight) / 2 * scale);
+                        break;
+                    case BOTTOM:
+                        drawY = getY() + (int) ((height - textHeight) * scale);
+                        break;
+                }
+
+
+                if (scale != 1.0f) {
+                    guiGraphics.pose().pushPose();
+                    guiGraphics.pose().scale(scale, scale, scale);
+                    guiGraphics.pose().translate(drawX, getY(), 0);
+                    guiGraphics.drawString(fr, getMessage().getVisualOrderText(), drawX, getY(), this.color, false);
+                    guiGraphics.pose().popPose();
+                } else {
+                    guiGraphics.drawString(fr, getMessage().getVisualOrderText(), drawX, getY(), this.color, false);
+                }
+            }
+            if (bgcolor != -1) {
+                guiGraphics.fill(getX(), getY(), getX() + width, getY() + height, bgcolor);
             }
 
-            if (bgcolor!=-1)
-            {
-                guiGraphics.fill(getX(),getY(),getX()+width,getY()+height,bgcolor);
-            }
-
-            if (this.toolTipTextComponent!=null && mouseX>=getX() && mouseX<=getX()+width && mouseY>=getY() && mouseY<=getY()+height)
-                this.renderHoverToolTip(guiGraphics, mouseX,mouseY);
+            if (this.toolTipTextComponent != null && mouseX >= getX() && mouseX <= getX() + width && mouseY >= getY() && mouseY <= getY() + height)
+                this.renderHoverToolTip(guiGraphics, mouseX, mouseY);
         }
     }
 

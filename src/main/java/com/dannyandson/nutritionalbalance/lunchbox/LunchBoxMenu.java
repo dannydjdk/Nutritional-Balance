@@ -1,17 +1,19 @@
 package com.dannyandson.nutritionalbalance.lunchbox;
 
-import com.dannyandson.nutritionalbalance.NutritionalBalance;
+import com.dannyandson.nutritionalbalance.Config;
+import com.dannyandson.nutritionalbalance.setup.Registration;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class LunchBoxMenu extends AbstractContainerMenu {
 
-    public static LunchBoxMenu createMenu(int containerId, Inventory playerInventory) {
-        return createMenu(containerId, playerInventory, LunchBoxContainer.get(NutritionalBalance.LUNCHBOX_ITEM.get().getDefaultInstance()));
+    public static @NotNull LunchBoxMenu createMenu(int containerId, Inventory playerInventory) {
+        return createMenu(containerId, playerInventory, LunchBoxContainer.get(Registration.LUNCHBOX_ITEM.get().getDefaultInstance()));
     }
 
     public static LunchBoxMenu createMenu(int containerId, Inventory playerInventory, Container inventory) {
@@ -23,8 +25,8 @@ public class LunchBoxMenu extends AbstractContainerMenu {
     private ItemStack lunchBox;
 
     protected LunchBoxMenu(int containerId, Inventory playerInventory, Container container) {
-        super(NutritionalBalance.LUNCHBOX_MENU_TYPE.get(), containerId);
-        checkContainerSize(container,5);
+        super(Registration.LUNCHBOX_MENU_TYPE.get(), containerId);
+        checkContainerSize(container, Config.LUNCHBOX_SLOT_COUNT.get());
 
         this.container = container;
         this.playerInventory = playerInventory;
@@ -44,7 +46,7 @@ public class LunchBoxMenu extends AbstractContainerMenu {
                 }
 
                 @Override
-                public boolean mayPlace(ItemStack stack) {
+                public boolean mayPlace(@NotNull ItemStack stack) {
                     return stack.isEdible() && !(stack.getItem() instanceof LunchBoxItem);
                 }
             });
@@ -64,7 +66,7 @@ public class LunchBoxMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public ItemStack quickMoveStack(Player player, int index) {
+    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
 
@@ -72,11 +74,11 @@ public class LunchBoxMenu extends AbstractContainerMenu {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
 
-            if (index < 5) {
-                if (!this.moveItemStackTo(itemstack1, 5, this.slots.size(), true)) {
+            if (index < Config.LUNCHBOX_SLOT_COUNT.get()) {
+                if (!this.moveItemStackTo(itemstack1, Config.LUNCHBOX_SLOT_COUNT.get(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.moveItemStackTo(itemstack1, 0, 4, false)) {
+            } else if (!this.moveItemStackTo(itemstack1, 0, Config.LUNCHBOX_SLOT_COUNT.get(), false)) {
                 return ItemStack.EMPTY;
             }
 
@@ -91,12 +93,12 @@ public class LunchBoxMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public boolean stillValid(Player player) {
-        return this.container.stillValid(player);
+    public boolean stillValid(@NotNull Player player) {
+        return this.container.stillValid(player) && player.getMainHandItem()==this.lunchBox;
     }
 
     @Override
-    public void slotsChanged(Container container) {
+    public void slotsChanged(@NotNull Container container) {
         if (this.container instanceof LunchBoxContainer lunchBoxContainer)
             lunchBoxContainer.save();
         super.slotsChanged(container);

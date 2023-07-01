@@ -1,5 +1,6 @@
 package com.dannyandson.nutritionalbalance.lunchbox;
 
+import com.dannyandson.nutritionalbalance.Config;
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import com.dannyandson.nutritionalbalance.gui.INutrientGUIScreen;
 import com.dannyandson.nutritionalbalance.gui.ModWidget;
@@ -13,13 +14,15 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 public class LunchBoxScreen extends AbstractContainerScreen<LunchBoxMenu> implements MenuAccess<LunchBoxMenu>, INutrientGUIScreen {
 
     public static final ResourceLocation GUI = new ResourceLocation(NutritionalBalance.MODID, "textures/gui/lunchbox_gui.png");
+    public static final ResourceLocation GUI_SLOT = new ResourceLocation(NutritionalBalance.MODID, "textures/gui/slot.png");
 
-    private LunchBoxMenu lunchBoxMenu;
-    private ModWidget[] widgets = new ModWidget[5];
+    private final LunchBoxMenu lunchBoxMenu;
+    private final ModWidget[] widgets = new ModWidget[Config.LUNCHBOX_SLOT_COUNT.get()];
 
     public LunchBoxScreen(LunchBoxMenu lunchBoxMenu, Inventory playerInventory, Component title){
         super(lunchBoxMenu,playerInventory,title);
@@ -38,11 +41,12 @@ public class LunchBoxScreen extends AbstractContainerScreen<LunchBoxMenu> implem
 
         NutrientGUIHelper.init(this,this.imageWidth, this.imageHeight/2, -this.imageHeight/4);
 
-        addRenderableWidget(ModWidget.buildButton(leftPos+46,topPos+124,18,10,Component.nullToEmpty(" "),button -> toggleActive(0)));
-        addRenderableWidget(ModWidget.buildButton(leftPos+64,topPos+124,18,10,Component.nullToEmpty(" "),button -> toggleActive(1)));
-        addRenderableWidget(ModWidget.buildButton(leftPos+82,topPos+124,18,10,Component.nullToEmpty(" "),button -> toggleActive(2)));
-        addRenderableWidget(ModWidget.buildButton(leftPos+100,topPos+124,18,10,Component.nullToEmpty(" "),button -> toggleActive(3)));
-        addRenderableWidget(ModWidget.buildButton(leftPos+118,topPos+124,18,10,Component.nullToEmpty(" "),button -> toggleActive(4)));
+        for (int i = 0 ; i< Config.LUNCHBOX_SLOT_COUNT.get() ; i++){
+            int finalI = i;
+            addRenderableWidget(ModWidget.buildButton(leftPos+46+(i*18),topPos+123,18,10,Component.nullToEmpty(" "), button -> toggleActive(finalI)));
+            addRenderableWidget(new ModWidget(leftPos+46+(i*18),topPos+133,18,18,GUI_SLOT));
+
+        }
     }
 
     @Override
@@ -53,13 +57,13 @@ public class LunchBoxScreen extends AbstractContainerScreen<LunchBoxMenu> implem
     }
 
     @Override
-    public void resize(Minecraft p_96575_, int p_96576_, int p_96577_) {
+    public void resize(@NotNull Minecraft p_96575_, int p_96576_, int p_96577_) {
         super.resize(p_96575_, p_96576_, p_96577_);
         renderActiveOverlays();
     }
 
     @Override
-    public void render(GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(@NotNull GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderTooltip(matrixStack, mouseX, mouseY);
@@ -84,7 +88,7 @@ public class LunchBoxScreen extends AbstractContainerScreen<LunchBoxMenu> implem
     }
 
     private void renderActiveOverlays(){
-        for (int i = 0 ; i<5 ; i++){
+        for (int i = 0 ; i<Config.LUNCHBOX_SLOT_COUNT.get() ; i++){
             if (widgets[i] != null)
                 removeWidget(widgets[i]);
             int color = 0xFFFFFFFF;
@@ -95,7 +99,7 @@ public class LunchBoxScreen extends AbstractContainerScreen<LunchBoxMenu> implem
                         color = 0xFF00FF00;
                 }
             }
-            widgets[i] = new ModWidget(leftPos+47+i*18, topPos+125, 16, 8, color);
+            widgets[i] = new ModWidget(leftPos+47+i*18, topPos+124, 16, 8, color);
             addRenderableWidget(widgets[i]);
         }
     }

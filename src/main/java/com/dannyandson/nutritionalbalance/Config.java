@@ -70,6 +70,8 @@ public class Config {
     public static ForgeConfigSpec.DoubleValue ENGORGED_ATTACK_KNOCKBACK;
     public static ForgeConfigSpec.DoubleValue ENGORGED_ATTACK_SPEED;
 
+    public static ForgeConfigSpec.IntValue LUNCHBOX_SLOT_COUNT;
+
     static {
         ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
 
@@ -96,6 +98,9 @@ public class Config {
                 .defineInRange("nutrient_death_loss",10.0,0.0,Double.MAX_VALUE);
         NUTRIENT_MAX_FOOD_VALUE = SERVER_BUILDER.comment("Max food value a single nutrient for a food item can contain. Helps prevent OP food mods from making it impossible to keep nutrients balanced. (default:20.0)")
                 .defineInRange("nutrient_max_food_value",20.0,1.0, Double.MAX_VALUE);
+
+        LUNCHBOX_SLOT_COUNT = SERVER_BUILDER.comment("Number of inventory slots the lunchbox contains. (default: 5)")
+                        .defineInRange("lunchbox_slot_count",5,1,9);
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.comment("Effects").push(CATEGORY_EFFECTS);

@@ -1,5 +1,6 @@
 package com.dannyandson.nutritionalbalance.lunchbox;
 
+import com.dannyandson.nutritionalbalance.Config;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -20,7 +21,7 @@ public class LunchBoxContainer extends SimpleContainer {
     }
 
     private LunchBoxContainer(ItemStack lunchBox) {
-        super(5);
+        super(Config.LUNCHBOX_SLOT_COUNT.get());
         this.lunchBox = lunchBox;
         if (lunchBox.hasTag()) {
             fromTag(lunchBox.getTag().getList("contents", Tag.TAG_COMPOUND));
