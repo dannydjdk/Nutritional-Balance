@@ -1,7 +1,9 @@
 package com.dannyandson.nutritionalbalance.lunchbox;
 
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
+import com.dannyandson.nutritionalbalance.gui.INutrientGUIScreen;
 import com.dannyandson.nutritionalbalance.gui.ModWidget;
+import com.dannyandson.nutritionalbalance.gui.NutrientGUIHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -12,7 +14,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class LunchBoxScreen extends AbstractContainerScreen<LunchBoxMenu> implements MenuAccess<LunchBoxMenu> {
+public class LunchBoxScreen extends AbstractContainerScreen<LunchBoxMenu> implements MenuAccess<LunchBoxMenu>, INutrientGUIScreen {
 
     public static final ResourceLocation GUI = new ResourceLocation(NutritionalBalance.MODID, "textures/gui/lunchbox_gui.png");
 
@@ -26,11 +28,16 @@ public class LunchBoxScreen extends AbstractContainerScreen<LunchBoxMenu> implem
         this.imageHeight = 250;
         this.inventoryLabelY = this.topPos + 156;
         this.inventoryLabelX = this.leftPos + 46;
+        this.titleLabelY = topPos+111;
+        this.titleLabelX = this.leftPos + 46;
     }
 
     @Override
     protected void init() {
         super.init();
+
+        NutrientGUIHelper.init(this,this.imageWidth, this.imageHeight/2, -this.imageHeight/4);
+
         addRenderableWidget(ModWidget.buildButton(leftPos+46,topPos+124,18,10,Component.nullToEmpty(" "),button -> toggleActive(0)));
         addRenderableWidget(ModWidget.buildButton(leftPos+64,topPos+124,18,10,Component.nullToEmpty(" "),button -> toggleActive(1)));
         addRenderableWidget(ModWidget.buildButton(leftPos+82,topPos+124,18,10,Component.nullToEmpty(" "),button -> toggleActive(2)));
@@ -91,5 +98,20 @@ public class LunchBoxScreen extends AbstractContainerScreen<LunchBoxMenu> implem
             widgets[i] = new ModWidget(leftPos+47+i*18, topPos+125, 16, 8, color);
             addRenderableWidget(widgets[i]);
         }
+    }
+
+    @Override
+    public int getWidth() {
+        return this.width;
+    }
+
+    @Override
+    public int getHeight() {
+        return this.height;
+    }
+
+    @Override
+    public ModWidget addModWidget(ModWidget modWidget) {
+        return addRenderableWidget(modWidget);
     }
 }

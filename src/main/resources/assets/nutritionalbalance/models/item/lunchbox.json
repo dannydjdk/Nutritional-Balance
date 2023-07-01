@@ -1,0 +1,16 @@
+{
+  "parent": "builtin/entity",
+  "textures": {
+    "layer0": "nutritionalbalance:item/lunchbox"
+  },
+  "display": {
+    "gui": {
+      "rotation": [0, 0, 0]
+    },
+    "thirdperson_righthand": {
+      "rotation": [90, 90, 0],
+      "translation": [0, -2, -4],
+      "scale" : [0.6,0.6,0.6]
+    }
+  }
+}
