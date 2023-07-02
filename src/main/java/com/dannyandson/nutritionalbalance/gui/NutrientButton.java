@@ -12,12 +12,13 @@ import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class NutrientButton extends AbstractWidget {
 
-    private ResourceLocation buttonGUI = new ResourceLocation(NutritionalBalance.MODID,"textures/gui/nutrient_button.png");
-    private ResourceLocation buttonGUIHover = new ResourceLocation(NutritionalBalance.MODID,"textures/gui/nutrient_button_hover.png");
-    private InventoryScreen gui;
+    private final ResourceLocation buttonGUI = new ResourceLocation(NutritionalBalance.MODID,"textures/gui/nutrient_button.png");
+    private final ResourceLocation buttonGUIHover = new ResourceLocation(NutritionalBalance.MODID,"textures/gui/nutrient_button_hover.png");
+    private final InventoryScreen gui;
 
     public NutrientButton(InventoryScreen gui, Component title) {
         super(gui.getGuiLeft(),gui.getGuiTop(), 0, 0, title);
@@ -28,8 +29,8 @@ public class NutrientButton extends AbstractWidget {
     //need to update the location on render to account for recipe book toggling
     private void updateLocation()
     {
-        this.setX( gui.getGuiLeft() + Config.NUTRIENT_BUTTON_X.get() );
-        this.setY( gui.getGuiTop() + Config.NUTRIENT_BUTTON_Y.get() );
+        this.x = gui.getGuiLeft() + Config.NUTRIENT_BUTTON_X.get();
+        this.y = gui.getGuiTop() + Config.NUTRIENT_BUTTON_Y.get();
         this.width = 20;
         this.height =18;
     }
@@ -40,10 +41,10 @@ public class NutrientButton extends AbstractWidget {
     }
 
     @Override
-    public void renderButton(PoseStack matrixStack, int mouseX, int mouseY, float partialTick) {
+    public void renderButton(@NotNull PoseStack matrixStack, int mouseX, int mouseY, float partialTick) {
         if (visible) {
             updateLocation();
-            if (mouseX>getX() && mouseX<getX()+width && mouseY>getY() && mouseY<getY()+height) {
+            if (mouseX>x && mouseX<x+width && mouseY>y && mouseY<y+height) {
                 RenderSystem.setShaderTexture(0, buttonGUIHover);
                 RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                 Minecraft.getInstance().getTextureManager().bindForSetup(buttonGUIHover);
@@ -53,13 +54,13 @@ public class NutrientButton extends AbstractWidget {
                 RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                 Minecraft.getInstance().getTextureManager().bindForSetup(buttonGUI);
             }
-            this.blit(matrixStack,getX(), getY(), 0, 0, width, height);
+            this.blit(matrixStack,x, y, 0, 0, width, height);
         }
 
     }
 
     @Override
-    protected void updateWidgetNarration(NarrationElementOutput p_259858_) {
+    public void updateNarration(@NotNull NarrationElementOutput p_169152_) {
 
     }
 }

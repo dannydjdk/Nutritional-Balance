@@ -2,6 +2,7 @@ package com.dannyandson.nutritionalbalance.effects;
 
 import com.dannyandson.nutritionalbalance.Config;
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
+import com.dannyandson.nutritionalbalance.setup.Registration;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -98,19 +99,19 @@ public class ModMobAffects {
     }
 
     public static void resetPlayerEffects(Player player){
-        if (player.getEffect(NutritionalBalance.NOURISHED_EFFECT.get()) != null)
-            player.removeEffect(NutritionalBalance.NOURISHED_EFFECT.get());
-        if (player.getEffect(NutritionalBalance.MALNOURISHED_EFFECT.get()) != null)
-            player.removeEffect(NutritionalBalance.MALNOURISHED_EFFECT.get());
-        if (player.getEffect(NutritionalBalance.ENGORGED_EFFECT.get()) != null)
-            player.removeEffect(NutritionalBalance.ENGORGED_EFFECT.get());
+        if (player.getEffect(Registration.NOURISHED_EFFECT.get()) != null)
+            player.removeEffect(Registration.NOURISHED_EFFECT.get());
+        if (player.getEffect(Registration.MALNOURISHED_EFFECT.get()) != null)
+            player.removeEffect(Registration.MALNOURISHED_EFFECT.get());
+        if (player.getEffect(Registration.ENGORGED_EFFECT.get()) != null)
+            player.removeEffect(Registration.ENGORGED_EFFECT.get());
 
     }
 
     public static void loadModEffects() {
-        NutritionalBalance.NOURISHED_EFFECT.get().setAttributes();
-        NutritionalBalance.MALNOURISHED_EFFECT.get().setAttributes();
-        NutritionalBalance.ENGORGED_EFFECT.get().setAttributes();
+        Registration.NOURISHED_EFFECT.get().setAttributes();
+        Registration.MALNOURISHED_EFFECT.get().setAttributes();
+        Registration.ENGORGED_EFFECT.get().setAttributes();
         NutritionalBalance.modEffectsLoaded = true;
     }
 

@@ -20,6 +20,7 @@ public class Config {
     public static final String CATEGORY_EFFECTS_MALNOURISHED = "malnourished_affects";
     public static final String CATEGORY_EFFECTS_ENGORGED = "engorged_affects";
     public static final String CATEGORY_FOODS = "nutrient_foods";
+    public static final String CATEGORY_LUNCHBOX = "lunchbox";
 
     //Server config values
     public static ForgeConfigSpec.DoubleValue NUTRIENT_INITIAL;
@@ -69,6 +70,8 @@ public class Config {
     public static ForgeConfigSpec.DoubleValue ENGORGED_ATTACK_DAMAGE;
     public static ForgeConfigSpec.DoubleValue ENGORGED_ATTACK_KNOCKBACK;
     public static ForgeConfigSpec.DoubleValue ENGORGED_ATTACK_SPEED;
+
+    public static ForgeConfigSpec.IntValue LUNCHBOX_SLOT_COUNT;
 
     static {
         ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
@@ -159,7 +162,7 @@ public class Config {
 
         SERVER_BUILDER.comment("Nutrient for modded foods: Add foods or tags here to add nutrients to the foods.\n" +
                 "This is usually only needed for raw ingredients. Crafted and cooked foods will get nutrients from recipe ingredients.\n" +
-                "This can be done with data packs by adding foods to item tags under forge:nutrients/<nutrientName>, but this config is here for convenience.\n" +
+                "This can be done with data packs by adding foods to item tags under forge:nutrient/<nutrientName>, but this config is here for convenience.\n" +
                 "Data packs are required to define new nutrient categories.\n" +
                 "These configs are additive on top of data packs.\n" +
                 "Run the command /nutritionalbalance get_unassigned_foods to find any foods that do not have nutrients.").push(CATEGORY_FOODS);
@@ -209,7 +212,6 @@ public class Config {
 
         String[] fruits = {
                 "#forge:fruits",
-                "#forge:fruits/berry",
                 "#nourish:fruit"
         };
         List<String> fruitsList = new ArrayList<>();
@@ -218,7 +220,12 @@ public class Config {
                 .define("fruits_item_list",fruitsList);
 
 
+        SERVER_BUILDER.pop();
 
+        SERVER_BUILDER.comment("Lunch Box").push(CATEGORY_LUNCHBOX);
+
+        LUNCHBOX_SLOT_COUNT = SERVER_BUILDER.comment("Number of inventory slots the lunchbox contains. (default: 5)")
+                .defineInRange("lunchbox_slot_count",5,1,9);
 
         SERVER_BUILDER.pop().pop();
 

@@ -29,5 +29,9 @@
   "effect.nutritionalbalance.malnourished_effect": "Malnourished",
   "effect.nutritionalbalance.nourished_effect": "Well Nourished",
 
-  "nutritionalbalance.close" : "Close"
+  "nutritionalbalance.close" : "Close",
+
+  "item.nutritionalbalance.lunchbox" : "Lunch Box",
+  "nutritionalbalance.tooltip.press_shift" : "--Press Shift for more Info--",
+  "message.item.lunchbox" : "Stores food items and show nutrient status.\nShift-right click to open.\nRight click to eat selected food item.\nShift-scroll to change selected food item or open box and select item."
 }

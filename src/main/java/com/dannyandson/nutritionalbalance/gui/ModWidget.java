@@ -4,9 +4,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class ModWidget extends AbstractWidget {
 
@@ -25,6 +26,7 @@ public class ModWidget extends AbstractWidget {
     private int textWidth;
     private int textHeight;
     private Component toolTipTextComponent;
+    private ResourceLocation texture;
 
     public ModWidget(int x, int y, int width, int height, Component title, int textColor, int bgColor)
     {
@@ -75,34 +77,34 @@ public class ModWidget extends AbstractWidget {
     }
 
     @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTick) {
+    public void render(@NotNull PoseStack matrixStack, int mouseX, int mouseY, float partialTick) {
         if (visible) {
-            int drawX,drawY;
+            int drawX, drawY;
             Font fr = Minecraft.getInstance().font;
 
 
             switch (halignment) {
                 case LEFT:
                 default:
-                    drawX = getX();
+                    drawX = x;
                     break;
                 case CENTER:
-                    drawX = getX() + (int)((width-textWidth) / 2 * scale);
+                    drawX = x + (int) ((width - textWidth) / 2 * scale);
                     break;
                 case RIGHT:
-                    drawX = getX() + (int)((width-textWidth) * scale);
+                    drawX = x + (int) ((width - textWidth) * scale);
                     break;
             }
             switch (valignment) {
                 case TOP:
                 default:
-                    drawY = getY();
+                    drawY = y;
                     break;
                 case MIDDLE:
-                    drawY = getY() + (int)((height-textHeight) / 2 * scale);
+                    drawY = y + (int) ((height - textHeight) / 2 * scale);
                     break;
                 case BOTTOM:
-                    drawY = getY() + (int)((height-textHeight) * scale);
+                    drawY = y + (int) ((height - textHeight) * scale);
                     break;
             }
 
@@ -110,21 +112,21 @@ public class ModWidget extends AbstractWidget {
             if (scale != 1.0f) {
                 matrixStack.pushPose();
                 matrixStack.scale(scale, scale, scale);
-                matrixStack.translate(drawX, getY(), 0);
-                fr.draw(matrixStack, getMessage().getVisualOrderText(), drawX, getY(), this.color);
+                matrixStack.translate(drawX, y, 0);
+                fr.draw(matrixStack, getMessage().getVisualOrderText(), drawX, y, this.color);
                 matrixStack.popPose();
             } else {
-                fr.draw(matrixStack, getMessage().getVisualOrderText(), drawX, getY(), this.color);
+                fr.draw(matrixStack, getMessage().getVisualOrderText(), drawX, y, this.color);
             }
-
-            if (bgcolor!=-1)
-            {
-                fill(matrixStack,getX(),getY(),getX()+width,getY()+height,bgcolor);
-            }
-
-            if (this.toolTipTextComponent!=null && mouseX>=getX() && mouseX<=getX()+width && mouseY>=getY() && mouseY<=getY()+height)
-                this.renderHoverToolTip(matrixStack,mouseX,mouseY);
         }
+
+        if (bgcolor != -1) {
+            fill(matrixStack, x, y, x + width, y + height, bgcolor);
+        }
+
+        if (this.toolTipTextComponent != null && mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height)
+            this.renderHoverToolTip(matrixStack, mouseX, mouseY);
+
     }
 
 
@@ -141,15 +143,9 @@ public class ModWidget extends AbstractWidget {
     }
 
     @Override
-    protected void updateWidgetNarration(NarrationElementOutput p_259858_) {
+    public void updateNarration(@NotNull NarrationElementOutput p_169152_) {
 
     }
 
-    public static Button buildButton(Integer xPos, Integer yPos, Integer width, Integer height, Component component, Button.OnPress onPress){
-        return Button.builder(component,onPress)
-                .pos(xPos, yPos)
-                .size(width, height)
-                .build();
-    }
 
 }

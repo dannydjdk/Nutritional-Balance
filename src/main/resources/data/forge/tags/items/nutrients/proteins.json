@@ -31,6 +31,8 @@
     {"id":"simplefarming:sunflower_seeds",  "required":false},
     {"id":"simplefarming:cheese_slice",     "required":false},
     {"id":"simplefarming:raw_calamari",     "required":false},
+    {"id":"create:bar_of_chocolate",        "required":false},
+    {"id":"pneumaticcraft:salmon_tempura",  "required":false},
     {"id":"tconstruct:bacon",               "required":false},
     {"id":"tconstruct:sky_slime_ball",      "required":false},
     {"id":"tconstruct:ender_slime_ball",    "required":false},
@@ -51,6 +53,7 @@
     {"id":"tconstruct:clownfish_jerky",     "required":false},
     {"id":"tconstruct:pufferfish_jerky",    "required":false},
     {"id":"twilightforest:meef_stroganoff", "required":false},
+    {"id":"alexsmobs:gongylidia",           "required":false},
     {"id":"farmersdelight:ham",             "required":false},
     {"id":"farmersdelight:smoked_ham",      "required":false},
     {"id":"farmersdelight:nether_salad",    "required":false},
@@ -62,6 +65,9 @@
     {"id":"pamhc2trees:candlenutitem",      "required":false},
     {"id":"pamhc2trees:coconutitem",        "required":false},
     {"id":"pamhc2crops:whitemushroomitem",  "required":false},
+    {"id":"aquaculture:fish_fillet_raw",    "required":false},
+    {"id":"aquaculture:frog_legs_raw",      "required":false},
+    {"id":"aquaculture:turtle_soup",        "required":false},
     {"id":"sushigocrafting:cheese",         "required":false},
     {"id":"sushigocrafting:imitation_crab", "required":false},
     {"id":"sushigocrafting:salmon_fillet",  "required":false},
@@ -69,6 +75,7 @@
     {"id":"sushigocrafting:tobiko",         "required":false},
     {"id":"sushigocrafting:tuna_fillet",    "required":false},
     {"id":"sushigocrafting:sesame_seed",    "required":false},
+    
     {"id":"sushigocrafting:salmon_maki",                       "required":false},
     {"id":"sushigocrafting:tuna_maki",                         "required":false},
     {"id":"sushigocrafting:crab_maki",                         "required":false},
@@ -99,7 +106,6 @@
     {"id":"sushigocrafting:tuna_temaki",                       "required":false},
     {"id":"sushigocrafting:shrimp_temaki",                     "required":false},
     {"id":"sushigocrafting:chicken_temaki",                    "required":false}
-
 
   ]
 }

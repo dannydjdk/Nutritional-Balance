@@ -36,6 +36,11 @@ public class ModNetworkHandler {
                 .decoder(GUITrigger::new)
                 .consumerNetworkThread(GUITrigger::handle)
                 .add();
+        INSTANCE.messageBuilder(LunchBoxActiveItemSync.class,nextID())
+                .encoder(LunchBoxActiveItemSync::toBytes)
+                .decoder(LunchBoxActiveItemSync::new)
+                .consumerNetworkThread(LunchBoxActiveItemSync::handle)
+                .add();
         INSTANCE.registerMessage(
                 nextID(),
                 PacketOpenGui.class,

@@ -2,7 +2,7 @@ package com.dannyandson.nutritionalbalance.nutrients;
 
 import com.dannyandson.nutritionalbalance.Config;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.food.FoodProperties;
@@ -25,7 +25,7 @@ public class WorldNutrients
     {
         reset();
          //loop through nutrient/* tags
-        for (TagKey<Item> tagKey: BuiltInRegistries.ITEM.getTagNames().toList()) {
+        for (TagKey<Item> tagKey: Registry.ITEM.getTagNames().toList()) {
             ResourceLocation resourceLocation = tagKey.location();
             String namespace = resourceLocation.getNamespace();
             String path = resourceLocation.getPath();
