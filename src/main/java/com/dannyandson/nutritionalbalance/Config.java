@@ -20,6 +20,7 @@ public class Config {
     public static final String CATEGORY_EFFECTS_MALNOURISHED = "malnourished_affects";
     public static final String CATEGORY_EFFECTS_ENGORGED = "engorged_affects";
     public static final String CATEGORY_FOODS = "nutrient_foods";
+    public static final String CATEGORY_LUNCHBOX = "lunchbox";
 
     //Server config values
     public static ForgeConfigSpec.DoubleValue NUTRIENT_INITIAL;
@@ -69,6 +70,8 @@ public class Config {
     public static ForgeConfigSpec.DoubleValue ENGORGED_ATTACK_DAMAGE;
     public static ForgeConfigSpec.DoubleValue ENGORGED_ATTACK_KNOCKBACK;
     public static ForgeConfigSpec.DoubleValue ENGORGED_ATTACK_SPEED;
+
+    public static ForgeConfigSpec.IntValue LUNCHBOX_SLOT_COUNT;
 
     static {
         ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
@@ -217,7 +220,12 @@ public class Config {
                 .define("fruits_item_list",fruitsList);
 
 
+        SERVER_BUILDER.pop();
 
+        SERVER_BUILDER.comment("Lunch Box").push(CATEGORY_LUNCHBOX);
+
+        LUNCHBOX_SLOT_COUNT = SERVER_BUILDER.comment("Number of inventory slots the lunchbox contains. (default: 5)")
+                .defineInRange("lunchbox_slot_count",5,1,9);
 
         SERVER_BUILDER.pop().pop();
 

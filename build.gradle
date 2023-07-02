@@ -15,7 +15,7 @@ plugins {
 }
 apply plugin: 'net.minecraftforge.gradle'
 
-version = '1.18.2-3.1.1'
+version = '1.18.2-3.2.0'
 group = 'com.dannyandson.nutritionalbalance' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'nutritionalbalance'
 def jeiFileID = '3683240'
@@ -151,9 +151,10 @@ dependencies {
     // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft', it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.18.2-40.0.12'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.2.0'
 
     implementation fg.deobf("curse.maven:jei-238222:${jeiFileID}")
+    implementation fg.deobf("curse.maven:pams-372534:3740562")
     //implementation fg.deobf("curse.maven:oauth-513857:${oAuthFileID}")
     //implementation fg.deobf("curse.maven:croptopia-415438:3590394")
     //implementation fg.deobf("curse.maven:watersource-388078:3649661")

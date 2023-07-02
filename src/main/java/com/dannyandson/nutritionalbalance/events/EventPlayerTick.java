@@ -1,12 +1,12 @@
 package com.dannyandson.nutritionalbalance.events;
 
 import com.dannyandson.nutritionalbalance.Config;
-import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
 import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
 import com.dannyandson.nutritionalbalance.network.PlayerSync;
 import com.dannyandson.nutritionalbalance.nutrients.PlayerNutritionData;
+import com.dannyandson.nutritionalbalance.setup.Registration;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
@@ -41,41 +41,41 @@ public class EventPlayerTick {
                 IPlayerNutrient.NutrientStatus currentStatus = iNutritionalBalancePlayer.getStatus();
 
                 if (event.side == LogicalSide.SERVER) {
-                    MobEffectInstance nourished = playerEntity.getEffect(NutritionalBalance.NOURISHED_EFFECT.get()),
-                            malnourished = playerEntity.getEffect(NutritionalBalance.MALNOURISHED_EFFECT.get()),
-                            engorged = playerEntity.getEffect(NutritionalBalance.ENGORGED_EFFECT.get());
+                    MobEffectInstance nourished = playerEntity.getEffect(Registration.NOURISHED_EFFECT.get()),
+                            malnourished = playerEntity.getEffect(Registration.MALNOURISHED_EFFECT.get()),
+                            engorged = playerEntity.getEffect(Registration.ENGORGED_EFFECT.get());
 
                     if (currentStatus == IPlayerNutrient.NutrientStatus.ENGORGED) {
                         if (nourished != null)
-                            playerEntity.removeEffect(NutritionalBalance.NOURISHED_EFFECT.get());
+                            playerEntity.removeEffect(Registration.NOURISHED_EFFECT.get());
                         if (malnourished != null)
-                            playerEntity.removeEffect(NutritionalBalance.MALNOURISHED_EFFECT.get());
+                            playerEntity.removeEffect(Registration.MALNOURISHED_EFFECT.get());
                         if (engorged == null)
-                            playerEntity.addEffect(new MobEffectInstance(NutritionalBalance.ENGORGED_EFFECT.get(), Integer.MAX_VALUE, 0, true, false, true));
+                            playerEntity.addEffect(new MobEffectInstance(Registration.ENGORGED_EFFECT.get(), Integer.MAX_VALUE, 0, true, false, true));
 
                     } else if (currentStatus == IPlayerNutrient.NutrientStatus.MALNOURISHED) {
                         if (nourished != null)
-                            playerEntity.removeEffect(NutritionalBalance.NOURISHED_EFFECT.get());
+                            playerEntity.removeEffect(Registration.NOURISHED_EFFECT.get());
                         if (malnourished == null)
-                            playerEntity.addEffect(new MobEffectInstance(NutritionalBalance.MALNOURISHED_EFFECT.get(), Integer.MAX_VALUE, 0, true, false, true));
+                            playerEntity.addEffect(new MobEffectInstance(Registration.MALNOURISHED_EFFECT.get(), Integer.MAX_VALUE, 0, true, false, true));
                         if (engorged != null)
-                            playerEntity.removeEffect(NutritionalBalance.ENGORGED_EFFECT.get());
+                            playerEntity.removeEffect(Registration.ENGORGED_EFFECT.get());
 
                     } else if (currentStatus == IPlayerNutrient.NutrientStatus.ON_TARGET) {
                         if (nourished == null)
-                            playerEntity.addEffect(new MobEffectInstance(NutritionalBalance.NOURISHED_EFFECT.get(), Integer.MAX_VALUE, 0, true, false, true));
+                            playerEntity.addEffect(new MobEffectInstance(Registration.NOURISHED_EFFECT.get(), Integer.MAX_VALUE, 0, true, false, true));
                         if (malnourished != null)
-                            playerEntity.removeEffect(NutritionalBalance.MALNOURISHED_EFFECT.get());
+                            playerEntity.removeEffect(Registration.MALNOURISHED_EFFECT.get());
                         if (engorged != null)
-                            playerEntity.removeEffect(NutritionalBalance.ENGORGED_EFFECT.get());
+                            playerEntity.removeEffect(Registration.ENGORGED_EFFECT.get());
 
                     } else {
                         if (nourished != null)
-                            playerEntity.removeEffect(NutritionalBalance.NOURISHED_EFFECT.get());
+                            playerEntity.removeEffect(Registration.NOURISHED_EFFECT.get());
                         if (malnourished != null)
-                            playerEntity.removeEffect(NutritionalBalance.MALNOURISHED_EFFECT.get());
+                            playerEntity.removeEffect(Registration.MALNOURISHED_EFFECT.get());
                         if (engorged != null)
-                            playerEntity.removeEffect(NutritionalBalance.ENGORGED_EFFECT.get());
+                            playerEntity.removeEffect(Registration.ENGORGED_EFFECT.get());
                     }
                 }
 
