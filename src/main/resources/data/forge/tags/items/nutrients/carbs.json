@@ -4,6 +4,7 @@
     "minecraft:potato",
     "minecraft:poisonous_potato",
     "minecraft:wheat",
+    "minecraft:bread",
     
     {"id":"create:bar_of_chocolate",         "required":false},
     {"id":"pneumaticcraft:wheat_flour",      "required":false},
