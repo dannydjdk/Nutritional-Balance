@@ -12,6 +12,9 @@ base {
     archivesName = mod_id
 }
 
+def include_candlelight = false
+def include_farmersdelight = false
+
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -78,6 +81,11 @@ minecraft {
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             property 'forge.enabledGameTestNamespaces', mod_id
+
+            if (include_candlelight) {
+                property 'mixin.env.remapRefMap', 'true'
+                property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            }
 
             mods {
                 "${mod_id}" {
@@ -160,7 +168,15 @@ dependencies {
     // then special handling is done to allow a setup of a vanilla dependency without the use of an external repository.
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    implementation fg.deobf('curse.maven:jei-238222:4581323')
+    implementation fg.deobf("curse.maven:jei-238222:4644453")
+    if (include_candlelight) {
+        implementation fg.deobf("curse.maven:lets-do-candlelight-846962:4651958")
+        implementation fg.deobf("curse.maven:architectury-api-419699:4663010")
+        implementation fg.deobf("curse.maven:do-api-864599:4651810")
+    }
+    if (include_farmersdelight) {
+        implementation fg.deobf("curse.maven:farmers-delight-398521:4679319")
+    }
 
 
 }

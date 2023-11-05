@@ -70,7 +70,7 @@ public class DefaultNutritionalBalancePlayer implements INutritionalBalancePlaye
         FoodProperties food = item.getFoodProperties();
 
         if (food!=null) {
-            List<Nutrient> nutrients = WorldNutrients.getNutrients(item, world);
+            List<Nutrient> nutrients = WorldNutrients.getNutrients(itemStack, world);
             for (Nutrient nutrient : nutrients) {
                 float nutrientUnits = WorldNutrients.getEffectiveFoodQuality(food,nutrients.size()) * Config.NUTRIENT_INCREMENT_RATE.get().floatValue() / nutrients.size();
                 this.getPlayerNutrientByName(nutrient.name).changeValue(nutrientUnits);
