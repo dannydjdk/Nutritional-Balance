@@ -11,7 +11,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 public class ModNetworkHandler {
     private static SimpleChannel INSTANCE;
     private static int ID = 0;
-    private static final String PROTOCOL_VERSION = "2.2";
+    private static final String PROTOCOL_VERSION = "2.3";
     public static PacketOpenGui packetOpenGui;
 
     private static int nextID() {
@@ -40,6 +40,16 @@ public class ModNetworkHandler {
                 .encoder(LunchBoxActiveItemSync::toBytes)
                 .decoder(LunchBoxActiveItemSync::new)
                 .consumer(LunchBoxActiveItemSync::handle)
+                .add();
+        INSTANCE.messageBuilder(NutrientDataSyncTrigger.class,nextID())
+                .encoder(NutrientDataSyncTrigger::toBytes)
+                .decoder(NutrientDataSyncTrigger::new)
+                .consumer(NutrientDataSyncTrigger::handle)
+                .add();
+        INSTANCE.messageBuilder(NutrientDataSync.class,nextID())
+                .encoder(NutrientDataSync::toBytes)
+                .decoder(NutrientDataSync::new)
+                .consumer(NutrientDataSync::handle)
                 .add();
         INSTANCE.registerMessage(
                 nextID(),
