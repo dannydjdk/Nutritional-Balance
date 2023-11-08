@@ -13,10 +13,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class PlayerSync {
 
@@ -47,9 +46,9 @@ public class PlayerSync {
         buf.writeUtf(inutritionalbalancePlayerJson.toString());
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
+    public boolean handle(CustomPayloadEvent.Context ctx) {
 
-        ctx.get().enqueueWork(() -> {
+        ctx.enqueueWork(() -> {
             INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(ClientHelpers.getLocalPlayer());
             for (Map.Entry<String, JsonElement> jsonElementEntry : inutritionalbalancePlayerJson.entrySet()) {
 
@@ -66,7 +65,7 @@ public class PlayerSync {
                 NutrientGUI.open();
             }
 
-            ctx.get().setPacketHandled(true);
+            ctx.setPacketHandled(true);
         });
         return true;
     }

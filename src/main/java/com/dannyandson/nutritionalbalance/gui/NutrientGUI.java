@@ -5,6 +5,7 @@ import com.dannyandson.nutritionalbalance.keybinding.ModKeyBindings;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -75,9 +76,13 @@ public class NutrientGUI extends Screen implements INutrientGUIScreen{
         int relX = (this.width - WIDTH) / 2;
         int relY = (this.height - HEIGHT) / 2;
 
+        this.renderBackground(guiGraphics,mouseX, mouseY, partialTicks);
         guiGraphics.blit(GUI,relX, relY, 0, 0, WIDTH, HEIGHT);
 
-        super.render(guiGraphics,mouseX, mouseY, partialTicks);
+        for(Renderable renderable : this.renderables) {
+            renderable.render(guiGraphics,mouseX, mouseY, partialTicks);
+        }
+
     }
 
     public static void open() {

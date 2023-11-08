@@ -85,7 +85,7 @@ public class ModWidget extends AbstractWidget {
     public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         if (visible) {
             if (texture != null) {
-                this.renderTexture(guiGraphics,texture,this.getX(),this.getY(),0,0,0,width,height,width,height);
+                guiGraphics.blit(texture,this.getX(),this.getY(),0,0,0,width,height,width,height);
             } else {
                 int drawX, drawY;
                 Font fr = Minecraft.getInstance().font;

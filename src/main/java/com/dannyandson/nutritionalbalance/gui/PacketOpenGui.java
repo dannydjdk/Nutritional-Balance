@@ -1,13 +1,11 @@
 package com.dannyandson.nutritionalbalance.gui;
 
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 public class PacketOpenGui {
 
-    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(NutrientGUI::open);
+    public boolean handle(CustomPayloadEvent.Context ctx) {
+        ctx.enqueueWork(NutrientGUI::open);
         return true;
     }
 

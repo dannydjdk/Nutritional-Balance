@@ -4,9 +4,7 @@ import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.nutrients.PlayerNutritionData;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 public class GUITrigger {
 
@@ -19,11 +17,11 @@ public class GUITrigger {
     public void toBytes(FriendlyByteBuf buf) {
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(()-> {
-            ServerPlayer player =  ctx.get().getSender();
+    public boolean handle(CustomPayloadEvent.Context ctx) {
+        ctx.enqueueWork(()-> {
+            ServerPlayer player =  ctx.getSender();
             INutritionalBalancePlayer inutritionalbalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(player);
-            ModNetworkHandler.sendToClient(new PlayerSync(inutritionalbalancePlayer,true), ctx.get().getSender());
+            ModNetworkHandler.sendToClient(new PlayerSync(inutritionalbalancePlayer,true), ctx.getSender());
         });
         return true;
     }

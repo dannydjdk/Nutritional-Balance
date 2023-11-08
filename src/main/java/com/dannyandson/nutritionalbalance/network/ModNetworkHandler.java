@@ -4,14 +4,14 @@ import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import com.dannyandson.nutritionalbalance.gui.PacketOpenGui;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraftforge.network.ChannelBuilder;
+import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.network.SimpleChannel;
 
 public class ModNetworkHandler {
     private static SimpleChannel INSTANCE;
     private static int ID = 0;
-    private static final String PROTOCOL_VERSION = "2.3";
+    private static final int PROTOCOL_VERSION = 3;
     public static PacketOpenGui packetOpenGui;
 
     private static int nextID() {
@@ -20,11 +20,12 @@ public class ModNetworkHandler {
 
     public static void registerMessages() {
         packetOpenGui = new PacketOpenGui();
-        INSTANCE = NetworkRegistry.newSimpleChannel(
-                new ResourceLocation(NutritionalBalance.MODID, "playersync"),
-                () -> PROTOCOL_VERSION,
-                PROTOCOL_VERSION::equals,
-                PROTOCOL_VERSION::equals);
+        INSTANCE = ChannelBuilder
+                .named(new ResourceLocation(NutritionalBalance.MODID, "playersync"))
+                .networkProtocolVersion(PROTOCOL_VERSION)
+                .clientAcceptedVersions((status, version) -> true)
+                .serverAcceptedVersions((status, version) -> true)
+                .simpleChannel();;
 
         INSTANCE.messageBuilder(PlayerSync.class,nextID())
                 .encoder(PlayerSync::toBytes)
@@ -51,22 +52,18 @@ public class ModNetworkHandler {
                 .decoder(NutrientDataSync::new)
                 .consumerNetworkThread(NutrientDataSync::handle)
                 .add();
-        INSTANCE.registerMessage(
-                nextID(),
-                PacketOpenGui.class,
-                (((packetOpenGui, packetBuffer) -> {})),
-                (packetBuffer->packetOpenGui),
-                PacketOpenGui::handle
-        );
+        INSTANCE.messageBuilder(PacketOpenGui.class,nextID())
+                .consumerNetworkThread(PacketOpenGui::handle)
+                .add();
 
     }
 
     public static void sendToClient(Object packet, ServerPlayer player) {
-        INSTANCE.sendTo(packet, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+        INSTANCE.send(packet, PacketDistributor.PLAYER.with(player));
     }
 
     public static void sendToServer(Object packet) {
-        INSTANCE.sendToServer(packet);
+        INSTANCE.send(packet, PacketDistributor.SERVER.noArg());
     }
 
 }

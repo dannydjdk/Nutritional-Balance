@@ -6,6 +6,7 @@ import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
 import com.dannyandson.nutritionalbalance.capabilities.DefaultNutritionalBalancePlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.saveddata.SavedData;
 
@@ -16,7 +17,7 @@ public class PlayerNutritionData extends SavedData {
 
     private static PlayerNutritionData worldNutritionData;
     public static void init(ServerLevel serverLevel){
-        worldNutritionData = serverLevel.getDataStorage().computeIfAbsent(PlayerNutritionData::new, PlayerNutritionData::new, NutritionalBalance.MODID);
+        worldNutritionData = serverLevel.getDataStorage().computeIfAbsent(new SavedData.Factory<>(PlayerNutritionData::new, PlayerNutritionData::new, DataFixTypes.LEVEL), NutritionalBalance.MODID);
     }
 
     public static PlayerNutritionData getWorldNutritionData() {

@@ -13,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -151,9 +152,10 @@ public class WorldNutrients
                             nutrientList.add(proteinNutrient);
                     } else {
 
-                        Collection<Recipe<?>> recipes = world.getRecipeManager().getRecipes().stream().sorted((o1, o2) -> o2.getId().getPath().compareTo(o1.getId().getPath())).toList();
+                        Collection<RecipeHolder<?>> recipes = world.getRecipeManager().getRecipes().stream().sorted((o1, o2) -> o2.id().getPath().compareTo(o1.id().getPath())).toList();
 
-                        for (Recipe<?> recipe : recipes) {
+                        for (RecipeHolder<?> recipeHolder : recipes) {
+                            Recipe<?> recipe = recipeHolder.value();
                             ItemStack recipeItemStack = recipe.getResultItem(world.registryAccess());
                             if (recipeItemStack != null && recipeItemStack.getItem() == item.getItem()) {
                                 NonNullList<Ingredient> ingredients = recipe.getIngredients();

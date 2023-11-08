@@ -3,9 +3,7 @@ package com.dannyandson.nutritionalbalance.network;
 import com.dannyandson.nutritionalbalance.lunchbox.LunchBoxItem;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 public class LunchBoxActiveItemSync {
 
@@ -23,15 +21,15 @@ public class LunchBoxActiveItemSync {
         buffer.writeUtf(activeItemId);
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
+    public boolean handle(CustomPayloadEvent.Context ctx) {
 
-        ctx.get().enqueueWork(() -> {
+        ctx.enqueueWork(() -> {
 
-            ItemStack stack = ctx.get().getSender().getMainHandItem();
+            ItemStack stack = ctx.getSender().getMainHandItem();
             if (stack.getItem() instanceof LunchBoxItem lunchBoxItem) {
                 lunchBoxItem.setActiveFood(stack,activeItemId);
             }
-            ctx.get().setPacketHandled(true);
+            ctx.setPacketHandled(true);
         });
         return true;
     }

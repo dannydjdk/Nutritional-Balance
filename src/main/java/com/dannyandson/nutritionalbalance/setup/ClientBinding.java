@@ -17,7 +17,7 @@ public class ClientBinding {
 
     @SubscribeEvent
     public static void wheelEvent(final InputEvent.MouseScrollingEvent mouseScrollEvent) {
-        if (mouseScrollEvent.isCanceled() || mouseScrollEvent.getScrollDelta() == 0) return;
+        if (mouseScrollEvent.isCanceled() || mouseScrollEvent.getDeltaX() == 0) return;
         Player player = Minecraft.getInstance().player;
         if (player != null && player.isSecondaryUseActive() && player.getMainHandItem().getItem() instanceof LunchBoxItem lunchBoxItem) {
             ItemStack lunchBoxStack = player.getMainHandItem();
@@ -29,7 +29,7 @@ public class ClientBinding {
                     maxSlot = i;
             }
             if (maxSlot!=null){
-                boolean reverse = mouseScrollEvent.getScrollDelta() < 0;
+                boolean reverse = mouseScrollEvent.getDeltaX() < 0;
                 ItemStack activeStack;
                 if (activeSlot == null) {
                     activeStack = lunchBoxItem.getItemStack(lunchBoxStack, (reverse)?maxSlot:0);

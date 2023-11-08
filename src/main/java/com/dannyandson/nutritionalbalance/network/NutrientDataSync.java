@@ -4,11 +4,10 @@ import com.dannyandson.nutritionalbalance.nutrients.Nutrient;
 import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class NutrientDataSync {
 
@@ -41,11 +40,11 @@ public class NutrientDataSync {
         buf.writeUtf(nutrientString);
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
+    public boolean handle(CustomPayloadEvent.Context ctx) {
 
-        ctx.get().enqueueWork(() -> {
+        ctx.enqueueWork(() -> {
             WorldNutrients.setItemNutrients(item,nutrients);
-            ctx.get().setPacketHandled(true);
+            ctx.setPacketHandled(true);
         });
         return true;
     }

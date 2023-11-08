@@ -4,9 +4,7 @@ import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 public class NutrientDataSyncTrigger {
 
@@ -24,9 +22,9 @@ public class NutrientDataSyncTrigger {
         buf.writeItem(item.getDefaultInstance());
     }
 
-    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(()-> {
-            ServerPlayer player =  ctx.get().getSender();
+    public boolean handle(CustomPayloadEvent.Context ctx) {
+        ctx.enqueueWork(()-> {
+            ServerPlayer player =  ctx.getSender();
             ModNetworkHandler.sendToClient(new NutrientDataSync(item, WorldNutrients.getNutrients(item,player.level())), player);
         });
         return true;
