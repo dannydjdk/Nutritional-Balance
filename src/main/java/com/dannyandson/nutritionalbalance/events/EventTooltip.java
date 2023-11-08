@@ -87,7 +87,7 @@ public class EventTooltip {
             }catch (Exception e)
             {
                 //catch and log any exceptions thrown so JEI doesn't break if something goes wrong.
-                NutritionalBalance.LOGGER.error("Exception thrown while adding nutrient info  for '" + itemStack.getDisplayName().getString() + "' to tooltips: " + e.getStackTrace()[0].toString());
+                NutritionalBalance.LOGGER.error("Exception thrown while adding nutrient info  for '" + itemStack.getDisplayName().getString() + "' to tooltips: " + e.getMessage());
             }
         }
 
