@@ -25,7 +25,7 @@ public class ModNetworkHandler {
                 .networkProtocolVersion(PROTOCOL_VERSION)
                 .clientAcceptedVersions((status, version) -> true)
                 .serverAcceptedVersions((status, version) -> true)
-                .simpleChannel();;
+                .simpleChannel();
 
         INSTANCE.messageBuilder(PlayerSync.class,nextID())
                 .encoder(PlayerSync::toBytes)
