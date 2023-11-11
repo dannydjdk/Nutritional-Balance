@@ -24,8 +24,11 @@ public class NutrientDataSync {
     {
         this.item=buffer.readItem().getItem();
         this.nutrients=new ArrayList<Nutrient>();
-        for (String nutrientString : buffer.readUtf().split(",")){
-            nutrients.add(WorldNutrients.getByName(nutrientString));
+        String[] nutrientStrings = buffer.readUtf().split(",");
+        for (String nutrientString : nutrientStrings){
+            Nutrient nutrient = WorldNutrients.getByName(nutrientString);
+            if (nutrient!=null)
+                nutrients.add(WorldNutrients.getByName(nutrientString));
         }
 
     }
