@@ -1,38 +1,38 @@
 package com.dannyandson.nutritionalbalance.network;
 
+import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import com.dannyandson.nutritionalbalance.lunchbox.LunchBoxItem;
-import net.minecraft.network.FriendlyByteBuf;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.function.Supplier;
+public record LunchBoxActiveItemSync(String activeItemId) implements CustomPacketPayload {
 
-public class LunchBoxActiveItemSync {
+    public static final Type<LunchBoxActiveItemSync> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(NutritionalBalance.MODID, "lunchbox_active"));
 
-    String activeItemId;
+    public static final StreamCodec<ByteBuf, LunchBoxActiveItemSync> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.STRING_UTF8, LunchBoxActiveItemSync::activeItemId,
+            LunchBoxActiveItemSync::new
+    );
 
-    public LunchBoxActiveItemSync(String activeItemId) {
-        this.activeItemId = activeItemId;
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
-    public LunchBoxActiveItemSync(FriendlyByteBuf buffer) {
-        this.activeItemId = buffer.readUtf();
-    }
-
-    public void toBytes(FriendlyByteBuf buffer) {
-        buffer.writeUtf(activeItemId);
-    }
-
-    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
-
-        ctx.get().enqueueWork(() -> {
-
-            ItemStack stack = ctx.get().getSender().getMainHandItem();
-            if (stack.getItem() instanceof LunchBoxItem lunchBoxItem) {
-                lunchBoxItem.setActiveFood(stack,activeItemId);
+    public static void handle(LunchBoxActiveItemSync packet, IPayloadContext ctx) {
+        ctx.enqueueWork(() -> {
+            if (ctx.player() instanceof ServerPlayer player) {
+                ItemStack stack = player.getMainHandItem();
+                if (stack.getItem() instanceof LunchBoxItem lunchBoxItem) {
+                    lunchBoxItem.setActiveFood(stack, packet.activeItemId());
+                }
             }
-            ctx.get().setPacketHandled(true);
         });
-        return true;
     }
 }

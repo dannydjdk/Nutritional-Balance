@@ -1,18 +1,20 @@
 package com.dannyandson.nutritionalbalance.setup;
 
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
+import com.dannyandson.nutritionalbalance.lunchbox.LunchBoxItemRenderer;
 import com.dannyandson.nutritionalbalance.lunchbox.LunchBoxScreen;
-import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
-@Mod.EventBusSubscriber(modid = NutritionalBalance.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientSetup {
-    public static void init(final FMLClientSetupEvent event) {
-        MenuScreens.register(Registration.LUNCHBOX_MENU_TYPE.get(), LunchBoxScreen::new);
+    public static void init(final RegisterMenuScreensEvent event) {
+        event.register(Registration.LUNCHBOX_MENU_TYPE.get(), LunchBoxScreen::new);
     }
 
     public static void addCreative(BuildCreativeModeTabContentsEvent event){
@@ -20,5 +22,17 @@ public class ClientSetup {
         {
             event.accept(Registration.LUNCHBOX_ITEM.get());
         }
+    }
+
+    public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+        event.registerItem(new IClientItemExtensions() {
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                return new LunchBoxItemRenderer(
+                        Minecraft.getInstance().getBlockEntityRenderDispatcher(),
+                        Minecraft.getInstance().getEntityModels()
+                );
+            }
+        }, Registration.LUNCHBOX_ITEM.get());
     }
 }

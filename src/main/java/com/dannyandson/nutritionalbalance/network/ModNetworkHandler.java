@@ -1,72 +1,42 @@
 package com.dannyandson.nutritionalbalance.network;
 
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
-import com.dannyandson.nutritionalbalance.gui.PacketOpenGui;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.simple.SimpleChannel;
+import com.dannyandson.nutritionalbalance.gui.PacketOpenGui;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 public class ModNetworkHandler {
-    private static SimpleChannel INSTANCE;
-    private static int ID = 0;
-    private static final String PROTOCOL_VERSION = "2.3";
-    public static PacketOpenGui packetOpenGui;
 
-    private static int nextID() {
-        return ID++;
-    }
+    public static void registerMessages(RegisterPayloadHandlersEvent event) {
+        final PayloadRegistrar registrar = event.registrar(NutritionalBalance.MODID).versioned("2.3");
 
-    public static void registerMessages() {
-        packetOpenGui = new PacketOpenGui();
-        INSTANCE = NetworkRegistry.newSimpleChannel(
-                new ResourceLocation(NutritionalBalance.MODID, "playersync"),
-                () -> PROTOCOL_VERSION,
-                PROTOCOL_VERSION::equals,
-                PROTOCOL_VERSION::equals);
-
-        INSTANCE.messageBuilder(PlayerSync.class,nextID())
-                .encoder(PlayerSync::toBytes)
-                .decoder(PlayerSync::new)
-                .consumerNetworkThread(PlayerSync::handle)
-                .add();
-        INSTANCE.messageBuilder(GUITrigger.class,nextID())
-                .encoder(GUITrigger::toBytes)
-                .decoder(GUITrigger::new)
-                .consumerNetworkThread(GUITrigger::handle)
-                .add();
-        INSTANCE.messageBuilder(LunchBoxActiveItemSync.class,nextID())
-                .encoder(LunchBoxActiveItemSync::toBytes)
-                .decoder(LunchBoxActiveItemSync::new)
-                .consumerNetworkThread(LunchBoxActiveItemSync::handle)
-                .add();
-        INSTANCE.messageBuilder(NutrientDataSyncTrigger.class,nextID())
-                .encoder(NutrientDataSyncTrigger::toBytes)
-                .decoder(NutrientDataSyncTrigger::new)
-                .consumerNetworkThread(NutrientDataSyncTrigger::handle)
-                .add();
-        INSTANCE.messageBuilder(NutrientDataSync.class,nextID())
-                .encoder(NutrientDataSync::toBytes)
-                .decoder(NutrientDataSync::new)
-                .consumerNetworkThread(NutrientDataSync::handle)
-                .add();
-        INSTANCE.registerMessage(
-                nextID(),
-                PacketOpenGui.class,
-                (((packetOpenGui, packetBuffer) -> {})),
-                (packetBuffer->packetOpenGui),
-                PacketOpenGui::handle
-        );
-
+        registrar.playToClient(PlayerSync.TYPE, PlayerSync.STREAM_CODEC, PlayerSync::handle);
+        registrar.playToServer(GUITrigger.TYPE, GUITrigger.STREAM_CODEC, GUITrigger::handle);
+        registrar.playToServer(LunchBoxActiveItemSync.TYPE, LunchBoxActiveItemSync.STREAM_CODEC, LunchBoxActiveItemSync::handle);
+        registrar.playToServer(NutrientDataSyncTrigger.TYPE, NutrientDataSyncTrigger.STREAM_CODEC, NutrientDataSyncTrigger::handle);
+        registrar.playToClient(NutrientDataSync.TYPE, NutrientDataSync.STREAM_CODEC, NutrientDataSync::handle);
+        registrar.playToClient(PacketOpenGui.TYPE, PacketOpenGui.STREAM_CODEC, PacketOpenGui::handle);
     }
 
     public static void sendToClient(Object packet, ServerPlayer player) {
-        INSTANCE.sendTo(packet, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+        if (packet instanceof PlayerSync ps) {
+            PacketDistributor.sendToPlayer(player, ps);
+        } else if (packet instanceof NutrientDataSync nds) {
+            PacketDistributor.sendToPlayer(player, nds);
+        } else if (packet instanceof PacketOpenGui pog) {
+            PacketDistributor.sendToPlayer(player, pog);
+        }
     }
 
     public static void sendToServer(Object packet) {
-        INSTANCE.sendToServer(packet);
+        if (packet instanceof GUITrigger gt) {
+            PacketDistributor.sendToServer(gt);
+        } else if (packet instanceof LunchBoxActiveItemSync lbais) {
+            PacketDistributor.sendToServer(lbais);
+        } else if (packet instanceof NutrientDataSyncTrigger ndst) {
+            PacketDistributor.sendToServer(ndst);
+        }
     }
-
 }

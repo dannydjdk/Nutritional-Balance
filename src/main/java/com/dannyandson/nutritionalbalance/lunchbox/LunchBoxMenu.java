@@ -2,6 +2,7 @@ package com.dannyandson.nutritionalbalance.lunchbox;
 
 import com.dannyandson.nutritionalbalance.Config;
 import com.dannyandson.nutritionalbalance.setup.Registration;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -47,7 +48,7 @@ public class LunchBoxMenu extends AbstractContainerMenu {
 
                 @Override
                 public boolean mayPlace(@NotNull ItemStack stack) {
-                    return stack.isEdible() && !(stack.getItem() instanceof LunchBoxItem);
+                    return stack.has(DataComponents.FOOD) && !(stack.getItem() instanceof LunchBoxItem);
                 }
             });
         }
@@ -56,13 +57,11 @@ public class LunchBoxMenu extends AbstractContainerMenu {
             for (int playerInvCol = 0; playerInvCol < 9; playerInvCol++) {
                 this.addSlot(new Slot(playerInventory, playerInvCol + playerInvRow * 9 + 9, leftCol + playerInvCol * 18, ySize - (4 - playerInvRow) * 18 - 10));
             }
-
         }
 
         for (int hotbarSlot = 0; hotbarSlot < 9; hotbarSlot++) {
             this.addSlot(new Slot(playerInventory, hotbarSlot, leftCol + hotbarSlot * 18, ySize - 24));
         }
-
     }
 
     @Override
@@ -109,7 +108,6 @@ public class LunchBoxMenu extends AbstractContainerMenu {
             lunchBoxItem.setActiveFood(this.lunchBox,container.getItem(slot),this.playerInventory.player.level().isClientSide());
         }
     }
-
 
     public ItemStack getLunchBoxItemStack(){
         return this.lunchBox;

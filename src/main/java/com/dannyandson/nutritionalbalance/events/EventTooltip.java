@@ -15,8 +15,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CakeBlock;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 
 import java.util.List;
 import java.util.StringJoiner;
@@ -31,19 +31,16 @@ public class EventTooltip {
             world = event.getEntity().level();
         else
         {
-            //tool tip event being called by a non-entity such as JEI
             try {
                 world = Minecraft.getInstance().level;
             }catch (Exception e)
             {
-                //this shouldn't happen unless some mod calls the tool tip event on the server side for some reason.
                 NutritionalBalance.LOGGER.error("Exception during attempt to access tooltip by non-entity." + e.getLocalizedMessage());
                 return;
             }
         }
 
         if(itemStack.getFoodProperties(null) != null || item instanceof BlockItem && ((BlockItem) item).getBlock() instanceof CakeBlock) {
-            // Create readable list of nutrients
             StringJoiner stringJoiner = new StringJoiner(", ");
 
             try {
@@ -65,7 +62,6 @@ public class EventTooltip {
                         event.getToolTip().add(Component.nullToEmpty(
                                 "§7" + I18n.get("nutritionalbalance.nutrients") + ": §2" + stringJoiner.toString() + "§7" + NUvalue + "§r"
                         ));
-
                     }
                 }
 
@@ -75,21 +71,14 @@ public class EventTooltip {
                             ResourceLocation tag = tagKey.location();
                             event.getToolTip().add(Component.nullToEmpty("#" + tag.toString()));
                         }
-
-                        if (itemStack.getTag() != null) {
-                            //event.getEntity().sendMessage(itemStack.getTag().toFormattedComponent(),event.getEntity().getUniqueID());
-                            event.getToolTip().add(Component.nullToEmpty(itemStack.getTag().toString()));
-                        }
                     } else {
                         event.getToolTip().add(Component.nullToEmpty("§8--Hold shift for tag info--§r"));
                     }
 
             }catch (Exception e)
             {
-                //catch and log any exceptions thrown so JEI doesn't break if something goes wrong.
                 NutritionalBalance.LOGGER.error("Exception thrown while adding nutrient info  for '" + itemStack.getDisplayName().getString() + "' to tooltips: " + e.getMessage());
             }
         }
-
     }
 }

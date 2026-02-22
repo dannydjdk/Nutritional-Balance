@@ -1,17 +1,17 @@
 package com.dannyandson.nutritionalbalance;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.config.ModConfigEvent;
 
 import java.util.*;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber(modid = NutritionalBalance.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class Config {
 
-    public static ForgeConfigSpec SERVER_CONFIG;
-    public static ForgeConfigSpec CLIENT_CONFIG;
+    public static ModConfigSpec SERVER_CONFIG;
+    public static ModConfigSpec CLIENT_CONFIG;
 
     public static final String CATEGORY_GENERAL = "general";
     public static final String CATEGORY_NUTRIENT_LEVELS = "nutrient_levels";
@@ -21,61 +21,58 @@ public class Config {
     public static final String CATEGORY_EFFECTS_ENGORGED = "engorged_affects";
     public static final String CATEGORY_FOODS = "nutrient_foods";
 
-    //Server config values
-    public static ForgeConfigSpec.DoubleValue NUTRIENT_INITIAL;
-    public static ForgeConfigSpec.DoubleValue NUTRIENT_MALNOURISHED;
-    public static ForgeConfigSpec.DoubleValue NUTRIENT_LOW_TARGET;
-    public static ForgeConfigSpec.DoubleValue NUTRIENT_TARGET_HIGH;
-    public static ForgeConfigSpec.DoubleValue NUTRIENT_ENGORGED;
-    public static ForgeConfigSpec.DoubleValue NUTRIENT_MAX;
-    public static ForgeConfigSpec.DoubleValue NUTRIENT_INCREMENT_RATE;
-    public static ForgeConfigSpec.DoubleValue NUTRIENT_DECAY_RATE;
-    public static ForgeConfigSpec.DoubleValue NUTRIENT_DEATH_LOSS;
+    public static ModConfigSpec.DoubleValue NUTRIENT_INITIAL;
+    public static ModConfigSpec.DoubleValue NUTRIENT_MALNOURISHED;
+    public static ModConfigSpec.DoubleValue NUTRIENT_LOW_TARGET;
+    public static ModConfigSpec.DoubleValue NUTRIENT_TARGET_HIGH;
+    public static ModConfigSpec.DoubleValue NUTRIENT_ENGORGED;
+    public static ModConfigSpec.DoubleValue NUTRIENT_MAX;
+    public static ModConfigSpec.DoubleValue NUTRIENT_INCREMENT_RATE;
+    public static ModConfigSpec.DoubleValue NUTRIENT_DECAY_RATE;
+    public static ModConfigSpec.DoubleValue NUTRIENT_DEATH_LOSS;
 
-    public static ForgeConfigSpec.DoubleValue NUTRIENT_MAX_FOOD_VALUE;
+    public static ModConfigSpec.DoubleValue NUTRIENT_MAX_FOOD_VALUE;
 
-    public static ForgeConfigSpec.ConfigValue<List<String>> BAD_NUTRIENTS;
-    public static ForgeConfigSpec.ConfigValue<List<String>> GOOD_NUTRIENTS;
+    public static ModConfigSpec.ConfigValue<List<String>> BAD_NUTRIENTS;
+    public static ModConfigSpec.ConfigValue<List<String>> GOOD_NUTRIENTS;
 
-    public static ForgeConfigSpec.ConfigValue<List<String>> LIST_VEGETABLES;
-    public static ForgeConfigSpec.ConfigValue<List<String>> LIST_SUGARS;
-    public static ForgeConfigSpec.ConfigValue<List<String>> LIST_CARBS;
-    public static ForgeConfigSpec.ConfigValue<List<String>> LIST_PROTEINS;
-    public static ForgeConfigSpec.ConfigValue<List<String>> LIST_Fruits;
+    public static ModConfigSpec.ConfigValue<List<String>> LIST_VEGETABLES;
+    public static ModConfigSpec.ConfigValue<List<String>> LIST_SUGARS;
+    public static ModConfigSpec.ConfigValue<List<String>> LIST_CARBS;
+    public static ModConfigSpec.ConfigValue<List<String>> LIST_PROTEINS;
+    public static ModConfigSpec.ConfigValue<List<String>> LIST_Fruits;
 
-    public static ForgeConfigSpec.IntValue NUTRIENT_BUTTON_X;
-    public static ForgeConfigSpec.IntValue NUTRIENT_BUTTON_Y;
-    public static ForgeConfigSpec.BooleanValue NUTRIENT_BUTTON_ENABLED;
-    public static ForgeConfigSpec.BooleanValue SHOW_THRESHOLD_TOAST;
+    public static ModConfigSpec.IntValue NUTRIENT_BUTTON_X;
+    public static ModConfigSpec.IntValue NUTRIENT_BUTTON_Y;
+    public static ModConfigSpec.BooleanValue NUTRIENT_BUTTON_ENABLED;
+    public static ModConfigSpec.BooleanValue SHOW_THRESHOLD_TOAST;
 
-    //common config
-    public static ForgeConfigSpec.DoubleValue NOURISHED_MAX_HEALTH;
-    public static ForgeConfigSpec.DoubleValue NOURISHED_KNOCKBACK_RESISTANCE;
-    public static ForgeConfigSpec.DoubleValue NOURISHED_MOVEMENT_SPEED;
-    public static ForgeConfigSpec.DoubleValue NOURISHED_ATTACK_DAMAGE;
-    public static ForgeConfigSpec.DoubleValue NOURISHED_ATTACK_KNOCKBACK;
-    public static ForgeConfigSpec.DoubleValue NOURISHED_ATTACK_SPEED;
+    public static ModConfigSpec.DoubleValue NOURISHED_MAX_HEALTH;
+    public static ModConfigSpec.DoubleValue NOURISHED_KNOCKBACK_RESISTANCE;
+    public static ModConfigSpec.DoubleValue NOURISHED_MOVEMENT_SPEED;
+    public static ModConfigSpec.DoubleValue NOURISHED_ATTACK_DAMAGE;
+    public static ModConfigSpec.DoubleValue NOURISHED_ATTACK_KNOCKBACK;
+    public static ModConfigSpec.DoubleValue NOURISHED_ATTACK_SPEED;
 
-    public static ForgeConfigSpec.DoubleValue MALNOURISHED_MAX_HEALTH;
-    public static ForgeConfigSpec.DoubleValue MALNOURISHED_KNOCKBACK_RESISTANCE;
-    public static ForgeConfigSpec.DoubleValue MALNOURISHED_MOVEMENT_SPEED;
-    public static ForgeConfigSpec.DoubleValue MALNOURISHED_ATTACK_DAMAGE;
-    public static ForgeConfigSpec.DoubleValue MALNOURISHED_ATTACK_KNOCKBACK;
-    public static ForgeConfigSpec.DoubleValue MALNOURISHED_ATTACK_SPEED;
+    public static ModConfigSpec.DoubleValue MALNOURISHED_MAX_HEALTH;
+    public static ModConfigSpec.DoubleValue MALNOURISHED_KNOCKBACK_RESISTANCE;
+    public static ModConfigSpec.DoubleValue MALNOURISHED_MOVEMENT_SPEED;
+    public static ModConfigSpec.DoubleValue MALNOURISHED_ATTACK_DAMAGE;
+    public static ModConfigSpec.DoubleValue MALNOURISHED_ATTACK_KNOCKBACK;
+    public static ModConfigSpec.DoubleValue MALNOURISHED_ATTACK_SPEED;
 
-    public static ForgeConfigSpec.DoubleValue ENGORGED_MAX_HEALTH;
-    public static ForgeConfigSpec.DoubleValue ENGORGED_KNOCKBACK_RESISTANCE;
-    public static ForgeConfigSpec.DoubleValue ENGORGED_MOVEMENT_SPEED;
-    public static ForgeConfigSpec.DoubleValue ENGORGED_ATTACK_DAMAGE;
-    public static ForgeConfigSpec.DoubleValue ENGORGED_ATTACK_KNOCKBACK;
-    public static ForgeConfigSpec.DoubleValue ENGORGED_ATTACK_SPEED;
+    public static ModConfigSpec.DoubleValue ENGORGED_MAX_HEALTH;
+    public static ModConfigSpec.DoubleValue ENGORGED_KNOCKBACK_RESISTANCE;
+    public static ModConfigSpec.DoubleValue ENGORGED_MOVEMENT_SPEED;
+    public static ModConfigSpec.DoubleValue ENGORGED_ATTACK_DAMAGE;
+    public static ModConfigSpec.DoubleValue ENGORGED_ATTACK_KNOCKBACK;
+    public static ModConfigSpec.DoubleValue ENGORGED_ATTACK_SPEED;
 
-    public static ForgeConfigSpec.IntValue LUNCHBOX_SLOT_COUNT;
+    public static ModConfigSpec.IntValue LUNCHBOX_SLOT_COUNT;
 
     static {
-        ForgeConfigSpec.Builder SERVER_BUILDER = new ForgeConfigSpec.Builder();
+        ModConfigSpec.Builder SERVER_BUILDER = new ModConfigSpec.Builder();
 
-        //Server config building
         SERVER_BUILDER.comment("General Settings").push(CATEGORY_GENERAL);
         SERVER_BUILDER.comment("Nutrient Levels").push(CATEGORY_NUTRIENT_LEVELS);
         NUTRIENT_MALNOURISHED = SERVER_BUILDER.comment("Malnourishment value, below which bad effects can occur. (default:1.0)")
@@ -164,16 +161,14 @@ public class Config {
 
         SERVER_BUILDER.comment("Nutrient for modded foods: Add foods or tags here to add nutrients to the foods.\n" +
                 "This is usually only needed for raw ingredients. Crafted and cooked foods will get nutrients from recipe ingredients.\n" +
-                "This can be done with data packs by adding foods to item tags under forge:nutrients/<nutrientName>, but this config is here for convenience.\n" +
+                "This can be done with data packs by adding foods to item tags under c:nutrients/<nutrientName>, but this config is here for convenience.\n" +
                 "Data packs are required to define new nutrient categories.\n" +
                 "These configs are additive on top of data packs.\n" +
                 "Run the command /nutritionalbalance get_unassigned_foods to find any foods that do not have nutrients.").push(CATEGORY_FOODS);
 
-        Map<String,List<String>> nutrientFoodsMap = new HashMap<>();
-
         String[] vegetables = {
                 "#minecraft:flowers",
-                "#forge:vegetables",
+                "#c:vegetables",
                 "#nourish:vegetables"
         };
         List<String> vegetableList = new ArrayList<>();
@@ -181,10 +176,9 @@ public class Config {
         LIST_VEGETABLES = SERVER_BUILDER.comment("List of vegetables.")
                 .define("vegetables_item_list",vegetableList);
 
-
         String[] carbs = {
-                "#forge:carbs",
-                "#forge:grain",
+                "#c:carbs",
+                "#c:grain",
                 "#nourish:carbohydrates"
         };
         List<String> carbList = new ArrayList<>();
@@ -201,10 +195,10 @@ public class Config {
                 .define("sugars_item_list",sugarsList);
 
         String[] proteins = {
-                "#forge:protein",
-                "#forge:milk",
-                "#forge:yogurt",
-                "#forge:nuts",
+                "#c:protein",
+                "#c:milk",
+                "#c:yogurt",
+                "#c:nuts",
                 "#nourish:protein"
         };
         List<String> proteinsList = new ArrayList<>();
@@ -213,8 +207,8 @@ public class Config {
                 .define("protein_item_list",proteinsList);
 
         String[] fruits = {
-                "#forge:fruits",
-                "#forge:fruits/berry",
+                "#c:fruits",
+                "#c:fruits/berry",
                 "#nourish:fruit"
         };
         List<String> fruitsList = new ArrayList<>();
@@ -222,14 +216,11 @@ public class Config {
         LIST_Fruits = SERVER_BUILDER.comment("List of fruits.")
                 .define("fruits_item_list",fruitsList);
 
-
-
-
         SERVER_BUILDER.pop().pop();
 
         SERVER_CONFIG = SERVER_BUILDER.build();
 
-        ForgeConfigSpec.Builder CLIENT_BUILDER = new ForgeConfigSpec.Builder();
+        ModConfigSpec.Builder CLIENT_BUILDER = new ModConfigSpec.Builder();
         CLIENT_BUILDER.comment("General Settings").push(CATEGORY_GENERAL);
 
         NUTRIENT_BUTTON_ENABLED = CLIENT_BUILDER.comment("Show the nutrient button in the player inventory screen. (default:true)")
@@ -241,7 +232,6 @@ public class Config {
         NUTRIENT_BUTTON_Y = CLIENT_BUILDER.comment("Y Offset of nutrition button relative to the upper left corner of the player inventory screen. (default:61)")
                 .defineInRange("nutrient_button_y",61,0,512);
 
-
         CLIENT_BUILDER.pop();
 
         SHOW_THRESHOLD_TOAST = CLIENT_BUILDER.comment("Show a Toast notification when player nutrition status changes. (default:true)")
@@ -249,17 +239,13 @@ public class Config {
 
         CLIENT_BUILDER.pop();
         CLIENT_CONFIG = CLIENT_BUILDER.build();
-
     }
 
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent.Loading configEvent) {
-
     }
 
     @SubscribeEvent
     public static void onReload(final ModConfigEvent.Reloading configEvent) {
     }
-
-
 }

@@ -5,13 +5,12 @@ import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
 import com.dannyandson.nutritionalbalance.nutrients.PlayerNutritionData;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 
 public class EventPlayerClone {
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event) {
-        //apply penalty
         Player playerEntity = event.getEntity();
         if (playerEntity != null && event.isWasDeath()) {
             INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(playerEntity);

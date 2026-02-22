@@ -1,5 +1,6 @@
 package com.dannyandson.nutritionalbalance.network;
 
+import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import com.dannyandson.nutritionalbalance.events.ClientHelpers;
 import com.dannyandson.nutritionalbalance.gui.NutrientGUI;
 import com.dannyandson.nutritionalbalance.nutrients.Nutrient;
@@ -12,47 +13,51 @@ import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.network.NetworkEvent;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.Map;
-import java.util.function.Supplier;
 
-public class PlayerSync {
+public record PlayerSync(String jsonData, boolean openGUI) implements CustomPacketPayload {
 
-    private JsonObject inutritionalbalancePlayerJson = new JsonObject();
-    private boolean openGUI;
+    public static final Type<PlayerSync> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(NutritionalBalance.MODID, "player_sync"));
+
+    public static final StreamCodec<ByteBuf, PlayerSync> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.STRING_UTF8, PlayerSync::jsonData,
+            ByteBufCodecs.BOOL, PlayerSync::openGUI,
+            PlayerSync::new
+    );
 
     public PlayerSync(INutritionalBalancePlayer iNutritionalBalancePlayer) {
-        this(iNutritionalBalancePlayer,false);
+        this(iNutritionalBalancePlayer, false);
     }
-    public PlayerSync(INutritionalBalancePlayer iNutritionalBalancePlayer, boolean openGUI){
-        for(IPlayerNutrient iPlayerNutrient:iNutritionalBalancePlayer.getPlayerNutrients())
-        {
-            inutritionalbalancePlayerJson.addProperty(iPlayerNutrient.getNutrientName(), iPlayerNutrient.getValue());
+
+    public PlayerSync(INutritionalBalancePlayer iNutritionalBalancePlayer, boolean openGUI) {
+        this(buildJson(iNutritionalBalancePlayer), openGUI);
+    }
+
+    private static String buildJson(INutritionalBalancePlayer iNutritionalBalancePlayer) {
+        JsonObject json = new JsonObject();
+        for (IPlayerNutrient iPlayerNutrient : iNutritionalBalancePlayer.getPlayerNutrients()) {
+            json.addProperty(iPlayerNutrient.getNutrientName(), iPlayerNutrient.getValue());
         }
-        this.openGUI=openGUI;
+        return json.toString();
     }
 
-    public PlayerSync(FriendlyByteBuf buffer)
-    {
-        this.openGUI=buffer.readBoolean();
-        String bufferString = buffer.readUtf();
-        inutritionalbalancePlayerJson = (JsonObject) (new JsonParser()).parse(bufferString);
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
-    public void toBytes(FriendlyByteBuf buf)
-    {
-        buf.writeBoolean(this.openGUI);
-        buf.writeUtf(inutritionalbalancePlayerJson.toString());
-    }
-
-    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
-
-        ctx.get().enqueueWork(() -> {
+    public static void handle(PlayerSync packet, IPayloadContext ctx) {
+        ctx.enqueueWork(() -> {
+            JsonObject inutritionalbalancePlayerJson = (JsonObject) JsonParser.parseString(packet.jsonData());
             INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(ClientHelpers.getLocalPlayer());
             for (Map.Entry<String, JsonElement> jsonElementEntry : inutritionalbalancePlayerJson.entrySet()) {
-
                 IPlayerNutrient playerNutrient = iNutritionalBalancePlayer.getPlayerNutrientByName(jsonElementEntry.getKey());
                 if (playerNutrient == null) {
                     Nutrient worldNutrient = WorldNutrients.getByName(jsonElementEntry.getKey());
@@ -60,14 +65,10 @@ public class PlayerSync {
                     iNutritionalBalancePlayer.getPlayerNutrients().add(playerNutrient);
                 }
                 playerNutrient.setValue(jsonElementEntry.getValue().getAsFloat());
-
             }
-            if (this.openGUI) {
+            if (packet.openGUI()) {
                 NutrientGUI.open();
             }
-
-            ctx.get().setPacketHandled(true);
         });
-        return true;
     }
 }

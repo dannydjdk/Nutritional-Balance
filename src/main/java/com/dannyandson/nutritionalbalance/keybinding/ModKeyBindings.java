@@ -2,15 +2,15 @@ package com.dannyandson.nutritionalbalance.keybinding;
 
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import net.minecraft.client.KeyMapping;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = NutritionalBalance.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(value = Dist.CLIENT, modid = NutritionalBalance.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModKeyBindings {
     public static Map<String, KeyMapping> keyBindings = new HashMap<>();
 
@@ -21,5 +21,4 @@ public class ModKeyBindings {
         keyBindings.put("nutrientgui",nutritionguikeybind);
         event.register(nutritionguikeybind);
     }
-
 }

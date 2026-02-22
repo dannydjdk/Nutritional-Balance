@@ -1,14 +1,24 @@
 package com.dannyandson.nutritionalbalance.gui;
 
-import net.minecraftforge.network.NetworkEvent;
+import com.dannyandson.nutritionalbalance.NutritionalBalance;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.function.Supplier;
+public record PacketOpenGui() implements CustomPacketPayload {
 
-public class PacketOpenGui {
+    public static final Type<PacketOpenGui> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(NutritionalBalance.MODID, "open_gui"));
 
-    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(NutrientGUI::open);
-        return true;
+    public static final StreamCodec<ByteBuf, PacketOpenGui> STREAM_CODEC = StreamCodec.unit(new PacketOpenGui());
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
+    public static void handle(PacketOpenGui packet, IPayloadContext ctx) {
+        ctx.enqueueWork(NutrientGUI::open);
+    }
 }

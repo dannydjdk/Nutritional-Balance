@@ -8,8 +8,9 @@ import net.minecraft.world.entity.player.Player;
 public class ClientHelpers {
     public static void showStatusToast(String statusName){
         Minecraft.getInstance().getToasts().addToast(
-                new SystemToast(
-                        SystemToast.SystemToastIds.TUTORIAL_HINT,
+                SystemToast.multiline(
+                        Minecraft.getInstance(),
+                        SystemToast.SystemToastId.PERIODIC_NOTIFICATION,
                         Component.translatable("nutritionalbalance.nutrientstatus." + statusName),
                         Component.translatable("nutritionalbalance.nutrientstatus.msg." + statusName))
         );

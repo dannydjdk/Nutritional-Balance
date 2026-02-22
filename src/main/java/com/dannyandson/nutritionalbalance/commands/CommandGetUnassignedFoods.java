@@ -8,10 +8,9 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.StringJoiner;
 
@@ -22,11 +21,10 @@ public class CommandGetUnassignedFoods implements Command<CommandSourceStack> {
     @Override
     public int run(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 
-        IForgeRegistry<Item> items =  ForgeRegistries.ITEMS;
         StringJoiner stringJoiner = new StringJoiner("\n");
-        for(Item item:items) {
-            if (item.getFoodProperties()!=null && WorldNutrients.getNutrients(item,context.getSource().getLevel()).size()==0)
-                stringJoiner.add(ForgeRegistries.ITEMS.getKey(item).toString());
+        for(Item item: BuiltInRegistries.ITEM) {
+            if (item.getFoodProperties(item.getDefaultInstance(), null)!=null && WorldNutrients.getNutrients(item,context.getSource().getLevel()).size()==0)
+                stringJoiner.add(BuiltInRegistries.ITEM.getKey(item).toString());
         }
 
         context.getSource().sendSuccess(() -> {return Component.translatable(stringJoiner.toString(),false);},false);

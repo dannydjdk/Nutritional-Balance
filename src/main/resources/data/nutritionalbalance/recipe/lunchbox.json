@@ -10,17 +10,17 @@
       "tag": "minecraft:trapdoors"
     },
     "n": {
-      "item": "iron_nugget"
+      "item": "minecraft:iron_nugget"
     },
     "s": {
       "item": "minecraft:black_dye"
     },
     "c": {
-      "tag": "forge:chests"
+      "tag": "c:chests"
     }
   },
   "result": {
-    "item": "nutritionalbalance:lunchbox",
+    "id": "nutritionalbalance:lunchbox",
     "count": 1
   }
 }

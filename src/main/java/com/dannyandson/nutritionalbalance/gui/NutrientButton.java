@@ -15,23 +15,21 @@ import net.minecraft.resources.ResourceLocation;
 
 public class NutrientButton extends AbstractWidget {
 
-    private ResourceLocation buttonGUI = new ResourceLocation(NutritionalBalance.MODID,"textures/gui/nutrient_button.png");
-    private ResourceLocation buttonGUIHover = new ResourceLocation(NutritionalBalance.MODID,"textures/gui/nutrient_button_hover.png");
+    private ResourceLocation buttonGUI = ResourceLocation.fromNamespaceAndPath(NutritionalBalance.MODID, "textures/gui/nutrient_button.png");
+    private ResourceLocation buttonGUIHover = ResourceLocation.fromNamespaceAndPath(NutritionalBalance.MODID, "textures/gui/nutrient_button_hover.png");
     private InventoryScreen gui;
 
     public NutrientButton(InventoryScreen gui, Component title) {
-        super(gui.getGuiLeft(),gui.getGuiTop(), 0, 0, title);
-        this.gui=gui;
+        super(gui.getGuiLeft(), gui.getGuiTop(), 0, 0, title);
+        this.gui = gui;
         updateLocation();
     }
 
-    //need to update the location on render to account for recipe book toggling
-    private void updateLocation()
-    {
-        this.setX( gui.getGuiLeft() + Config.NUTRIENT_BUTTON_X.get() );
-        this.setY( gui.getGuiTop() + Config.NUTRIENT_BUTTON_Y.get() );
+    private void updateLocation() {
+        this.setX(gui.getGuiLeft() + Config.NUTRIENT_BUTTON_X.get());
+        this.setY(gui.getGuiTop() + Config.NUTRIENT_BUTTON_Y.get());
         this.width = 20;
-        this.height =18;
+        this.height = 18;
     }
 
     @Override
@@ -43,23 +41,17 @@ public class NutrientButton extends AbstractWidget {
     public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         if (visible) {
             updateLocation();
-            if (mouseX>getX() && mouseX<getX()+width && mouseY>getY() && mouseY<getY()+height) {
-                RenderSystem.setShaderTexture(0, buttonGUIHover);
-                RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-                Minecraft.getInstance().getTextureManager().bindForSetup(buttonGUIHover);
+            ResourceLocation texture;
+            if (mouseX > getX() && mouseX < getX() + width && mouseY > getY() && mouseY < getY() + height) {
+                texture = buttonGUIHover;
+            } else {
+                texture = buttonGUI;
             }
-            else {
-                RenderSystem.setShaderTexture(0, buttonGUI);
-                RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-                Minecraft.getInstance().getTextureManager().bindForSetup(buttonGUI);
-            }
-            guiGraphics.blit(buttonGUI,getX(), getY(), 0, 0, width, height);
+            guiGraphics.blit(texture, getX(), getY(), 0, 0, width, height, 256, 256);
         }
-
     }
 
     @Override
     protected void updateWidgetNarration(NarrationElementOutput p_259858_) {
-
     }
 }

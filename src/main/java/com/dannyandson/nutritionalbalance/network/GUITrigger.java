@@ -1,30 +1,32 @@
 package com.dannyandson.nutritionalbalance.network;
 
+import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.nutrients.PlayerNutritionData;
-import net.minecraft.network.FriendlyByteBuf;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.function.Supplier;
+public record GUITrigger() implements CustomPacketPayload {
 
-public class GUITrigger {
+    public static final Type<GUITrigger> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(NutritionalBalance.MODID, "gui_trigger"));
 
-    public GUITrigger() {
+    public static final StreamCodec<ByteBuf, GUITrigger> STREAM_CODEC = StreamCodec.unit(new GUITrigger());
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
-    public GUITrigger(FriendlyByteBuf buffer) {
-    }
-
-    public void toBytes(FriendlyByteBuf buf) {
-    }
-
-    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(()-> {
-            ServerPlayer player =  ctx.get().getSender();
-            INutritionalBalancePlayer inutritionalbalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(player);
-            ModNetworkHandler.sendToClient(new PlayerSync(inutritionalbalancePlayer,true), ctx.get().getSender());
+    public static void handle(GUITrigger packet, IPayloadContext ctx) {
+        ctx.enqueueWork(() -> {
+            if (ctx.player() instanceof ServerPlayer player) {
+                INutritionalBalancePlayer inutritionalbalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(player);
+                ModNetworkHandler.sendToClient(new PlayerSync(inutritionalbalancePlayer, true), player);
+            }
         });
-        return true;
     }
 }

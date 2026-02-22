@@ -4,8 +4,8 @@ import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.nutrients.PlayerNutritionData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 
 public class EventUseItem {
 
@@ -19,6 +19,5 @@ public class EventUseItem {
                 PlayerNutritionData.getWorldNutritionData().setDirty();
             }
         }
-
     }
 }

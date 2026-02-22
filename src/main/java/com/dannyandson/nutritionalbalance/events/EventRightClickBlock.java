@@ -11,8 +11,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CakeBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 
 import java.util.List;
 
@@ -24,19 +24,16 @@ public class EventRightClickBlock {
 
         if (block instanceof CakeBlock) {
             Player player = event.getEntity();
-            //Detect eating cake
             if (player instanceof ServerPlayer && player.canEat(false)) {
                 INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(player);
                 Item cakeItem = block.asItem();
 
                 List<Nutrient> nutrients = WorldNutrients.getNutrients(cakeItem, player.level());
                 for (Nutrient nutrient : nutrients) {
-                    //hardcoding cake to 2.4 effective food quality per Minecraft wiki. No way to query for this.
                     float nutrientunits = 2.4f * Config.NUTRIENT_INCREMENT_RATE.get().floatValue() / nutrients.size();
                     iNutritionalBalancePlayer.getPlayerNutrientByName(nutrient.name).changeValue(nutrientunits);
                     PlayerNutritionData.getWorldNutritionData().setDirty();
                 }
-
             }
         }
     }
