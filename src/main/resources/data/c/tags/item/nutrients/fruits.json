@@ -22,7 +22,10 @@
     {"id":"simplytea:cup_tea_chorus",        "required":false},
     {"id":"alexsmobs:banana", "required":false},
     {"id":"twilightforest:torchberries", "required":false},
-    {"id": "twilightforest:experiment_115", "required": false}
-
+    {"id": "twilightforest:experiment_115", "required": false},
+    {"id":"minecraft:suspicious_stew",	"required":false},
+    {"id":"quark:ancient_fruit",	"required":false},
+    {"id":"minecolonies:eggplant_dolma",	"required":false},
+    {"id":"minecolonies:muffin",	"required":false}
   ]
 }

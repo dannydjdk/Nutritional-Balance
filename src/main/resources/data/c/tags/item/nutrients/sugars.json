@@ -4,6 +4,7 @@
     "minecraft:sugar",
     "minecraft:honey_bottle",
     "minecraft:cocoa_beans",
+    "minecraft:ominous_bottle",
     
     {"id":"create:bar_of_chocolate",         "required":false},
     {"id":"create_confectionery:bar_of_ruby_chocolate", "required":false},
@@ -13,7 +14,12 @@
     {"id": "create_confectionery:hot_chocolate_bottle", "required": false},
     {"id":"farmersdelight:honey_glazed_ham", "required":false},
     {"id":"iwannaskate:energy_drink", "required":false},
-    {"id":"pamhc2trees:maplesyrupitem",       "required":false}
-
+    {"id":"pamhc2trees:maplesyrupitem",       "required":false},
+    {"id":"minecraft:suspicious_stew",	"required":false},
+    {"id":"minecolonies:yogurt",	"required":false},
+    {"id":"actuallyadditions:coffee_cup",	"required":false},
+    {"id":"minecolonies:lembas_scone",	"required":false},
+    {"id":"minecolonies:muffin",	"required":false},
+    {"id":"minecolonies:mintchoco_cheesecake",	"required":false}
   ]
 }

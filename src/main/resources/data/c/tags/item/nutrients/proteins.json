@@ -98,8 +98,31 @@
     {"id":"sushigocrafting:salmon_temaki",                     "required":false},                   
     {"id":"sushigocrafting:tuna_temaki",                       "required":false},
     {"id":"sushigocrafting:shrimp_temaki",                     "required":false},
-    {"id":"sushigocrafting:chicken_temaki",                    "required":false}
-
-
+    {"id":"sushigocrafting:chicken_temaki",                    "required":false},
+    {"id":"minecraft:suspicious_stew",	"required":false},
+    {"id":"quark:crab_leg",	"required":false},
+    {"id":"minecolonies:cheddar_cheese",	"required":false},
+    {"id":"minecolonies:feta_cheese",	"required":false},
+    {"id":"minecolonies:tofu",	"required":false},
+    {"id":"minecolonies:yogurt",	"required":false},
+    {"id":"minecolonies:soybean",	"required":false},
+    {"id":"minecolonies:chickpea",	"required":false},
+    {"id":"actuallyadditions:coffee_cup",	"required":false},
+    {"id":"create:builders_tea",	"required":false},
+    {"id":"minecolonies:eggplant_dolma",	"required":false},
+    {"id":"minecolonies:eggplant_dolma",	"required":false},
+    {"id":"minecolonies:lembas_scone",	"required":false},
+    {"id":"minecolonies:manchet_bread",	"required":false},
+    {"id":"minecolonies:muffin",	"required":false},
+    {"id":"minecolonies:pita_hummus",	"required":false},
+    {"id":"minecolonies:sushi_roll",	"required":false},
+    {"id":"minecolonies:borscht",	"required":false},
+    {"id":"minecolonies:fish_dinner",	"required":false},
+    {"id":"minecolonies:schnitzel",	"required":false},
+    {"id":"minecolonies:steak_dinner",	"required":false},
+    {"id":"minecolonies:tacos",	"required":false},
+    {"id":"minecolonies:mushroom_pizza",	"required":false},
+    {"id":"minecolonies:mintchoco_cheesecake",	"required":false},
+    {"id":"minecolonies:hand_pie", "required": false}
   ]
 }
