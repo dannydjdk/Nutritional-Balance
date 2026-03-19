@@ -52,6 +52,7 @@ repositories {
 
 dependencies {
     implementation "curse.maven:jei-238222:7391682"
+    implementation "curse.maven:appleskin-248787:7517379"
 }
 
 def resourceTargets = ['META-INF/neoforge.mods.toml', 'pack.mcmeta']
