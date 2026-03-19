@@ -11,7 +11,6 @@ import com.dannyandson.nutritionalbalance.setup.Registration;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -41,6 +40,7 @@ public class NutritionalBalance
             modEventBus.addListener(ClientSetup::init);
             modEventBus.addListener(ClientSetup::addCreative);
             modEventBus.addListener(ClientSetup::registerClientExtensions);
+            modEventBus.addListener(ClientSetup::registerAdditionalModels);
         }
 
         NeoForge.EVENT_BUS.register(this);
