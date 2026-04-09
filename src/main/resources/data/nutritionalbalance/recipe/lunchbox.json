@@ -6,18 +6,10 @@
     " c "
   ],
   "key": {
-    "t": {
-      "tag": "minecraft:trapdoors"
-    },
-    "n": {
-      "item": "minecraft:iron_nugget"
-    },
-    "s": {
-      "item": "minecraft:black_dye"
-    },
-    "c": {
-      "tag": "c:chests"
-    }
+    "t": "#minecraft:trapdoors",
+    "n": "minecraft:iron_nugget",
+    "s": "minecraft:black_dye",
+    "c": "#c:chests"
   },
   "result": {
     "id": "nutritionalbalance:lunchbox",

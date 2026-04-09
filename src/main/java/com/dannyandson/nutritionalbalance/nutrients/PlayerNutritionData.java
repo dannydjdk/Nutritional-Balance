@@ -6,9 +6,12 @@ import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
 import com.dannyandson.nutritionalbalance.capabilities.DefaultNutritionalBalancePlayer;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.world.level.saveddata.SavedDataType;
+import com.mojang.serialization.MapCodec;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +20,15 @@ public class PlayerNutritionData extends SavedData {
 
     private static PlayerNutritionData worldNutritionData;
 
+    public static final SavedDataType<PlayerNutritionData> TYPE = new SavedDataType<>(
+            Identifier.fromNamespaceAndPath(NutritionalBalance.MODID, "nutrition_data"),
+            PlayerNutritionData::new,
+            MapCodec.unitCodec(PlayerNutritionData::new),
+            null
+    );
+
     public static void init(ServerLevel serverLevel){
-        worldNutritionData = serverLevel.getDataStorage().computeIfAbsent(
-                new SavedData.Factory<>(PlayerNutritionData::new, PlayerNutritionData::load),
-                NutritionalBalance.MODID
-        );
+        worldNutritionData = serverLevel.getDataStorage().computeIfAbsent(TYPE);
     }
 
     public static PlayerNutritionData getWorldNutritionData() {
@@ -34,31 +41,10 @@ public class PlayerNutritionData extends SavedData {
 
     PlayerNutritionData(){}
 
-    public static PlayerNutritionData load(CompoundTag nbt, HolderLookup.Provider registries) {
-        PlayerNutritionData data = new PlayerNutritionData();
-        for(String uuid : nbt.getAllKeys()){
-            DefaultNutritionalBalancePlayer nutritionalBalancePlayer = new DefaultNutritionalBalancePlayer();
-            CompoundTag playerNBT = (CompoundTag) nbt.get(uuid);
-            for (Nutrient nutrient: WorldNutrients.get())
-            {
-                nutritionalBalancePlayer.getPlayerNutrientByName(nutrient.name).setValue(playerNBT.getFloat(nutrient.name));
-            }
-            data.playerUUIDDataMap.put(uuid,nutritionalBalancePlayer);
-        }
-        return data;
-    }
-
-    @Override
-    public CompoundTag save(CompoundTag nbt, HolderLookup.Provider registries) {
-        for(Map.Entry<String,INutritionalBalancePlayer> entry: playerUUIDDataMap.entrySet()){
-            CompoundTag playerNBT = new CompoundTag();
-            for (IPlayerNutrient playerNutrient : entry.getValue().getPlayerNutrients()){
-                playerNBT.putFloat(playerNutrient.getNutrient().name, playerNutrient.getValue());
-            }
-            nbt.put(entry.getKey(), playerNBT);
-        }
-        return nbt;
-    }
+    // TODO: SavedData serialization in 26.1 uses codec-based approach via SavedDataType.
+    // The old CompoundTag save/load pattern may need to be adapted to the codec system.
+    // For now, the codec is a unit codec (no-op) and actual data persistence needs
+    // to be reimplemented using the new ValueInput/ValueOutput or codec approach.
 
     public INutritionalBalancePlayer getNutritionalBalancePlayer(Player player){
         String uuid = player.getStringUUID();

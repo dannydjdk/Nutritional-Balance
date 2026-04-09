@@ -1,6 +1,8 @@
 package com.dannyandson.nutritionalbalance.network;
 
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
 import net.minecraft.server.level.ServerPlayer;
 import com.dannyandson.nutritionalbalance.gui.PacketOpenGui;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -10,7 +12,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 public class ModNetworkHandler {
 
     public static void registerMessages(RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar(NutritionalBalance.MODID).versioned("2.3");
+        final PayloadRegistrar registrar = event.registrar(NutritionalBalance.MODID).versioned("3.0");
 
         registrar.playToClient(PlayerSync.TYPE, PlayerSync.STREAM_CODEC, PlayerSync::handle);
         registrar.playToServer(GUITrigger.TYPE, GUITrigger.STREAM_CODEC, GUITrigger::handle);
@@ -31,12 +33,15 @@ public class ModNetworkHandler {
     }
 
     public static void sendToServer(Object packet) {
-        if (packet instanceof GUITrigger gt) {
-            PacketDistributor.sendToServer(gt);
-        } else if (packet instanceof LunchBoxActiveItemSync lbais) {
-            PacketDistributor.sendToServer(lbais);
-        } else if (packet instanceof NutrientDataSyncTrigger ndst) {
-            PacketDistributor.sendToServer(ndst);
+        var connection = Minecraft.getInstance().getConnection();
+        if (connection != null) {
+            if (packet instanceof GUITrigger gt) {
+                connection.send(new ServerboundCustomPayloadPacket(gt));
+            } else if (packet instanceof LunchBoxActiveItemSync lbais) {
+                connection.send(new ServerboundCustomPayloadPacket(lbais));
+            } else if (packet instanceof NutrientDataSyncTrigger ndst) {
+                connection.send(new ServerboundCustomPayloadPacket(ndst));
+            }
         }
     }
 }

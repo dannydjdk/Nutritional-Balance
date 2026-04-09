@@ -17,14 +17,14 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.Map;
 
 public record PlayerSync(String jsonData, boolean openGUI) implements CustomPacketPayload {
 
-    public static final Type<PlayerSync> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(NutritionalBalance.MODID, "player_sync"));
+    public static final Type<PlayerSync> TYPE = new Type<>(Identifier.fromNamespaceAndPath(NutritionalBalance.MODID, "player_sync"));
 
     public static final StreamCodec<ByteBuf, PlayerSync> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.STRING_UTF8, PlayerSync::jsonData,

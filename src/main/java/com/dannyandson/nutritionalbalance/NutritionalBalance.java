@@ -36,11 +36,10 @@ public class NutritionalBalance
 
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::doClientStuff);
-        if(FMLEnvironment.dist.isClient()) {
+        if(FMLEnvironment.getDist().isClient()) {
             modEventBus.addListener(ClientSetup::init);
             modEventBus.addListener(ClientSetup::addCreative);
-            modEventBus.addListener(ClientSetup::registerClientExtensions);
-            modEventBus.addListener(ClientSetup::registerAdditionalModels);
+            modEventBus.addListener(ClientSetup::registerSpecialRenderers);
         }
 
         NeoForge.EVENT_BUS.register(this);

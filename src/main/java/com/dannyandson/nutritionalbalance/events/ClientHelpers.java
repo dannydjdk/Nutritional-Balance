@@ -7,7 +7,7 @@ import net.minecraft.world.entity.player.Player;
 
 public class ClientHelpers {
     public static void showStatusToast(String statusName){
-        Minecraft.getInstance().getToasts().addToast(
+        Minecraft.getInstance().getToastManager().addToast(
                 SystemToast.multiline(
                         Minecraft.getInstance(),
                         SystemToast.SystemToastId.PERIODIC_NOTIFICATION,

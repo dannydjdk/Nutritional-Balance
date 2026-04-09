@@ -7,7 +7,7 @@ import net.neoforged.fml.event.config.ModConfigEvent;
 
 import java.util.*;
 
-@EventBusSubscriber(modid = NutritionalBalance.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = NutritionalBalance.MODID)
 public class Config {
 
     public static ModConfigSpec SERVER_CONFIG;
@@ -166,55 +166,25 @@ public class Config {
                 "These configs are additive on top of data packs.\n" +
                 "Run the command /nutritionalbalance get_unassigned_foods to find any foods that do not have nutrients.").push(CATEGORY_FOODS);
 
-        String[] vegetables = {
-                "#minecraft:flowers",
-                "#c:vegetables",
-                "#nourish:vegetables"
-        };
-        List<String> vegetableList = new ArrayList<>();
-        vegetableList.addAll(Arrays.asList(vegetables));
-        LIST_VEGETABLES = SERVER_BUILDER.comment("List of vegetables.")
-                .define("vegetables_item_list",vegetableList);
+        String[] vegetables = { "#minecraft:flowers", "#c:vegetables", "#nourish:vegetables" };
+        List<String> vegetableList = new ArrayList<>(Arrays.asList(vegetables));
+        LIST_VEGETABLES = SERVER_BUILDER.comment("List of vegetables.").define("vegetables_item_list",vegetableList);
 
-        String[] carbs = {
-                "#c:carbs",
-                "#c:grain",
-                "#nourish:carbohydrates"
-        };
-        List<String> carbList = new ArrayList<>();
-        carbList.addAll(Arrays.asList(carbs));
-        LIST_CARBS = SERVER_BUILDER.comment("List of carbohydrates.")
-                .define("carbs_item_list",carbList);
+        String[] carbs = { "#c:carbs", "#c:grain", "#nourish:carbohydrates" };
+        List<String> carbList = new ArrayList<>(Arrays.asList(carbs));
+        LIST_CARBS = SERVER_BUILDER.comment("List of carbohydrates.").define("carbs_item_list",carbList);
 
-        String[] sugars = {
-                "#nourish:sweets"
-        };
-        List<String> sugarsList = new ArrayList<>();
-        sugarsList.addAll(Arrays.asList(sugars));
-        LIST_SUGARS = SERVER_BUILDER.comment("List of simple sugars.")
-                .define("sugars_item_list",sugarsList);
+        String[] sugars = { "#nourish:sweets" };
+        List<String> sugarsList = new ArrayList<>(Arrays.asList(sugars));
+        LIST_SUGARS = SERVER_BUILDER.comment("List of simple sugars.").define("sugars_item_list",sugarsList);
 
-        String[] proteins = {
-                "#c:protein",
-                "#c:milk",
-                "#c:yogurt",
-                "#c:nuts",
-                "#nourish:protein"
-        };
-        List<String> proteinsList = new ArrayList<>();
-        proteinsList.addAll(Arrays.asList(proteins));
-        LIST_PROTEINS = SERVER_BUILDER.comment("List of proteins.")
-                .define("protein_item_list",proteinsList);
+        String[] proteins = { "#c:protein", "#c:milk", "#c:yogurt", "#c:nuts", "#nourish:protein" };
+        List<String> proteinsList = new ArrayList<>(Arrays.asList(proteins));
+        LIST_PROTEINS = SERVER_BUILDER.comment("List of proteins.").define("protein_item_list",proteinsList);
 
-        String[] fruits = {
-                "#c:fruits",
-                "#c:fruits/berry",
-                "#nourish:fruit"
-        };
-        List<String> fruitsList = new ArrayList<>();
-        fruitsList.addAll(Arrays.asList(fruits));
-        LIST_Fruits = SERVER_BUILDER.comment("List of fruits.")
-                .define("fruits_item_list",fruitsList);
+        String[] fruits = { "#c:fruits", "#c:fruits/berry", "#nourish:fruit" };
+        List<String> fruitsList = new ArrayList<>(Arrays.asList(fruits));
+        LIST_Fruits = SERVER_BUILDER.comment("List of fruits.").define("fruits_item_list",fruitsList);
 
         SERVER_BUILDER.pop().pop();
 

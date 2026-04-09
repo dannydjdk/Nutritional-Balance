@@ -15,33 +15,23 @@ import net.minecraft.server.level.ServerPlayer;
 import java.util.StringJoiner;
 
 public class CommandGetNutrients implements Command<CommandSourceStack> {
-
     private static final CommandGetNutrients CMD = new CommandGetNutrients();
 
     @Override
     public int run(CommandContext<CommandSourceStack> context) {
-        String feedback = "Must be run on client.";
-
         if (context.getSource().getEntity() instanceof ServerPlayer player) {
             INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(player);
             StringJoiner stringJoiner = new StringJoiner("\n");
             stringJoiner.add("Player Nutrition:");
-
-            for (IPlayerNutrient nutrient : iNutritionalBalancePlayer.getPlayerNutrients()) {
+            for (IPlayerNutrient nutrient : iNutritionalBalancePlayer.getPlayerNutrients())
                 stringJoiner.add(nutrient.getNutrient().name + ": " + (((float) Math.round(nutrient.getValue() * 10)) / 10) + " " + nutrient.getStatus().name());
-            }
-
             stringJoiner.add("Overall Status: " + iNutritionalBalancePlayer.getStatus().name());
-
-            context.getSource().sendSuccess(() -> { return Component.translatable(stringJoiner.toString());}, false);
-
+            context.getSource().sendSuccess(() -> Component.translatable(stringJoiner.toString()), false);
         }
         return 0;
     }
 
     public static ArgumentBuilder<CommandSourceStack, ?> register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        return Commands.literal("get_nutrients")
-                .requires(cs -> cs.hasPermission(0))
-                .executes(CMD);
+        return Commands.literal("get_nutrients").executes(CMD);
     }
 }

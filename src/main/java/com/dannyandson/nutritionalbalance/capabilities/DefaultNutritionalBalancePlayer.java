@@ -5,6 +5,7 @@ import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
 import com.dannyandson.nutritionalbalance.nutrients.Nutrient;
 import com.dannyandson.nutritionalbalance.nutrients.WorldNutrients;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -19,56 +20,39 @@ public class DefaultNutritionalBalancePlayer implements INutritionalBalancePlaye
     private float savedSaturation;
     private IPlayerNutrient.NutrientStatus cachedStatus = IPlayerNutrient.NutrientStatus.SAFE;
 
-    public DefaultNutritionalBalancePlayer()
-    {
-        for (Nutrient nutrient:WorldNutrients.get())
-        {
+    public DefaultNutritionalBalancePlayer() {
+        for (Nutrient nutrient:WorldNutrients.get()) {
             this.playerNutrients.add(new DefaultPlayerNutrient(nutrient));
         }
     }
 
     @Override
-    public List<IPlayerNutrient> getPlayerNutrients()
-    {
-        return this.playerNutrients;
-    }
+    public List<IPlayerNutrient> getPlayerNutrients() { return this.playerNutrients; }
 
     @Override
     public IPlayerNutrient getPlayerNutrientByName(String name) {
-        for (IPlayerNutrient iPlayerNutrient:this.playerNutrients)
-        {
-            if (iPlayerNutrient.getNutrient().name.equals(name))
-                return iPlayerNutrient;
+        for (IPlayerNutrient iPlayerNutrient:this.playerNutrients) {
+            if (iPlayerNutrient.getNutrient().name.equals(name)) return iPlayerNutrient;
         }
         return null;
     }
 
-    public void processSaturationChange(float currentSaturation)
-    {
-        if (currentSaturation==this.savedSaturation)
-            return;
-
-        if (currentSaturation<this.savedSaturation)
-        {
+    public void processSaturationChange(float currentSaturation) {
+        if (currentSaturation==this.savedSaturation) return;
+        if (currentSaturation<this.savedSaturation) {
             float decrementer = Config.NUTRIENT_DECAY_RATE.get().floatValue()*(currentSaturation-savedSaturation)/this.playerNutrients.size();
-            for (IPlayerNutrient playernutrient:this.playerNutrients )
-            {
+            for (IPlayerNutrient playernutrient:this.playerNutrients) {
                 playernutrient.changeValue(decrementer);
             }
         }
-
         this.resetSavedSaturation(currentSaturation);
     }
-    public void resetSavedSaturation(float savedSaturation)
-    {
-        this.savedSaturation = savedSaturation;
-    }
+
+    public void resetSavedSaturation(float savedSaturation) { this.savedSaturation = savedSaturation; }
 
     @Override
     public void consume(ItemStack itemStack, Level world) {
-        Item item = itemStack.getItem();
-        FoodProperties food = item.getFoodProperties(itemStack, null);
-
+        FoodProperties food = itemStack.get(DataComponents.FOOD);
         if (food!=null) {
             List<Nutrient> nutrients = WorldNutrients.getNutrients(itemStack, world);
             for (Nutrient nutrient : nutrients) {
@@ -86,37 +70,17 @@ public class DefaultNutritionalBalancePlayer implements INutritionalBalancePlaye
         }
     }
 
-    public IPlayerNutrient.NutrientStatus getStatus()
-    {
+    public IPlayerNutrient.NutrientStatus getStatus() {
         boolean safeFound = false;
-        for (IPlayerNutrient playernutrient : this.playerNutrients)
-        {
+        for (IPlayerNutrient playernutrient : this.playerNutrients) {
             IPlayerNutrient.NutrientStatus nutrientStatus = playernutrient.getStatus();
-            if (nutrientStatus==IPlayerNutrient.NutrientStatus.MALNOURISHED) {
-                this.cachedStatus =IPlayerNutrient.NutrientStatus.MALNOURISHED;
-                return IPlayerNutrient.NutrientStatus.MALNOURISHED;
-            }
-            if (nutrientStatus==IPlayerNutrient.NutrientStatus.ENGORGED) {
-                this.cachedStatus =IPlayerNutrient.NutrientStatus.ENGORGED;
-                return IPlayerNutrient.NutrientStatus.ENGORGED;
-            }
-            if (nutrientStatus==IPlayerNutrient.NutrientStatus.SAFE) {
-                safeFound = true;
-            }
+            if (nutrientStatus==IPlayerNutrient.NutrientStatus.MALNOURISHED) { this.cachedStatus = nutrientStatus; return nutrientStatus; }
+            if (nutrientStatus==IPlayerNutrient.NutrientStatus.ENGORGED) { this.cachedStatus = nutrientStatus; return nutrientStatus; }
+            if (nutrientStatus==IPlayerNutrient.NutrientStatus.SAFE) safeFound = true;
         }
-
-        if (!safeFound) {
-            this.cachedStatus =IPlayerNutrient.NutrientStatus.ON_TARGET;
-            return IPlayerNutrient.NutrientStatus.ON_TARGET;
-        }
-        else {
-            this.cachedStatus =IPlayerNutrient.NutrientStatus.SAFE;
-            return IPlayerNutrient.NutrientStatus.SAFE;
-        }
-    }
-
-    public IPlayerNutrient.NutrientStatus getCachedStatus()
-    {
+        this.cachedStatus = safeFound ? IPlayerNutrient.NutrientStatus.SAFE : IPlayerNutrient.NutrientStatus.ON_TARGET;
         return this.cachedStatus;
     }
+
+    public IPlayerNutrient.NutrientStatus getCachedStatus() { return this.cachedStatus; }
 }

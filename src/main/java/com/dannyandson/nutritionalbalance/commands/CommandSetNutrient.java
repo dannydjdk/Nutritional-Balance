@@ -34,7 +34,7 @@ public class CommandSetNutrient {
 
     public static ArgumentBuilder<CommandSourceStack, ?> register(CommandDispatcher<CommandSourceStack> dispatcher) {
         return Commands.literal("set_nutrient")
-                .requires(cs -> cs.hasPermission(3))
+                .requires(cs -> cs.getPlayer() != null && cs.getServer().getPlayerList().isOp(cs.getPlayer().nameAndId()))
                 .then(Commands.argument("nutrient", new NutrientStringArgumentType())
                         .then(Commands.argument("value", FloatArgumentType.floatArg(0.0f,180f))
                                 .executes(ctx->setNutrients(ctx))));

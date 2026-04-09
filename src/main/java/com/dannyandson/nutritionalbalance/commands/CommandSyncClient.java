@@ -15,23 +15,19 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
 public class CommandSyncClient implements Command<CommandSourceStack> {
-
     private static final CommandSyncClient CMD = new CommandSyncClient();
 
     @Override
     public int run(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-        final PlayerSync[] playerSync = new PlayerSync[1];
         if (context.getSource().getEntity() instanceof Player player) {
             INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(player);
-            playerSync[0] = new PlayerSync(iNutritionalBalancePlayer);
-            ModNetworkHandler.sendToClient(playerSync[0], context.getSource().getPlayerOrException());
+            PlayerSync playerSync = new PlayerSync(iNutritionalBalancePlayer);
+            ModNetworkHandler.sendToClient(playerSync, context.getSource().getPlayerOrException());
         }
         return 0;
     }
 
     public static ArgumentBuilder<CommandSourceStack, ?> register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        return Commands.literal("sync")
-                .requires(cs -> cs.hasPermission(0))
-                .executes(CMD);
+        return Commands.literal("sync").executes(CMD);
     }
 }

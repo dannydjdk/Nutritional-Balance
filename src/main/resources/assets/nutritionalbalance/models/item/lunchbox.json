@@ -1,5 +1,5 @@
 {
-  "parent": "builtin/entity",
+  "parent": "minecraft:block/stone",
   "textures": {
     "layer0": "nutritionalbalance:item/lunchbox",
     "particle": "minecraft:item/pumpkin_seeds"

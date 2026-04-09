@@ -10,21 +10,15 @@ import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
 
 public class CommandResetPlayerEffects implements Command<CommandSourceStack> {
-
     private static final CommandResetPlayerEffects CMD = new CommandResetPlayerEffects();
 
     @Override
     public int run(CommandContext<CommandSourceStack> context) {
-
-        if (context.getSource().getEntity() instanceof ServerPlayer player) {
-            ModMobAffects.resetPlayerEffects(player);
-        }
+        if (context.getSource().getEntity() instanceof ServerPlayer player) ModMobAffects.resetPlayerEffects(player);
         return 0;
     }
 
     public static ArgumentBuilder<CommandSourceStack, ?> register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        return Commands.literal("reset_player_effect")
-                .requires(cs -> cs.hasPermission(0))
-                .executes(CMD);
+        return Commands.literal("reset_player_effect").executes(CMD);
     }
 }

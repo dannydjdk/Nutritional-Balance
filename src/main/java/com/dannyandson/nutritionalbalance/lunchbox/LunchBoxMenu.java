@@ -31,7 +31,8 @@ public class LunchBoxMenu extends AbstractContainerMenu {
 
         this.container = container;
         this.playerInventory = playerInventory;
-        this.lunchBox = playerInventory.getSelected();
+        // getSelected() removed in 26.1 — use getItem with selected slot index
+        this.lunchBox = playerInventory.getItem(playerInventory.getSelectedSlot());
 
         int leftCol = 47;
         int ySize = 252;
@@ -68,26 +69,17 @@ public class LunchBoxMenu extends AbstractContainerMenu {
     public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
-
         if (slot != null && slot.hasItem()) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
-
             if (index < Config.LUNCHBOX_SLOT_COUNT.get()) {
-                if (!this.moveItemStackTo(itemstack1, Config.LUNCHBOX_SLOT_COUNT.get(), this.slots.size(), true)) {
+                if (!this.moveItemStackTo(itemstack1, Config.LUNCHBOX_SLOT_COUNT.get(), this.slots.size(), true))
                     return ItemStack.EMPTY;
-                }
-            } else if (!this.moveItemStackTo(itemstack1, 0, Config.LUNCHBOX_SLOT_COUNT.get(), false)) {
+            } else if (!this.moveItemStackTo(itemstack1, 0, Config.LUNCHBOX_SLOT_COUNT.get(), false))
                 return ItemStack.EMPTY;
-            }
-
-            if (itemstack1.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
-            } else {
-                slot.setChanged();
-            }
+            if (itemstack1.isEmpty()) slot.set(ItemStack.EMPTY);
+            else slot.setChanged();
         }
-
         return itemstack;
     }
 

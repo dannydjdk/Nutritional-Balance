@@ -6,40 +6,32 @@ import com.dannyandson.nutritionalbalance.gui.INutrientGUIScreen;
 import com.dannyandson.nutritionalbalance.gui.ModWidget;
 import com.dannyandson.nutritionalbalance.gui.NutrientGUIHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 
 public class LunchBoxScreen extends AbstractContainerScreen<LunchBoxMenu> implements MenuAccess<LunchBoxMenu>, INutrientGUIScreen {
 
-    public static final ResourceLocation GUI = ResourceLocation.fromNamespaceAndPath(NutritionalBalance.MODID, "textures/gui/lunchbox_gui.png");
-    public static final ResourceLocation GUI_SLOT = ResourceLocation.fromNamespaceAndPath(NutritionalBalance.MODID, "textures/gui/slot.png");
+    public static final Identifier GUI = Identifier.fromNamespaceAndPath(NutritionalBalance.MODID, "textures/gui/lunchbox_gui.png");
+    public static final Identifier GUI_SLOT = Identifier.fromNamespaceAndPath(NutritionalBalance.MODID, "textures/gui/slot.png");
 
     private final LunchBoxMenu lunchBoxMenu;
     private final ModWidget[] widgets = new ModWidget[Config.LUNCHBOX_SLOT_COUNT.get()];
 
     public LunchBoxScreen(LunchBoxMenu lunchBoxMenu, Inventory playerInventory, Component title) {
-        super(lunchBoxMenu, playerInventory, title);
+        super(lunchBoxMenu, playerInventory, title, 250, 250);
         this.lunchBoxMenu = lunchBoxMenu;
-        this.imageWidth = 250;
-        this.imageHeight = 250;
-        this.inventoryLabelY = this.topPos + 156;
-        this.inventoryLabelX = this.leftPos + 46;
-        this.titleLabelY = topPos + 111;
-        this.titleLabelX = this.leftPos + 46;
     }
 
     @Override
     protected void init() {
         super.init();
-
         NutrientGUIHelper.init(this, this.imageWidth, this.imageHeight / 2, -this.imageHeight / 4);
-
         for (int i = 0; i < Config.LUNCHBOX_SLOT_COUNT.get(); i++) {
             int finalI = i;
             addRenderableWidget(ModWidget.buildButton(leftPos + 46 + (i * 18), topPos + 123, 18, 10, Component.nullToEmpty(" "), button -> toggleActive(finalI)));
@@ -55,23 +47,10 @@ public class LunchBoxScreen extends AbstractContainerScreen<LunchBoxMenu> implem
     }
 
     @Override
-    public void resize(@NotNull Minecraft p_96575_, int p_96576_, int p_96577_) {
-        super.resize(p_96575_, p_96576_, p_96577_);
-        renderActiveOverlays();
-    }
-
-    @Override
-    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        super.render(guiGraphics, mouseX, mouseY, partialTicks);
-        this.renderTooltip(guiGraphics, mouseX, mouseY);
-    }
-
-    @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
-
-        guiGraphics.blit(GUI, x, y, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUI, x, y, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
     }
 
     private void toggleActive(int slot) {
@@ -84,10 +63,10 @@ public class LunchBoxScreen extends AbstractContainerScreen<LunchBoxMenu> implem
             if (widgets[i] != null)
                 removeWidget(widgets[i]);
             int color = 0xFFFFFFFF;
-            String slotItem = lunchBoxMenu.slots.get(i).getItem().getDescriptionId();
+            String slotItem = lunchBoxMenu.slots.get(i).getItem().getItem().getDescriptionId();
             if (lunchBoxMenu.getLunchBoxItemStack().getItem() instanceof LunchBoxItem lunchBoxItem) {
                 if (lunchBoxItem.getActiveFoodItemStack(lunchBoxMenu.getLunchBoxItemStack()) != null) {
-                    if (lunchBoxItem.getActiveFoodItemStack(lunchBoxMenu.getLunchBoxItemStack()).getDescriptionId().equals(slotItem))
+                    if (lunchBoxItem.getActiveFoodItemStack(lunchBoxMenu.getLunchBoxItemStack()).getItem().getDescriptionId().equals(slotItem))
                         color = 0xFF00FF00;
                 }
             }
@@ -97,17 +76,9 @@ public class LunchBoxScreen extends AbstractContainerScreen<LunchBoxMenu> implem
     }
 
     @Override
-    public int getWidth() {
-        return this.width;
-    }
-
+    public int getWidth() { return this.width; }
     @Override
-    public int getHeight() {
-        return this.height;
-    }
-
+    public int getHeight() { return this.height; }
     @Override
-    public ModWidget addModWidget(ModWidget modWidget) {
-        return addRenderableWidget(modWidget);
-    }
+    public ModWidget addModWidget(ModWidget modWidget) { return addRenderableWidget(modWidget); }
 }
