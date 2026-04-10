@@ -1,7 +1,7 @@
 {
   "model": {
     "type": "minecraft:special",
-    "base": "nutritionalbalance:item/lunchbox",
+    "base": "nutritionalbalance:item/lunchbox_3d",
     "model": {
       "type": "nutritionalbalance:lunchbox_renderer"
     }

@@ -15,7 +15,7 @@ public class EventUseItem {
             ItemStack item = event.getItem();
             if (item.has(DataComponents.FOOD)) {
                 INutritionalBalancePlayer iNutritionalBalancePlayer = PlayerNutritionData.getWorldNutritionData().getNutritionalBalancePlayer(player);
-                iNutritionalBalancePlayer.consume(event.getItem(), event.getEntity().level());
+                iNutritionalBalancePlayer.consume(item, event.getEntity().level());
                 PlayerNutritionData.getWorldNutritionData().setDirty();
             }
         }

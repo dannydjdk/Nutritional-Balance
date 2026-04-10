@@ -31,6 +31,11 @@ public class Registration {
     public static final DeferredItem<LunchBoxItem> LUNCHBOX_ITEM = ITEMS.registerItem("lunchbox",
             props -> new LunchBoxItem(props.stacksTo(1)));
 
+    // Hidden item for rendering the lunchbox body inside the SpecialModelRenderer.
+    // Uses minecraft:model (not minecraft:special), avoiding infinite recursion.
+    // Not added to any creative tab — players never see or interact with this directly.
+    public static final DeferredItem<Item> LUNCHBOX_VISUAL = ITEMS.registerSimpleItem("lunchbox_visual");
+
     public static final DeferredRegister<ArgumentTypeInfo<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(Registries.COMMAND_ARGUMENT_TYPE, NutritionalBalance.MODID);
     public static final Supplier<CommandSetNutrient.NutrientStringArgumentType.Serializer> NUTRIENT_STRING_ARGUMENT_TYPE =
             COMMAND_ARGUMENT_TYPES.register(

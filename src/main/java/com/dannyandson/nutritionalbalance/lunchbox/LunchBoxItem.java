@@ -18,6 +18,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
@@ -33,30 +34,55 @@ public class LunchBoxItem extends Item {
         super(props);
     }
 
+    /**
+     * Sync FOOD and CONSUMABLE data components from the active food item onto the lunchbox stack.
+     * This makes the lunchbox appear as food to any mod checking data components,
+     * replacing the old getFoodProperties() override that was removed in 26.1.
+     */
+    public void syncFoodComponents(ItemStack lunchBoxStack) {
+        ItemStack activeStack = getActiveFoodItemStack(lunchBoxStack);
+        if (activeStack != null && !activeStack.isEmpty()) {
+            // Copy FOOD component from active food
+            FoodProperties food = activeStack.get(DataComponents.FOOD);
+            if (food != null) {
+                lunchBoxStack.set(DataComponents.FOOD, food);
+            } else {
+                lunchBoxStack.remove(DataComponents.FOOD);
+            }
+            // Copy CONSUMABLE component from active food (controls eat animation/duration)
+            Consumable consumable = activeStack.get(DataComponents.CONSUMABLE);
+            if (consumable != null) {
+                lunchBoxStack.set(DataComponents.CONSUMABLE, consumable);
+            } else {
+                lunchBoxStack.remove(DataComponents.CONSUMABLE);
+            }
+        } else {
+            // No active food — clear food components
+            lunchBoxStack.remove(DataComponents.FOOD);
+            lunchBoxStack.remove(DataComponents.CONSUMABLE);
+        }
+    }
+
     @Override
     public @NotNull InteractionResult use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (stack.getItem() instanceof LunchBoxItem) {
             ItemStack activeStack = getActiveFoodItemStack(stack);
             if (activeStack != null && !player.isSecondaryUseActive()) {
-                FoodProperties activeFoodProperties = activeStack.get(DataComponents.FOOD);
-                if (
-                        !activeStack.isEmpty() &&
-                                activeFoodProperties != null &&
-                                activeStack.has(DataComponents.FOOD) &&
-                                !player.getCooldowns().isOnCooldown(activeStack) &&
-                                player.canEat(activeFoodProperties.canAlwaysEat())
-                ) {
+                // Ensure food components are synced before eating check
+                syncFoodComponents(stack);
+                FoodProperties food = stack.get(DataComponents.FOOD);
+                if (food != null && player.canEat(food.canAlwaysEat())) {
                     player.startUsingItem(hand);
                     return InteractionResult.CONSUME;
                 } else {
                     return InteractionResult.FAIL;
                 }
-
-            } else if (!level.isClientSide() && !(player.containerMenu instanceof LunchBoxMenu) && hand==InteractionHand.MAIN_HAND){
+            } else if (!level.isClientSide() && !(player.containerMenu instanceof LunchBoxMenu) && hand == InteractionHand.MAIN_HAND) {
                 LunchBoxContainer container = LunchBoxContainer.get(stack);
-
-                player.openMenu(new SimpleMenuProvider((containerId, playerInventory, playerEntity) -> new LunchBoxMenu(containerId, playerInventory, container), Component.translatable(this.getDescriptionId())));
+                player.openMenu(new SimpleMenuProvider((containerId, playerInventory, playerEntity) ->
+                        new LunchBoxMenu(containerId, playerInventory, container),
+                        Component.translatable(this.getDescriptionId())));
             }
             return InteractionResult.PASS;
         }
@@ -65,18 +91,18 @@ public class LunchBoxItem extends Item {
 
     @Override
     public @NotNull ItemStack finishUsingItem(ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity) {
-        if (stack.getItem() instanceof LunchBoxItem){
-
+        if (stack.getItem() instanceof LunchBoxItem) {
             if (entity instanceof Player) {
                 Integer activeSlot = getActiveFoodItemSlot(stack);
                 if (activeSlot != null) {
                     LunchBoxContainer container = LunchBoxContainer.get(stack);
                     ItemStack selectedStack = container.getItem(activeSlot);
-
                     if (!selectedStack.isEmpty()) {
                         ItemStack resultStack = selectedStack.finishUsingItem(level, entity);
-                        container.setItem(activeSlot,resultStack);
+                        container.setItem(activeSlot, resultStack);
                         container.save();
+                        // Re-sync food components after consumption (food may be depleted)
+                        syncFoodComponents(stack);
                     }
                 }
             }
@@ -87,6 +113,7 @@ public class LunchBoxItem extends Item {
 
     @Override
     public int getUseDuration(ItemStack stack, LivingEntity entity) {
+        // Fallback in case CONSUMABLE component isn't present
         if (stack.getItem() instanceof LunchBoxItem) {
             ItemStack activeStack = getActiveFoodItemStack(stack);
             if (activeStack != null)
@@ -97,6 +124,7 @@ public class LunchBoxItem extends Item {
 
     @Override
     public @NotNull ItemUseAnimation getUseAnimation(ItemStack stack) {
+        // Fallback in case CONSUMABLE component isn't present
         if (stack.getItem() instanceof LunchBoxItem) {
             ItemStack activeStack = getActiveFoodItemStack(stack);
             if (activeStack != null)
@@ -110,7 +138,7 @@ public class LunchBoxItem extends Item {
         if (stack.getItem() instanceof LunchBoxItem) {
             ItemStack activeStack = getActiveFoodItemStack(stack);
             if (activeStack != null)
-                return Component.translatable(this.getDescriptionId()).append(" (").append(activeStack.getItem().getName(activeStack)).append(")") ;
+                return Component.translatable(this.getDescriptionId()).append(" (").append(activeStack.getItem().getName(activeStack)).append(")");
         }
         return super.getName(stack);
     }
@@ -140,7 +168,7 @@ public class LunchBoxItem extends Item {
         }
     }
 
-    public void setActiveFood(ItemStack lunchBoxStack, String descriptionId){
+    public void setActiveFood(ItemStack lunchBoxStack, String descriptionId) {
         CompoundTag tag;
         CustomData existingData = lunchBoxStack.get(DataComponents.CUSTOM_DATA);
         if (existingData != null) {
@@ -150,6 +178,8 @@ public class LunchBoxItem extends Item {
         }
         tag.putString("active", descriptionId);
         lunchBoxStack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
+        // Sync food components so the lunchbox looks like food to other mods
+        syncFoodComponents(lunchBoxStack);
     }
 
     @Nullable
@@ -174,7 +204,7 @@ public class LunchBoxItem extends Item {
     @Nullable
     public ItemStack getItemStack(ItemStack lunchBoxStack, int slot) {
         if (lunchBoxStack.getItem() instanceof LunchBoxItem) {
-            LunchBoxContainer container =  LunchBoxContainer.get(lunchBoxStack);
+            LunchBoxContainer container = LunchBoxContainer.get(lunchBoxStack);
             return container.getItem(slot);
         }
         return null;
@@ -183,8 +213,8 @@ public class LunchBoxItem extends Item {
     @Nullable
     public ItemStack getActiveFoodItemStack(ItemStack lunchBoxStack) {
         Integer slot = getActiveFoodItemSlot(lunchBoxStack);
-        if (slot!=null)
-            return getItemStack(lunchBoxStack,slot);
+        if (slot != null)
+            return getItemStack(lunchBoxStack, slot);
         return null;
     }
 }

@@ -35,7 +35,9 @@ public class LunchBoxScreen extends AbstractContainerScreen<LunchBoxMenu> implem
         for (int i = 0; i < Config.LUNCHBOX_SLOT_COUNT.get(); i++) {
             int finalI = i;
             addRenderableWidget(ModWidget.buildButton(leftPos + 46 + (i * 18), topPos + 123, 18, 10, Component.nullToEmpty(" "), button -> toggleActive(finalI)));
-            addRenderableWidget(new ModWidget(leftPos + 46 + (i * 18), topPos + 133, 18, 18, GUI_SLOT));
+            // Use addRenderableOnly for purely visual slot textures — addRenderableWidget
+            // would consume click events before the actual container slots underneath
+            addRenderableOnly(new ModWidget(leftPos + 46 + (i * 18), topPos + 133, 18, 18, GUI_SLOT));
         }
     }
 
@@ -71,7 +73,8 @@ public class LunchBoxScreen extends AbstractContainerScreen<LunchBoxMenu> implem
                 }
             }
             widgets[i] = new ModWidget(leftPos + 47 + i * 18, topPos + 124, 16, 8, color);
-            addRenderableWidget(widgets[i]);
+            // Active indicator overlays are also purely visual
+            addRenderableOnly(widgets[i]);
         }
     }
 
