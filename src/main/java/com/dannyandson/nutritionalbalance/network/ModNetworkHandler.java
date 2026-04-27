@@ -12,13 +12,14 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 public class ModNetworkHandler {
 
     public static void registerMessages(RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar(NutritionalBalance.MODID).versioned("3.0");
+        final PayloadRegistrar registrar = event.registrar(NutritionalBalance.MODID).versioned("3.1");
 
         registrar.playToClient(PlayerSync.TYPE, PlayerSync.STREAM_CODEC, PlayerSync::handle);
         registrar.playToServer(GUITrigger.TYPE, GUITrigger.STREAM_CODEC, GUITrigger::handle);
         registrar.playToServer(LunchBoxActiveItemSync.TYPE, LunchBoxActiveItemSync.STREAM_CODEC, LunchBoxActiveItemSync::handle);
         registrar.playToServer(NutrientDataSyncTrigger.TYPE, NutrientDataSyncTrigger.STREAM_CODEC, NutrientDataSyncTrigger::handle);
         registrar.playToClient(NutrientDataSync.TYPE, NutrientDataSync.STREAM_CODEC, NutrientDataSync::handle);
+        registrar.playToClient(NutrientDataBulkSync.TYPE, NutrientDataBulkSync.STREAM_CODEC, NutrientDataBulkSync::handle);
         registrar.playToClient(PacketOpenGui.TYPE, PacketOpenGui.STREAM_CODEC, PacketOpenGui::handle);
     }
 
@@ -27,6 +28,8 @@ public class ModNetworkHandler {
             PacketDistributor.sendToPlayer(player, ps);
         } else if (packet instanceof NutrientDataSync nds) {
             PacketDistributor.sendToPlayer(player, nds);
+        } else if (packet instanceof NutrientDataBulkSync ndbs) {
+            PacketDistributor.sendToPlayer(player, ndbs);
         } else if (packet instanceof PacketOpenGui pog) {
             PacketDistributor.sendToPlayer(player, pog);
         }
