@@ -45,6 +45,10 @@ public class WorldNutrients
     // Set true after prewarm completes; cleared by reset() so /reload forces a fresh pre-warm.
     private static boolean prewarmComplete = false;
 
+    // Recursion depth fail-safe for the recipe walk. Cycles are handled by the `resolving` set;
+    // this just bounds runaway recursion through unexpectedly deep linear chains.
+    private static final int MAX_RECURSION_DEPTH = 20;
+
     public static void register()
     {
         // Just clear caches here — during TagsUpdatedEvent, item components
@@ -144,50 +148,55 @@ public class WorldNutrients
 
                 // If no nutrients found from tags/config, check meat tags or traverse recipes
                 boolean depthLimited = false;
-                if (nutrientList.size() == 0 && iteration < 5) {
-                    boolean isMeat = false;
-                    for (TagKey<Item> tagKey : item.tags().toList()) {
-                        String tagPath = tagKey.location().getPath();
-                        String tagNs = tagKey.location().getNamespace();
-                        if ((tagNs.equals("c") && (tagPath.contains("meat") || tagPath.contains("raw_meat"))) ||
-                                (tagNs.equals("minecraft") && tagPath.equals("meat"))) {
-                            isMeat = true;
-                            break;
+                if (nutrientList.size() == 0) {
+                    if (iteration >= MAX_RECURSION_DEPTH) {
+                        // Hit the recursion fail-safe. Don't cache — let a shallower entry point try later.
+                        depthLimited = true;
+                    } else {
+                        boolean isMeat = false;
+                        for (TagKey<Item> tagKey : item.tags().toList()) {
+                            String tagPath = tagKey.location().getPath();
+                            String tagNs = tagKey.location().getNamespace();
+                            if ((tagNs.equals("c") && (tagPath.contains("meat") || tagPath.contains("raw_meat"))) ||
+                                    (tagNs.equals("minecraft") && tagPath.equals("meat"))) {
+                                isMeat = true;
+                                break;
+                            }
                         }
-                    }
 
-                    if (isMeat) {
-                        Nutrient proteinNutrient = getByName("proteins");
-                        if (proteinNutrient != null && !nutrientList.contains(proteinNutrient))
-                            nutrientList.add(proteinNutrient);
-                    } else if (world instanceof ServerLevel serverLevel) {
-                        // Use the inverse index so we don't scan every recipe per uncached lookup.
-                        if (resolving.add(item.getItem())) {
-                            try {
-                                for (RecipeHolder<?> recipeHolder : getRecipesForOutput(serverLevel, item.getItem())) {
-                                    Recipe<?> recipe = recipeHolder.value();
-                                    PlacementInfo info = recipe.placementInfo();
-                                    if (info != null && info != PlacementInfo.NOT_PLACEABLE && !info.isImpossibleToPlace()) {
-                                        for (Ingredient ingredient : info.ingredients()) {
-                                            List<Holder<Item>> ingredientItems = ingredient.items().toList();
-                                            if (!ingredientItems.isEmpty()) {
-                                                Item ingredientItem = ingredientItems.getFirst().value();
-                                                List<Nutrient> ingredientNutrients = getNutrients(ingredientItem.getDefaultInstance(), world, iteration + 1);
-                                                for (Nutrient ingredientNutrient : ingredientNutrients) {
-                                                    if (!nutrientList.contains(ingredientNutrient)) {
-                                                        nutrientList.add(ingredientNutrient);
+                        if (isMeat) {
+                            Nutrient proteinNutrient = getByName("proteins");
+                            if (proteinNutrient != null && !nutrientList.contains(proteinNutrient))
+                                nutrientList.add(proteinNutrient);
+                        } else if (world instanceof ServerLevel serverLevel) {
+                            // Use the inverse index so we don't scan every recipe per uncached lookup.
+                            if (resolving.add(item.getItem())) {
+                                try {
+                                    for (RecipeHolder<?> recipeHolder : getRecipesForOutput(serverLevel, item.getItem())) {
+                                        Recipe<?> recipe = recipeHolder.value();
+                                        PlacementInfo info = recipe.placementInfo();
+                                        if (info != null && info != PlacementInfo.NOT_PLACEABLE && !info.isImpossibleToPlace()) {
+                                            for (Ingredient ingredient : info.ingredients()) {
+                                                List<Holder<Item>> ingredientItems = ingredient.items().toList();
+                                                if (!ingredientItems.isEmpty()) {
+                                                    Item ingredientItem = ingredientItems.getFirst().value();
+                                                    List<Nutrient> ingredientNutrients = getNutrients(ingredientItem.getDefaultInstance(), world, iteration + 1);
+                                                    for (Nutrient ingredientNutrient : ingredientNutrients) {
+                                                        if (!nutrientList.contains(ingredientNutrient)) {
+                                                            nutrientList.add(ingredientNutrient);
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
                                     }
+                                } finally {
+                                    resolving.remove(item.getItem());
                                 }
-                            } finally {
-                                resolving.remove(item.getItem());
+                            } else {
+                                // Cycle: don't cache an empty result. The outer call will cache the real one.
+                                depthLimited = true;
                             }
-                        } else {
-                            // Cycle: don't cache an empty result. The outer call will cache the real one.
-                            depthLimited = true;
                         }
                     }
                 }
