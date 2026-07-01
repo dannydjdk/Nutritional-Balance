@@ -1,6 +1,7 @@
 package com.dannyandson.nutritionalbalance.network;
 
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
+import com.dannyandson.nutritionalbalance.Config;
 import com.dannyandson.nutritionalbalance.events.ClientHelpers;
 import com.dannyandson.nutritionalbalance.gui.NutrientGUI;
 import com.dannyandson.nutritionalbalance.nutrients.Nutrient;
@@ -22,22 +23,28 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.Map;
 
-public record PlayerSync(String jsonData, boolean openGUI) implements CustomPacketPayload {
+// toastStatus carries the new nutrient status name when the server detects a change; empty means no toast.
+public record PlayerSync(String jsonData, boolean openGUI, String toastStatus) implements CustomPacketPayload {
 
     public static final Type<PlayerSync> TYPE = new Type<>(Identifier.fromNamespaceAndPath(NutritionalBalance.MODID, "player_sync"));
 
     public static final StreamCodec<ByteBuf, PlayerSync> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.STRING_UTF8, PlayerSync::jsonData,
             ByteBufCodecs.BOOL, PlayerSync::openGUI,
+            ByteBufCodecs.STRING_UTF8, PlayerSync::toastStatus,
             PlayerSync::new
     );
 
     public PlayerSync(INutritionalBalancePlayer iNutritionalBalancePlayer) {
-        this(iNutritionalBalancePlayer, false);
+        this(iNutritionalBalancePlayer, false, "");
     }
 
     public PlayerSync(INutritionalBalancePlayer iNutritionalBalancePlayer, boolean openGUI) {
-        this(buildJson(iNutritionalBalancePlayer), openGUI);
+        this(iNutritionalBalancePlayer, openGUI, "");
+    }
+
+    public PlayerSync(INutritionalBalancePlayer iNutritionalBalancePlayer, boolean openGUI, String toastStatus) {
+        this(buildJson(iNutritionalBalancePlayer), openGUI, toastStatus);
     }
 
     private static String buildJson(INutritionalBalancePlayer iNutritionalBalancePlayer) {
@@ -68,6 +75,11 @@ public record PlayerSync(String jsonData, boolean openGUI) implements CustomPack
             }
             if (packet.openGUI()) {
                 NutrientGUI.open();
+            }
+            // Server-driven status toast: shown only when the server flagged a status change,
+            // and only if this client has toasts enabled.
+            if (!packet.toastStatus().isEmpty() && Config.SHOW_THRESHOLD_TOAST.get()) {
+                ClientHelpers.showStatusToast(packet.toastStatus());
             }
         });
     }

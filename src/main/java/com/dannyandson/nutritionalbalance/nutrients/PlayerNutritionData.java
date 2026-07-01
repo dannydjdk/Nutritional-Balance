@@ -38,7 +38,7 @@ public class PlayerNutritionData extends SavedData {
         worldNutritionData = serverLevel.getDataStorage().computeIfAbsent(TYPE);
     }
 
-    public static PlayerNutritionData getWorldNutritionData() {
+    public static synchronized PlayerNutritionData getWorldNutritionData() {
         if (worldNutritionData == null)
             worldNutritionData = new PlayerNutritionData();
         return worldNutritionData;

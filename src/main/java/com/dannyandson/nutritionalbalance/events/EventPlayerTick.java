@@ -1,6 +1,5 @@
 package com.dannyandson.nutritionalbalance.events;
 
-import com.dannyandson.nutritionalbalance.Config;
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
 import com.dannyandson.nutritionalbalance.api.INutritionalBalancePlayer;
 import com.dannyandson.nutritionalbalance.api.IPlayerNutrient;
@@ -68,14 +67,14 @@ public class EventPlayerTick {
                 }
             }
 
-            if (cachedStatus != currentStatus) {
-                if (playerEntity.level().isClientSide()) {
-                    if (Config.SHOW_THRESHOLD_TOAST.get())
-                        ClientHelpers.showStatusToast(currentStatus.name());
-                } else {
-                    PlayerSync playerSync = new PlayerSync(iNutritionalBalancePlayer);
-                    ModNetworkHandler.sendToClient(playerSync, (ServerPlayer) playerEntity);
-                }
+            // Only the server can reliably detect the transition: in single-player the integrated
+            // server shares this cachedStatus and updates it (via getStatus above) before the client
+            // ticks, so a client-side cached!=current check never fires. Drive the toast from the
+            // server instead — it rides along on the value sync we already send on change, and the
+            // client shows it in PlayerSync#handle gated by its own SHOW_THRESHOLD_TOAST config.
+            if (cachedStatus != currentStatus && !playerEntity.level().isClientSide()) {
+                PlayerSync playerSync = new PlayerSync(iNutritionalBalancePlayer, false, currentStatus.name());
+                ModNetworkHandler.sendToClient(playerSync, (ServerPlayer) playerEntity);
             }
         }
     }

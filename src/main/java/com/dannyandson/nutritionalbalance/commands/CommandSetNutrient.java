@@ -48,6 +48,8 @@ public class CommandSetNutrient {
             String nutrientName = context.getArgument("nutrient",String.class);
             float value = FloatArgumentType.getFloat(context,"value");
             iNutritionalBalancePlayer.getPlayerNutrientByName(nutrientName).setValue(value);
+            // Persist the change
+            PlayerNutritionData.getWorldNutritionData().setDirty();
         }
 
         return 0;

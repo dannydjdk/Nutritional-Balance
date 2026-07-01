@@ -43,7 +43,7 @@ public class NutrientGUI extends Screen implements INutrientGUIScreen {
         return super.keyPressed(event);
     }
 
-    private void close() { minecraft.setScreen(null); }
+    private void close() { minecraft.gui.setScreen(null); }
 
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
@@ -53,5 +53,5 @@ public class NutrientGUI extends Screen implements INutrientGUIScreen {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, GUI, relX, relY, 0, 0, WIDTH, HEIGHT, 256, 256);
     }
 
-    public static void open() { Minecraft.getInstance().setScreen(new NutrientGUI()); }
+    public static void open() { Minecraft.getInstance().gui.setScreen(new NutrientGUI()); }
 }

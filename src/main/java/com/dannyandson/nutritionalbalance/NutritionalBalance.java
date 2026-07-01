@@ -75,7 +75,8 @@ public class NutritionalBalance
     {
     }
 
-    private void registerCommands(RegisterCommandsEvent event) {
+    @SubscribeEvent
+    public void registerCommands(RegisterCommandsEvent event) {
         ModCommands.register(event.getDispatcher());
     }
 

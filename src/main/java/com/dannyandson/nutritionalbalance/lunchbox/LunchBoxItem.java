@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
@@ -151,9 +152,10 @@ public class LunchBoxItem extends Item {
         boolean shiftDown = InputConstants.isKeyDown(window, GLFW.GLFW_KEY_LEFT_SHIFT)
                 || InputConstants.isKeyDown(window, GLFW.GLFW_KEY_RIGHT_SHIFT);
         if (shiftDown) {
-            textConsumer.accept(Component.translatable("message.item.lunchbox").withStyle(ChatFormatting.GRAY));
+            // ChatFormatting on Components was gutted in 26.2 in favor of Style#withColor.
+            textConsumer.accept(Component.translatable("message.item.lunchbox").withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)));
         } else
-            textConsumer.accept(Component.translatable("nutritionalbalance.tooltip.press_shift").withStyle(ChatFormatting.DARK_GRAY));
+            textConsumer.accept(Component.translatable("nutritionalbalance.tooltip.press_shift").withStyle(Style.EMPTY.withColor(ChatFormatting.DARK_GRAY)));
     }
 
     public void setActiveFood(ItemStack lunchBoxStack, ItemStack targetItemStack) {

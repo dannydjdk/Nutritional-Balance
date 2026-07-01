@@ -57,7 +57,7 @@ public class WorldNutrients
         reset();
     }
 
-    public static List<Nutrient> get() {
+    public static synchronized List<Nutrient> get() {
         if (nutrients.size() == 0) {
             discoverNutrients();
         }
@@ -65,6 +65,10 @@ public class WorldNutrients
     }
 
     private static void discoverNutrients() {
+        // Clear first so a stray second call can never append a duplicate set. Combined with the
+        // synchronized get()/reset(), this prevents the client and integrated-server threads from
+        // both discovering into this shared static list in single-player (which doubled the list).
+        nutrients.clear();
         Set<String> foundNutrients = new TreeSet<>();
         for (Item item : BuiltInRegistries.ITEM) {
             ItemStack stack = item.getDefaultInstance();
@@ -347,7 +351,7 @@ public class WorldNutrients
         pendingClientSyncs.remove(item);
     }
 
-    public static void reset() {
+    public static synchronized void reset() {
         nutrients.clear();
         nutrientMap.clear();
         recipesByOutput = null;
