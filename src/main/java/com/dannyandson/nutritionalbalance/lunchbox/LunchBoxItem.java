@@ -4,7 +4,6 @@ import com.dannyandson.nutritionalbalance.network.LunchBoxActiveItemSync;
 import com.dannyandson.nutritionalbalance.network.ModNetworkHandler;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -25,7 +24,6 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.function.Consumer;
 
@@ -148,9 +146,8 @@ public class LunchBoxItem extends Item {
     public void appendHoverText(@NotNull ItemStack stack, TooltipContext context,
                                 TooltipDisplay display, Consumer<Component> textConsumer,
                                 TooltipFlag flags) {
-        var window = Minecraft.getInstance().getWindow();
-        boolean shiftDown = InputConstants.isKeyDown(window, GLFW.GLFW_KEY_LEFT_SHIFT)
-                || InputConstants.isKeyDown(window, GLFW.GLFW_KEY_RIGHT_SHIFT);
+        boolean shiftDown = InputConstants.isKeyDown(InputConstants.KEY_LSHIFT)
+                || InputConstants.isKeyDown(InputConstants.KEY_RSHIFT);
         if (shiftDown) {
             // ChatFormatting on Components was gutted in 26.2 in favor of Style#withColor.
             textConsumer.accept(Component.translatable("message.item.lunchbox").withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)));

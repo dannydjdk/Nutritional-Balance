@@ -64,7 +64,7 @@ public record LunchBoxItemRenderer() implements SpecialModelRenderer<ItemStack> 
                 // Back face
                 poseStack.pushPose();
                 poseStack.translate(0.5, 0.35, 0.45);
-                poseStack.mulPose(Axis.YP.rotationDegrees(180));
+                poseStack.rotate(Axis.YP.rotationDegrees(180));
                 poseStack.scale(0.5f, 0.5f, 0.5f);
                 FOOD_RENDER_STATE.submit(poseStack, collector, lightCoords, overlayCoords, outlineColor);
                 poseStack.popPose();

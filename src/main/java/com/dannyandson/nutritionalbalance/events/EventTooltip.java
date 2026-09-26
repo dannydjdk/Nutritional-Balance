@@ -18,7 +18,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CakeBlock;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.bus.api.SubscribeEvent;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 import java.util.StringJoiner;
@@ -54,8 +53,7 @@ public class EventTooltip {
                                 "\u00A77" + I18n.get("nutritionalbalance.nutrients") + ": \u00A72" + stringJoiner.toString() + "\u00A77" + NUvalue + "\u00A7r"));
                     }
                 }
-                var window = Minecraft.getInstance().getWindow();
-                boolean shiftDown = InputConstants.isKeyDown(window, GLFW.GLFW_KEY_LEFT_SHIFT) || InputConstants.isKeyDown(window, GLFW.GLFW_KEY_RIGHT_SHIFT);
+                boolean shiftDown = InputConstants.isKeyDown(InputConstants.KEY_LSHIFT) || InputConstants.isKeyDown(InputConstants.KEY_RSHIFT);
                 if (event.getEntity()!=null && event.getEntity().getDisplayName().getString().equals("Dev") && Minecraft.getInstance().options.advancedItemTooltips)
                     if (shiftDown) {
                         for (TagKey<Item> tagKey: itemStack.tags().toList()) {

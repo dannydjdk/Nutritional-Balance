@@ -19,14 +19,14 @@ public class NutrientButton extends AbstractWidget {
     private InventoryScreen gui;
 
     public NutrientButton(InventoryScreen gui, Component title) {
-        super(gui.getGuiLeft(), gui.getGuiTop(), 0, 0, title);
+        super(gui.getLeftPos(), gui.getTopPos(), 0, 0, title);
         this.gui = gui;
         updateLocation();
     }
 
     private void updateLocation() {
-        this.setX(gui.getGuiLeft() + Config.NUTRIENT_BUTTON_X.get());
-        this.setY(gui.getGuiTop() + Config.NUTRIENT_BUTTON_Y.get());
+        this.setX(gui.getLeftPos() + Config.NUTRIENT_BUTTON_X.get());
+        this.setY(gui.getTopPos() + Config.NUTRIENT_BUTTON_Y.get());
         this.width = 20;
         this.height = 18;
     }

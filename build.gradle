@@ -2,7 +2,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.141'
+    id 'net.neoforged.moddev' version '2.0.147'
 }
 
 version = mod_version
@@ -51,9 +51,9 @@ repositories {
 }
 
 dependencies {
-    // TODO: Update JEI and AppleSkin dependency IDs for 26.1 when available
-    // implementation "curse.maven:jei-238222:XXXXXXX"
-    // implementation "curse.maven:appleskin-248787:XXXXXXX"
+
+    implementation "curse.maven:jei-238222:8941416"
+    implementation "curse.maven:appleskin-248787:8907904"
 }
 
 def resourceTargets = ['META-INF/neoforge.mods.toml', 'pack.mcmeta']

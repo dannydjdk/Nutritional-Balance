@@ -1,6 +1,7 @@
 package com.dannyandson.nutritionalbalance.keybinding;
 
 import com.dannyandson.nutritionalbalance.NutritionalBalance;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
@@ -16,7 +17,7 @@ public class ModKeyBindings {
 
     @SubscribeEvent
     public static void register(RegisterKeyMappingsEvent event) {
-        KeyMapping nutritionguikeybind = new KeyMapping("key." + NutritionalBalance.MODID + ".opennutrientgui", 78, KeyMapping.Category.GAMEPLAY);
+        KeyMapping nutritionguikeybind = new KeyMapping("key." + NutritionalBalance.MODID + ".opennutrientgui", InputConstants.KEY_N, KeyMapping.Category.GAMEPLAY);
         keyBindings.put("nutrientgui", nutritionguikeybind);
         event.register(nutritionguikeybind);
     }
