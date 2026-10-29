@@ -66,7 +66,7 @@ public class NutritionalBalance
         NeoForge.EVENT_BUS.register(new ModInputHandler());
 
         modContainer.registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONFIG);
-        modContainer.registerConfig(ModConfig.Type.SERVER, Config.SERVER_CONFIG);
+        modContainer.registerConfig(ModConfig.Type.SYNCED, Config.SERVER_CONFIG);
 
         modEventBus.addListener(ModNetworkHandler::registerMessages);
     }

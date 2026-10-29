@@ -52,7 +52,7 @@ repositories {
 
 dependencies {
 
-    implementation "curse.maven:jei-238222:8941416"
+    implementation "curse.maven:jei-238222:9318906"
     implementation "curse.maven:appleskin-248787:8907904"
 }
 
